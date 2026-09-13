@@ -29,10 +29,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
 
         // ==========================================
-        // 0. CORS PREFLIGHT REQUEST
+        // 0. CORS PREFLIGHT
         // ==========================================
-        // Browser sends OPTIONS request before POST login.
-        // JWT authentication must NOT be applied to OPTIONS.
 
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             filterChain.doFilter(request, response);
@@ -40,13 +38,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         // ==========================================
-        // 1. Get Authorization Header
+        // 1. GET AUTHORIZATION HEADER
         // ==========================================
 
         String authorizationHeader =
                 request.getHeader("Authorization");
 
-        // No Authorization header
         if (authorizationHeader == null ||
                 !authorizationHeader.startsWith("Bearer ")) {
 
@@ -55,11 +52,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         // ==========================================
-        // 2. Extract JWT Token
+        // 2. EXTRACT TOKEN
         // ==========================================
 
         String token =
-                authorizationHeader.substring(7).trim();
+                authorizationHeader
+                        .substring(7)
+                        .trim();
 
         if (token.isEmpty()) {
             filterChain.doFilter(request, response);
@@ -67,10 +66,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         // ==========================================
-        // 3. Validate JWT
+        // 3. VALIDATE TOKEN
         // ==========================================
 
         if (!jwtUtils.isValid(token)) {
+
+            System.out.println(
+                    "JWT DEBUG -> Invalid JWT token"
+            );
+
             filterChain.doFilter(request, response);
             return;
         }
@@ -78,14 +82,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
 
             // ==========================================
-            // 4. Extract Claims
+            // 4. EXTRACT CLAIMS
             // ==========================================
 
             Claims claims =
                     jwtUtils.extractClaims(token);
 
             // ==========================================
-            // 5. Get Email
+            // 5. EMAIL
             // ==========================================
 
             String email =
@@ -95,7 +99,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     );
 
             // ==========================================
-            // 6. Get Role
+            // 6. ROLE
             // ==========================================
 
             String role =
@@ -105,41 +109,110 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     );
 
             // ==========================================
-            // 7. Validate Claims
+            // 7. VALIDATE EMAIL
             // ==========================================
 
-            if (email == null || email.isBlank()) {
-                filterChain.doFilter(request, response);
+            if (email == null ||
+                    email.isBlank()) {
+
+                System.out.println(
+                        "JWT DEBUG -> Email missing"
+                );
+
+                filterChain.doFilter(
+                        request,
+                        response
+                );
+
                 return;
             }
 
-            if (role == null || role.isBlank()) {
-                filterChain.doFilter(request, response);
+            // ==========================================
+            // 8. VALIDATE ROLE
+            // ==========================================
+
+            if (role == null ||
+                    role.isBlank()) {
+
+                System.out.println(
+                        "JWT DEBUG -> Role missing for "
+                                + email
+                );
+
+                filterChain.doFilter(
+                        request,
+                        response
+                );
+
                 return;
             }
 
             // ==========================================
-            // 8. Normalize Role
+            // 9. NORMALIZE ROLE
             // ==========================================
 
-            role = role.trim().toUpperCase();
+            role =
+                    role
+                            .trim()
+                            .toUpperCase();
 
-            // Remove ROLE_ if JWT already contains it
+            // If JWT contains ROLE_STUDENT
+            // convert it to STUDENT
+
             if (role.startsWith("ROLE_")) {
-                role = role.substring(5);
+
+                role =
+                        role.substring(5);
             }
 
             // ==========================================
-            // 9. Create Authority
+            // 10. CREATE SPRING AUTHORITY
             // ==========================================
+
+            String authorityName =
+                    "ROLE_" + role;
 
             SimpleGrantedAuthority authority =
                     new SimpleGrantedAuthority(
-                            "ROLE_" + role
+                            authorityName
                     );
 
             // ==========================================
-            // 10. Create Authentication
+            // 11. DEBUG
+            // ==========================================
+
+            System.out.println(
+                    "=========================================="
+            );
+
+            System.out.println(
+                    "JWT DEBUG -> Email      : "
+                            + email
+            );
+
+            System.out.println(
+                    "JWT DEBUG -> JWT Role   : "
+                            + role
+            );
+
+            System.out.println(
+                    "JWT DEBUG -> Authority  : "
+                            + authorityName
+            );
+
+            System.out.println(
+                    "JWT DEBUG -> Request    : "
+                            + request.getMethod()
+                            + " "
+                            + request.getRequestURI()
+            );
+
+            System.out.println(
+                    "=========================================="
+            );
+
+            // ==========================================
+            // 12. CREATE AUTHENTICATION
             // ==========================================
 
             UsernamePasswordAuthenticationToken authentication =
@@ -150,12 +223,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     );
 
             // ==========================================
-            // 11. Store Authentication
+            // 13. SET SECURITY CONTEXT
             // ==========================================
 
             SecurityContextHolder
                     .getContext()
-                    .setAuthentication(authentication);
+                    .setAuthentication(
+                            authentication
+                    );
 
         } catch (Exception e) {
 
@@ -169,7 +244,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         // ==========================================
-        // 12. Continue Request
+        // 14. CONTINUE REQUEST
         // ==========================================
 
         filterChain.doFilter(
