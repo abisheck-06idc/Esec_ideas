@@ -117,7 +117,8 @@ public class SecurityConfig {
                         "http://127.0.0.1:5173",
                         "http://localhost:5173",
                         "http://localhost",       // <--- XAMPP Apache-க்காக இதைச் சேர்க்கவும்
-                    "http://127.0.0.1",
+                        "http://127.0.0.1",
+                        "https://esec-ideas.vercel.app",
                         "https://victor-solve-parker-quad.trycloudflare.com"
                 )
         );
