@@ -1,0 +1,139 @@
+/* Custom styles for Student Innovation Portal */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+  min-height: max(884px, 100dvh);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.ambient-shadow {
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05), 0px 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #c4c6cf;
+  border-radius: 4px;
+}
+
+.form-input-focus:focus {
+  outline: none;
+  border-color: #1B365D;
+  border-width: 2px;
+  box-shadow: none;
+}
+
+/* Material symbols variation settings */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.material-symbols-outlined.fill {
+  font-variation-settings: 'FILL' 1;
+}
+
+/* Modal animation support */
+#confirmationDialog {
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Toast container animations */
+.toast-item {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+
+/* ============================================================
+   PORTAL DARK MODE
+   Tailwind's custom color names are fixed values, so these
+   overrides make the shared pages consistently switch theme.
+============================================================ */
+html.dark,
+html.dark body {
+  background: #0f172a !important;
+  color: #e5e7eb !important;
+}
+
+html.dark body {
+  color-scheme: dark;
+}
+
+html.dark .bg-background,
+html.dark .bg-slate-50 {
+  background-color: #0f172a !important;
+}
+
+html.dark .bg-surface,
+html.dark .bg-white {
+  background-color: #111827 !important;
+}
+
+html.dark .bg-surface-container,
+html.dark .bg-surface-container-low,
+html.dark .bg-surface-container-high,
+html.dark .bg-slate-100 {
+  background-color: #1f2937 !important;
+}
+
+html.dark .bg-secondary-container {
+  background-color: #243b5a !important;
+}
+
+html.dark .text-primary,
+html.dark .text-slate-900,
+html.dark .text-gray-900 {
+  color: #e5e7eb !important;
+}
+
+html.dark .text-on-surface,
+html.dark .text-on-background {
+  color: #e5e7eb !important;
+}
+
+html.dark .text-on-surface-variant,
+html.dark .text-slate-600,
+html.dark .text-slate-500,
+html.dark .text-outline {
+  color: #cbd5e1 !important;
+}
+
+html.dark .text-secondary {
+  color: #cbd5e1 !important;
+}
+
+html.dark .border-outline-variant,
+html.dark .border-slate-200,
+html.dark .border {
+  border-color: #374151 !important;
+}
+
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background-color: #111827 !important;
+  color: #e5e7eb !important;
+  border-color: #4b5563 !important;
+}
+
+html.dark input.bg-slate-100,
+html.dark input[readonly] {
+  background-color: #1f2937 !important;
+}
+
+html.dark a:hover,
+html.dark button:hover {
+  filter: brightness(1.08);
+}
+
+/* Profile photo fallback remains readable in either theme. */
+.profile-photo-placeholder {
+  background: #1f2937;
+}

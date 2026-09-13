@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Admin Review - Student Innovation Portal</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-fixed-variant": "#2e476f",
+            "background": "#f6f9ff",
+            "tertiary-container": "#003f29",
+            "on-tertiary-fixed-variant": "#0e5138",
+            "primary": "#002046",
+            "surface-bright": "#f6f9ff",
+            "on-tertiary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-container": "#4f657b",
+            "on-tertiary-fixed": "#002114",
+            "outline": "#74777f",
+            "secondary-container": "#cbe2fc",
+            "inverse-primary": "#aec7f7",
+            "tertiary": "#002718",
+            "on-secondary": "#ffffff",
+            "primary-fixed-dim": "#aec7f7",
+            "surface-tint": "#465f88",
+            "on-primary-container": "#87a0cd",
+            "surface-container": "#e8eef6",
+            "surface-container-high": "#e3e9f1",
+            "inverse-surface": "#2b3137",
+            "primary-fixed": "#d6e3ff",
+            "on-tertiary-container": "#6fac8d",
+            "surface": "#f6f9ff",
+            "secondary-fixed-dim": "#b2c9e2",
+            "error-container": "#ffdad6",
+            "on-background": "#161c22",
+            "on-primary-fixed": "#001b3d",
+            "surface-variant": "#dde3eb",
+            "error": "#ba1a1a",
+            "on-primary": "#ffffff",
+            "on-secondary-fixed-variant": "#33495e",
+            "on-secondary-fixed": "#041d30",
+            "outline-variant": "#c4c6cf",
+            "secondary": "#4a6077",
+            "inverse-on-surface": "#ebf1f9",
+            "secondary-fixed": "#cee5ff",
+            "surface-dim": "#d4dbe2",
+            "on-surface": "#161c22",
+            "on-error": "#ffffff",
+            "surface-container-low": "#eef4fc",
+            "surface-container-highest": "#dde3eb",
+            "on-surface-variant": "#44474e",
+            "on-error-container": "#93000a",
+            "tertiary-fixed": "#b1f0ce",
+            "primary-container": "#1b365d",
+            "tertiary-fixed-dim": "#95d4b3"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "base": "8px",
+            "container-margin-desktop": "40px",
+            "lg": "24px",
+            "xl": "32px",
+            "xs": "4px",
+            "gutter": "16px",
+            "container-margin-mobile": "16px",
+            "sm": "12px",
+            "md": "16px"
+          },
+          "fontFamily": {
+            "body-lg": ["Inter"],
+            "body-sm": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-lg-mobile": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-sm": ["Inter"],
+            "label-md": ["Inter"],
+            "label-sm": ["Inter"]
+          },
+          "fontSize": {
+            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+            "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+  <!-- TopAppBar -->
+  <header class="bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-margin-mobile md:px-container-margin-desktop h-16">
+    <div class="flex items-center gap-md">
+      <button id="reviewMobileMenuBtn" aria-label="Toggle Menu" class="text-primary dark:text-primary-fixed md:hidden hover:bg-surface-container transition-colors p-2 rounded-full">
+        <span class="material-symbols-outlined" data-icon="menu">menu</span>
+      </button>
+      <a href="admin-dashboard.html" class="text-headline-sm font-headline-sm font-bold text-primary dark:text-primary-fixed-dim">Student Innovation Portal</a>
+    </div>
+    <div class="flex items-center gap-md">
+      <div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+        <img alt="User profile avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFSdTwNwjRK45F78ZigcqyDrzcV5yLaGZNWg0mOH1BGqjz_ZZ9SHwIisbNCg06Y0D5O_l9XmHk-wFwcuydPnRjcNtRJKF4Viat3RcgOpoIJLcM7K-fLV8dTsI_LQ1Ym8NixWRzQEHJQPu8wKNWBefDano3BttJz0VJWD3eToMYb9fViAXQpTpqOy2tZ8onnFw0ogUp_7HT2JH-mtEcIlaXEwyYEcZpB1dB1-96MJInYExeVdxeUK4F7Q"/>
+      </div>
+    </div>
+  </header>
+
+  <!-- NavigationDrawer (Desktop) -->
+  <nav id="reviewNav" class="hidden md:flex bg-surface dark:bg-surface-dim border-r border-outline-variant dark:border-outline shadow-sm h-full w-72 fixed inset-y-0 left-0 z-40 flex-col pt-20 transition-all">
+    <div class="px-4 py-lg border-b border-outline-variant mb-4">
+      <div class="flex items-center gap-4 mb-2">
+        <div class="w-12 h-12 rounded-full overflow-hidden border border-outline-variant">
+          <img alt="Admin Portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFSdTwNwjRK45F78ZigcqyDrzcV5yLaGZNWg0mOH1BGqjz_ZZ9SHwIisbNCg06Y0D5O_l9XmHk-wFwcuydPnRjcNtRJKF4Viat3RcgOpoIJLcM7K-fLV8dTsI_LQ1Ym8NixWRzQEHJQPu8wKNWBefDano3BttJz0VJWD3eToMYb9fViAXQpTpqOy2tZ8onnFw0ogUp_7HT2JH-mtEcIlaXEwyYEcZpB1dB1-96MJInYExeVdxeUK4F7Q"/>
+        </div>
+        <div>
+          <div class="font-label-md text-label-md text-primary dark:text-primary-fixed font-bold">Innovation Portal</div>
+          <div class="font-body-sm text-body-sm text-on-surface-variant dark:text-surface-variant">Admin Account</div>
+        </div>
+      </div>
+    </div>
+    <ul class="flex flex-col gap-2">
+      <li><a class="flex items-center gap-md text-on-surface-variant dark:text-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg" href="admin-dashboard.html"><span class="material-symbols-outlined" data-icon="home">home</span><span class="font-label-md text-label-md">Home</span></a></li>
+      <li><a class="flex items-center gap-md bg-secondary-container dark:bg-primary-container text-on-secondary-container dark:text-on-primary-container rounded-lg px-4 py-3 mx-2 font-bold" href="admin-dashboard.html"><span class="material-symbols-outlined" data-icon="list_alt">list_alt</span><span class="font-label-md text-label-md">Submissions</span></a></li>
+      <li><a class="flex items-center gap-md text-on-surface-variant dark:text-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg" href="profile.html"><span class="material-symbols-outlined" data-icon="person">person</span><span class="font-label-md text-label-md">Profile</span></a></li>
+      <li><a class="flex items-center gap-md text-on-surface-variant dark:text-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg" href="login.html"><span class="material-symbols-outlined" data-icon="logout">logout</span><span class="font-label-md text-label-md">Logout</span></a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Canvas -->
+  <main class="pt-20 pb-20 md:ml-72 min-h-screen px-container-margin-mobile md:px-container-margin-desktop py-lg max-w-[1280px] mx-auto flex flex-col gap-xl">
+    <!-- Back Action & Title -->
+    <div class="flex flex-col gap-4">
+      <a href="admin-dashboard.html" class="flex items-center gap-2 text-primary dark:text-primary-fixed font-label-md text-label-md hover:underline w-fit">
+        <span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+        Back to Submissions
+      </a>
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+        <div>
+          <h2 id="ideaTitle" class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary dark:text-primary-fixed mb-1">Sustainable Campus Mobility App</h2>
+          <p id="ideaId" class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant">Submission ID: #SIP-2023-042</p>
+        </div>
+        <div id="statusBadge" class="bg-surface-container-low text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm border border-outline-variant flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm" data-icon="pending">pending</span> Under Review
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-xl">
+      <!-- Left Column: Details -->
+      <div class="lg:col-span-2 flex flex-col gap-lg">
+        <!-- Student Info Card -->
+        <div class="bg-surface dark:bg-surface-dim rounded-lg border border-outline-variant dark:border-outline p-lg flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-[#CBD5E1] transition-colors shadow-sm">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full overflow-hidden border border-outline-variant">
+              <img id="studentAvatar" data-profile-photo alt="Student Submitter Portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ--a9phPxKgBscjRF5qJjyNcTt6wBDe6Jq61fCobBmNeiqE7_Sogp0mNuMUOa1IJnNG7etmsKt5Pr-sVK0rk-WiztkSlbIevnPPzbpiB1f5-i67-D6DjJoDnOl8AbNyLv0BZiZ4CYdNqa8V0PkJwrElwmjM5hizGT0niO97f2nQRmpfNPZpF6Bn-UH77aOCIOAKkLdWxziKCW7EHEsmRmI8rs6WL5r-UINwRaOEEGfWJm-5cFjMYleA"/>
+            </div>
+            <div>
+              <div id="studentName" class="font-label-md text-label-md text-primary dark:text-primary-fixed font-bold">Alex Chen</div>
+              <div id="studentEmail" class="font-body-sm text-body-sm text-secondary">alex.chen@university.edu</div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Submitted On</div>
+            <div id="submittedDate" class="font-body-md text-body-md text-on-surface dark:text-on-surface">Oct 15, 2023</div>
+          </div>
+        </div>
+
+        <!-- Idea Details Sections -->
+        <div class="bg-surface dark:bg-surface-dim rounded-lg border border-outline-variant dark:border-outline p-lg flex flex-col gap-lg shadow-sm">
+          <section>
+            <h3 class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed mb-3 border-b border-outline-variant pb-2">Problem Statement</h3>
+            <p id="problemStatement" class="font-body-md text-body-md text-on-surface dark:text-on-surface leading-relaxed">
+              Currently, the university campus lacks a unified, efficient system for students to find, rent, and share micro-mobility vehicles across different providers.
+            </p>
+          </section>
+
+          <section>
+            <h3 class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed mb-3 border-b border-outline-variant pb-2">Proposed Solution</h3>
+            <p id="proposedSolution" class="font-body-md text-body-md text-on-surface dark:text-on-surface leading-relaxed">
+              A centralized mobile application that aggregates all approved campus mobility providers into a single interface.
+            </p>
+          </section>
+
+          <section>
+            <h3 class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed mb-3 border-b border-outline-variant pb-2">Target Users</h3>
+            <p id="targetUsers" class="font-body-md text-body-md text-on-surface dark:text-on-surface">Undergraduate Students, Graduate Students, Admin</p>
+          </section>
+
+          <section>
+            <h3 class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed mb-3 border-b border-outline-variant pb-2">Key Features</h3>
+            <div id="keyFeaturesContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Rendered Dynamically -->
+            </div>
+          </section>
+        </div>
+
+        <!-- Documents Section -->
+        <div class="bg-surface dark:bg-surface-dim rounded-lg border border-outline-variant dark:border-outline p-lg shadow-sm">
+          <h3 class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed mb-4">Supporting Documents</h3>
+          <div id="attachmentsContainer" class="flex flex-col gap-3">
+            <!-- Rendered Dynamically -->
+          </div>
+        </div>
+
+        <!-- Previous Admin Reviews Section -->
+        <div id="reviewsHistoryCard" class="bg-surface dark:bg-surface-dim rounded-lg border border-outline-variant dark:border-outline p-lg shadow-sm">
+          <h3 class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed mb-4">Admin Review History</h3>
+          <div id="reviewsHistoryContainer" class="flex flex-col gap-3">
+            <!-- Rendered Dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Admin Review Form -->
+      <div class="lg:col-span-1">
+        <div class="bg-surface dark:bg-surface-dim rounded-lg border border-outline-variant dark:border-outline p-lg shadow-sm sticky top-24">
+          <h3 class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed mb-6 flex items-center gap-2">
+            <span class="material-symbols-outlined" data-icon="rate_review">rate_review</span> Admin Review Form
+          </h3>
+          
+          <form id="adminReviewForm" class="flex flex-col gap-6">
+            <div class="flex flex-col gap-2">
+              <label class="font-label-md text-label-md text-primary dark:text-primary-fixed font-semibold" for="review_comments">Review Feedback &amp; Comments *</label>
+              <textarea class="w-full rounded-md border border-outline-variant p-3 font-body-md text-body-md focus:border-primary-container focus:ring-0 focus:outline-none bg-surface-container-lowest dark:bg-surface-container" id="review_comments" placeholder="Provide constructive feedback, feasibility concerns, and guidance..." rows="6" required></textarea>
+              <p class="font-body-sm text-body-sm text-secondary">Visible to the student upon submission.</p>
+            </div>
+            
+            <div class="flex flex-col gap-2">
+              <label class="font-label-md text-label-md text-primary dark:text-primary-fixed font-semibold" for="review_status">Status Decision *</label>
+              <div class="relative">
+                <select class="w-full appearance-none rounded-md border border-outline-variant p-3 pr-10 font-body-md text-body-md focus:border-primary-container focus:ring-0 focus:outline-none bg-surface-container-lowest dark:bg-surface-container text-on-surface" id="review_status" required>
+                  <option value="Under Review">Under Review (No Change)</option>
+                  <option value="Needs Improvement">Needs Improvement / Revision</option>
+                  <option value="Approved">Approved for Next Phase</option>
+                  <option value="Rejected">Rejected</option>
+                </select>
+                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant" data-icon="arrow_drop_down">arrow_drop_down</span>
+              </div>
+            </div>
+
+            <button class="w-full bg-primary-container text-on-primary h-12 rounded-md font-label-md text-label-md hover:bg-primary transition-colors flex items-center justify-center gap-2 mt-4 shadow" type="submit">
+              <span class="material-symbols-outlined" data-icon="send">send</span> Submit Review
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- BottomNavBar (Mobile) -->
+  <nav class="fixed bottom-0 w-full z-50 flex md:hidden justify-around items-center h-16 bg-surface dark:bg-surface-dim border-t border-outline-variant dark:border-outline">
+    <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant w-full h-full" href="admin-dashboard.html">
+      <span class="material-symbols-outlined" data-icon="home">home</span>
+      <span class="font-label-sm text-label-sm mt-1">Home</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-bold w-full h-full" href="admin-dashboard.html">
+      <span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+      <span class="font-label-sm text-label-sm mt-1">Submissions</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant w-full h-full" href="login.html">
+      <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+      <span class="font-label-sm text-label-sm mt-1">Profile</span>
+    </a>
+  </nav>
+
+  <script src="app.js"></script>
+  <script src="app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  if (!window.requireAdmin || !window.requireAdmin()) return;
+
+  const id = new URLSearchParams(location.search).get("id");
+  if (!id) { location.href = "admin-dashboard.html"; return; }
+
+  try {
+    const idea = await window.getAdminIdeaById(id);
+    render(idea);
+    await loadComments(id);
+
+    document.getElementById("adminReviewForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const statusValue = document.getElementById("review_status").value;
+      const comment = document.getElementById("review_comments").value.trim();
+
+      try {
+        await window.adminUpdateIdeaStatus(id, normalizeStatus(statusValue));
+        if (comment) await window.addAdminComment(id, comment);
+        showToast("Admin review saved successfully.", "success");
+        setTimeout(() => location.href = "admin-dashboard.html", 600);
+      } catch (error) {
+        showToast(error.message || "Could not save review.", "error");
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    showToast(error.message || "Could not load idea.", "error");
+    setTimeout(() => location.href = "admin-dashboard.html", 900);
+  }
+
+  async function loadComments(id) {
+    try {
+      const comments = await window.getComments(id);
+      const box = document.getElementById("reviewsHistoryContainer");
+      if (!box) return;
+      box.innerHTML = (comments || []).map(c => `
+        <div class="p-3 bg-surface-container-low dark:bg-surface-container border border-outline-variant rounded">
+          <div class="flex justify-between gap-3 text-xs font-semibold text-secondary">
+            <span>${esc(c.adminEmail || "Admin")}</span>
+            <span>${c.createdAt ? new Date(c.createdAt).toLocaleDateString("en-IN") : ""}</span>
+          </div>
+          <p class="mt-2 text-body-sm">${esc(c.commentText || "")}</p>
+        </div>`).join("") || `<p class="text-body-sm text-on-surface-variant">No admin reviews recorded yet.</p>`;
+    } catch (e) {
+      console.warn("Comments unavailable", e);
+    }
+  }
+
+  function render(idea) {
+    const title = idea.title || "Untitled Idea";
+    set("ideaTitle", title);
+    set("ideaId", `Submission ID: #${idea.id}`);
+    set("studentName", idea.studentName || idea.studentEmail || "Student");
+    set("studentEmail", idea.studentEmail || "");
+    set("submittedDate", idea.createdAt ? new Date(idea.createdAt).toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"}) : "—");
+    set("problemStatement", idea.description || "No description available.");
+    set("proposedSolution", idea.description || "No additional solution details provided.");
+    set("targetUsers", idea.department || "General Department");
+    const badge = document.getElementById("statusBadge");
+    if (badge) badge.textContent = statusText(idea.status);
+    const select = document.getElementById("review_status");
+    if (select) select.value = normalizeStatus(idea.status);
+    const features = document.getElementById("keyFeaturesContainer");
+    if (features) features.innerHTML = `<p class="text-body-sm text-on-surface-variant">Department: ${esc(idea.department || "General")}</p><p class="text-body-sm text-on-surface-variant mt-2">Category: ${esc(idea.category || "General")}</p>`;
+    const docs = document.getElementById("attachmentsContainer");
+    if (docs) docs.innerHTML = `<p class="text-body-sm text-on-surface-variant">No attachments are stored for this submission.</p>`;
+  }
+
+  function normalizeStatus(v) {
+    const s = String(v || "").toUpperCase();
+    if (s.includes("APPROV")) return "ACCEPTED";
+    if (s.includes("REJECT") || s.includes("NEEDS")) return "REJECTED";
+    if (s.includes("SHORT")) return "SHORTLISTED";
+    return "UNDER_REVIEW";
+  }
+  function statusText(v) {
+    return ({SUBMITTED:"Submitted",UNDER_REVIEW:"Under Review",SHORTLISTED:"Shortlisted",ACCEPTED:"Approved",REJECTED:"Rejected"})[String(v||"").toUpperCase()] || v || "Submitted";
+  }
+  function set(id,v){ const el=document.getElementById(id); if(el) el.textContent=v; }
+  function esc(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");}
+});
+</script>
+</body>
+</html>

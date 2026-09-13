@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile - ESEC Idea Portal</title>
+<link rel="icon" type="image/png" href="Assest/logo.png">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { darkMode: "class" };
+</script>
+<link rel="stylesheet" href="styles.css">
+<script src="app.js"></script>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+<header class="bg-white dark:bg-slate-900 border-b px-6 py-4 flex items-center justify-between">
+  <a id="backLink" href="student-dashboard.html" class="font-bold text-blue-700">ESEC Idea Portal</a>
+  <div class="flex items-center gap-4">
+    <a id="settingsLink" href="settings.html" class="font-semibold text-slate-600 dark:text-slate-300">Settings</a>
+    <button id="logoutBtn" class="text-red-600 font-semibold">Logout</button>
+  </div>
+</header>
+<main class="max-w-2xl mx-auto p-6">
+  <div class="bg-white dark:bg-slate-900 rounded-2xl border shadow-sm p-6">
+    <h1 class="text-2xl font-bold mb-6">My Profile</h1>
+    <div class="flex flex-col items-center mb-8">
+      <img id="profilePhotoPreview" class="w-28 h-28 rounded-full object-cover border-4 border-slate-200 bg-slate-100" alt="Profile photo">
+      <label class="mt-4 cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold">
+        Change Profile Photo
+        <input id="photoInput" type="file" accept="image/png,image/jpeg,image/webp" class="hidden">
+      </label>
+      <p class="text-xs text-slate-500 mt-2">PNG, JPG or WebP · maximum 2 MB</p>
+    </div>
+    <form id="profileForm" class="space-y-4">
+      <div><label class="block font-semibold mb-1">Name</label><input id="name" class="w-full border rounded-lg px-3 py-2 dark:bg-slate-800 dark:border-slate-700" maxlength="100" required></div>
+      <div><label class="block font-semibold mb-1">Email</label><input id="email" class="w-full border rounded-lg px-3 py-2 bg-slate-100 dark:bg-slate-800" readonly></div>
+      <div><label class="block font-semibold mb-1">Phone Number</label><input id="phone" class="w-full border rounded-lg px-3 py-2 dark:bg-slate-800 dark:border-slate-700" maxlength="100" required></div>
+      <div><label class="block font-semibold mb-1">Department</label><input id="department" class="w-full border rounded-lg px-3 py-2 dark:bg-slate-800 dark:border-slate-700" maxlength="100"></div>
+      <div><label class="block font-semibold mb-1">Role</label><input id="role" class="w-full border rounded-lg px-3 py-2 bg-slate-100 dark:bg-slate-800" readonly></div>
+      <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold" type="submit">Save Profile</button>
+      <p id="message" class="text-center text-sm"></p>
+    </form>
+
+    <div class="mt-8 rounded-xl border border-blue-200 bg-blue-50 p-4">
+      <h2 class="font-bold text-blue-900">Need help?</h2>
+      <p class="text-sm text-blue-800 mt-1">If you face any issue with the portal, contact the administrator.</p>
+      <a href="mailto:admin1@college.edu?subject=ESEC%20Idea%20Portal%20Support"
+         class="inline-flex mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold">
+        Contact Admin
+      </a>
+    </div>
+  </div>
+</main>
+<script>
+const fallbackAvatar = "https://ui-avatars.com/api/?name=User&background=e2e8f0&color=334155&size=256";
+let photoData = "";
+const role = String(localStorage.getItem("userRole") || "STUDENT").toUpperCase();
+function setMessage(text, ok=false){ const m=document.getElementById("message"); m.textContent=text; m.className="text-center text-sm "+(ok?"text-green-600":"text-red-600"); }
+function fillProfile(p){
+  document.getElementById("name").value=p.name||"";
+  document.getElementById("email").value=p.email||"";
+  document.getElementById("phone").value=p.phoneNumber||"";
+  document.getElementById("department").value=p.department||"General";
+  document.getElementById("role").value=p.role||role;
+  photoData=p.profilePhoto||localStorage.getItem("userProfilePhoto")||"";
+  document.getElementById("profilePhotoPreview").src=photoData||fallbackAvatar;
+  document.getElementById("backLink").href=role==="ADMIN"?"admin-dashboard.html":"student-dashboard.html";
+}
+async function loadProfile(){
+  if(!window.requireLogin || !window.requireLogin()) return;
+  if(role === "STUDENT") {
+    fillProfile({name:localStorage.getItem("userName"),email:localStorage.getItem("userEmail")||localStorage.getItem("email"),phoneNumber:localStorage.getItem("userPhone"),department:localStorage.getItem("userDepartment"),role:"STUDENT",profilePhoto:localStorage.getItem("userProfilePhoto")});
+    ["name","email","phone","department","role"].forEach(id=>document.getElementById(id).readOnly=true);
+    document.getElementById("name").classList.add("bg-slate-100","dark:bg-slate-800");
+    document.getElementById("phone").classList.add("bg-slate-100","dark:bg-slate-800");
+    document.getElementById("department").classList.add("bg-slate-100","dark:bg-slate-800");
+    document.querySelector('#profileForm button[type="submit"]').style.display="none";
+    document.getElementById("settingsLink").style.display="none";
+    setMessage("Student details are read-only. You can change only your profile photo.", true);
+    return;
+  }
+  try { fillProfile(await window.getMyProfile()); } catch(e){ setMessage(e.message); }
+}
+document.getElementById("photoInput").addEventListener("change",e=>{
+  const file=e.target.files[0]; if(!file)return;
+  if(file.size>2*1024*1024){setMessage("Photo must be smaller than 2 MB."); e.target.value=""; return;}
+  const reader=new FileReader();
+  reader.onload=async()=>{
+    photoData=reader.result; document.getElementById("profilePhotoPreview").src=photoData;
+    if(role === "STUDENT") {
+      try {
+        const p=await window.apiRequest("http://localhost:8080/api/profile/me",{method:"PUT",body:{profilePhoto:photoData}});
+        localStorage.setItem("userProfilePhoto",p.profilePhoto||photoData);
+        setMessage("Profile photo updated successfully.",true);
+      } catch(e) { setMessage(e.message); }
+    }
+  };
+  reader.readAsDataURL(file);
+});
+document.getElementById("profileForm").addEventListener("submit",async e=>{
+  e.preventDefault(); if(role !== "ADMIN") return;
+  try{
+    const p=await window.apiRequest("http://localhost:8080/api/profile/me",{method:"PUT",body:{name:document.getElementById("name").value.trim(),phoneNumber:document.getElementById("phone").value.trim(),department:document.getElementById("department").value.trim()||"General",profilePhoto:photoData}});
+    localStorage.setItem("userName",p.name||p.email); localStorage.setItem("userPhone",p.phoneNumber||""); localStorage.setItem("userDepartment",p.department||"General"); localStorage.setItem("userProfilePhoto",p.profilePhoto||"");
+    document.getElementById("profilePhotoPreview").src=p.profilePhoto||fallbackAvatar; setMessage("Profile updated successfully.",true);
+  }catch(e){setMessage(e.message);}
+});
+document.getElementById("logoutBtn").onclick=()=>window.logoutUser();
+loadProfile();
+</script>
+</body>
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="Assest/logo.png">
+    <title>Login - ESEC Idea Portal</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
+        }
+
+        .login-container {
+            width: 400px;
+            max-width: 90%;
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo h1 {
+            color: #1e3a8a;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .logo p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #334155;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .login-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            margin-bottom: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .error {
+            display: block;
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .footer {
+            margin-top: 22px;
+            text-align: center;
+            color: #64748b;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="logo">
+            <h1>ESEC Idea Portal</h1>
+            <p>Login using Email & Phone Number</p>
+        </div>
+
+        <!-- Message -->
+        <div id="message" class="message"></div>
+
+        <!-- Login Form -->
+        <form id="loginForm">
+
+            <!-- Email -->
+            <div class="form-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required
+                >
+
+            </div>
+
+            <!-- Phone -->
+            <div class="form-group">
+
+                <label for="phoneNumber">
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    placeholder="Enter your phone number"
+                    autocomplete="tel"
+                    required
+                >
+
+            </div>
+
+            <!-- Login Button -->
+            <button
+                type="submit"
+                id="loginButton"
+                class="login-btn"
+            >
+                Login
+            </button>
+
+        </form>
+
+        <div class="footer">
+            ESEC Incubation & Innovation Portal
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // ==========================================
+        // BACKEND URL
+        // ==========================================
+
+        const API_URL = "http://localhost:8080";
+
+
+        // ==========================================
+        // GET ELEMENTS
+        // ==========================================
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const emailInput =
+            document.getElementById("email");
+
+        const phoneInput =
+            document.getElementById("phoneNumber");
+
+        const loginButton =
+            document.getElementById("loginButton");
+
+        const message =
+            document.getElementById("message");
+
+
+        // ==========================================
+        // SHOW MESSAGE
+        // ==========================================
+
+        function showMessage(text, type) {
+
+            message.textContent = text;
+
+            message.className =
+                "message " + type;
+        }
+
+
+        // ==========================================
+        // LOGIN
+        // ==========================================
+
+        loginForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                // Stop normal form submission
+                event.preventDefault();
+
+
+                // Get values
+                const email =
+                    emailInput.value.trim();
+
+                const phoneNumber =
+                    phoneInput.value.trim();
+
+
+                // ==================================
+                // VALIDATION
+                // ==================================
+
+                if (!email) {
+
+                    showMessage(
+                        "Please enter your email.",
+                        "error"
+                    );
+
+                    emailInput.focus();
+
+                    return;
+                }
+
+
+                if (!phoneNumber) {
+
+                    showMessage(
+                        "Please enter your phone number.",
+                        "error"
+                    );
+
+                    phoneInput.focus();
+
+                    return;
+                }
+
+
+                // ==================================
+                // BUTTON LOADING
+                // ==================================
+
+                loginButton.disabled = true;
+
+                loginButton.textContent =
+                    "Logging in...";
+
+
+                showMessage(
+                    "Checking your details...",
+                    "success"
+                );
+
+
+                console.log(
+                    "Sending login request..."
+                );
+
+                console.log(
+                    "Email:",
+                    email
+                );
+
+                console.log(
+                    "Phone:",
+                    phoneNumber
+                );
+
+
+                // ==================================
+                // SEND REQUEST TO SPRING BOOT
+                // ==================================
+
+                try {
+
+                    const response =
+                        await fetch(
+                            API_URL +
+                            "/api/auth/login",
+                            {
+
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+
+                                    email:
+                                        email,
+
+                                    phoneNumber:
+                                        phoneNumber
+
+                                })
+
+                            }
+                        );
+
+
+                    console.log(
+                        "HTTP Status:",
+                        response.status
+                    );
+
+
+                    // ==================================
+                    // READ RESPONSE
+                    // ==================================
+
+                    let data;
+
+                    try {
+
+                        data =
+                            await response.json();
+
+                    } catch (error) {
+
+                        data = {};
+                    }
+
+
+                    console.log(
+                        "Backend Response:",
+                        data
+                    );
+
+
+                    // ==================================
+                    // LOGIN FAILED
+                    // ==================================
+
+                    if (!response.ok) {
+
+                        let errorMessage =
+                            "Invalid email or phone number.";
+
+                        if (data.message) {
+
+                            errorMessage =
+                                data.message;
+
+                        }
+
+                        showMessage(
+                            errorMessage,
+                            "error"
+                        );
+
+                        loginButton.disabled =
+                            false;
+
+                        loginButton.textContent =
+                            "Login";
+
+                        return;
+                    }
+
+
+                    // ==================================
+                    // LOGIN SUCCESS
+                    // ==================================
+
+                    console.log(
+                        "Login successful!"
+                    );
+
+
+                    // ==================================
+                    // SAVE JWT
+                    // ==================================
+
+                    localStorage.setItem(
+                        "token",
+                        data.token
+                    );
+
+
+                    // ==================================
+                    // SAVE USER ID
+                    // ==================================
+
+                    localStorage.setItem(
+                        "userId",
+                        data.id
+                    );
+
+
+                    // ==================================
+                    // SAVE EMAIL
+                    // ==================================
+
+                    localStorage.setItem(
+                        "userEmail",
+                        data.email
+                    );
+
+
+                    // ==================================
+                    // SAVE ROLE
+                    // ==================================
+
+                    localStorage.setItem(
+                        "userRole",
+                        data.role
+                    );
+
+                    localStorage.setItem(
+                        "userName",
+                        data.name || data.email
+                    );
+
+                    localStorage.setItem(
+                        "userPhone",
+                        data.phoneNumber || ""
+                    );
+
+                    localStorage.setItem(
+                        "userDepartment",
+                        data.department || "General"
+                    );
+
+                    localStorage.setItem(
+                        "userProfilePhoto",
+                        data.profilePhoto || ""
+                    );
+
+
+                    // ==================================
+                    // SUCCESS MESSAGE
+                    // ==================================
+
+                    showMessage(
+                        "Login successful! Redirecting...",
+                        "success"
+                    );
+
+
+                    console.log(
+                        "User ID:",
+                        data.id
+                    );
+
+                    console.log(
+                        "Email:",
+                        data.email
+                    );
+
+                    console.log(
+                        "Role:",
+                        data.role
+                    );
+
+
+                    // ==================================
+                    // REDIRECT
+                    // ==================================
+
+                    setTimeout(
+                        function () {
+
+                            if (data.role === "ADMIN") {
+                                window.location.href = "admin-dashboard.html";
+                            } else {
+                                window.location.href = "student-dashboard.html";
+                            }
+
+                        },
+                        1000
+                    );
+
+                }
+
+
+                // ==================================
+                // CONNECTION ERROR
+                // ==================================
+
+                catch (error) {
+
+                    console.error(
+                        "Login Error:",
+                        error
+                    );
+
+
+                    showMessage(
+                        "Backend connect aagala. Spring Boot running-aa check pannunga.",
+                        "error"
+                    );
+
+
+                    loginButton.disabled =
+                        false;
+
+                    loginButton.textContent =
+                        "Login";
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

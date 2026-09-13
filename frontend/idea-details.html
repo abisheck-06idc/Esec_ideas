@@ -1,0 +1,1450 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Idea Details | Student Innovation Portal</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet"
+    >
+
+    <style>
+        :root {
+            --bg: #f8faff;
+            --surface: #ffffff;
+            --text: #0b2b50;
+            --muted: #64748b;
+            --border: #cbd5e1;
+            --primary: #082d56;
+        }
+
+        html.dark {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --border: #475569;
+            --primary: #93c5fd;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .portal-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 500,
+                'GRAD' 0,
+                'opsz' 24;
+        }
+    </style>
+</head>
+
+<body>
+
+<header
+    class="h-[76px] border-b flex items-center justify-between px-6"
+    style="background:var(--surface);border-color:var(--border)"
+>
+    <div class="flex items-center gap-3">
+        <span
+            class="material-symbols-outlined text-3xl"
+            style="color:var(--primary)"
+        >
+            school
+        </span>
+
+        <div>
+            <h1
+                class="text-xl md:text-2xl font-bold"
+                style="color:var(--text)"
+            >
+                Student Innovation Portal
+            </h1>
+
+            <p class="text-xs muted">
+                Idea Details
+            </p>
+        </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+
+        <button
+            id="backDashboardBtn"
+            type="button"
+            class="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-700"
+            style="border-color:var(--border)"
+        >
+            <span class="material-symbols-outlined text-[19px]">
+                dashboard
+            </span>
+
+            Dashboard
+        </button>
+
+        <button
+            id="logoutBtn"
+            type="button"
+            class="flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-700"
+            style="border-color:var(--border)"
+        >
+            <span class="material-symbols-outlined text-[19px]">
+                logout
+            </span>
+
+            <span class="hidden sm:inline">
+                Logout
+            </span>
+        </button>
+
+    </div>
+</header>
+
+
+<main class="max-w-6xl mx-auto px-4 md:px-8 py-8">
+
+    <!-- Loading -->
+    <div
+        id="loadingState"
+        class="portal-card p-10 text-center"
+    >
+        <span
+            class="material-symbols-outlined text-4xl animate-spin"
+        >
+            progress_activity
+        </span>
+
+        <p class="mt-3 font-semibold">
+            Loading idea details...
+        </p>
+    </div>
+
+
+    <!-- Error -->
+    <div
+        id="errorState"
+        class="hidden portal-card p-8 text-center"
+    >
+        <span
+            class="material-symbols-outlined text-5xl text-red-500"
+        >
+            error
+        </span>
+
+        <h2 class="text-xl font-bold mt-3">
+            Unable to load idea
+        </h2>
+
+        <p
+            id="errorMessage"
+            class="muted mt-2"
+        ></p>
+
+        <button
+            id="errorBackBtn"
+            type="button"
+            class="mt-6 px-5 py-2.5 rounded-lg bg-[#082d56] text-white font-semibold"
+        >
+            Back to Dashboard
+        </button>
+    </div>
+
+
+    <!-- Main Content -->
+    <div
+        id="ideaContent"
+        class="hidden"
+    >
+
+        <!-- Top -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+
+            <div>
+                <button
+                    id="mobileBackBtn"
+                    type="button"
+                    class="flex items-center gap-1 muted text-sm mb-3 hover:underline"
+                >
+                    <span class="material-symbols-outlined text-[18px]">
+                        arrow_back
+                    </span>
+
+                    Back to My Ideas
+                </button>
+
+                <h2
+                    id="ideaTitle"
+                    class="text-3xl md:text-4xl font-bold"
+                >
+                    Idea Title
+                </h2>
+
+                <p
+                    id="ideaId"
+                    class="muted mt-2 text-sm"
+                >
+                </p>
+            </div>
+
+            <div
+                id="statusBadge"
+                class="self-start px-4 py-2 rounded-full text-sm font-bold"
+            >
+                Under Review
+            </div>
+
+        </div>
+
+
+        <!-- Idea Information -->
+        <section class="portal-card p-6 md:p-8">
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <div>
+                    <p class="muted text-sm">
+                        Category
+                    </p>
+
+                    <p
+                        id="ideaCategory"
+                        class="font-bold mt-1"
+                    >
+                        —
+                    </p>
+                </div>
+
+                <div>
+                    <p class="muted text-sm">
+                        Submitted Date
+                    </p>
+
+                    <p
+                        id="ideaDate"
+                        class="font-bold mt-1"
+                    >
+                        —
+                    </p>
+                </div>
+
+                <div>
+                    <p class="muted text-sm">
+                        Student
+                    </p>
+
+                    <p
+                        id="studentName"
+                        class="font-bold mt-1"
+                    >
+                        —
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="border-t my-7" style="border-color:var(--border)"></div>
+
+            <div>
+                <h3 class="text-xl font-bold mb-3">
+                    Idea Description
+                </h3>
+
+                <p
+                    id="ideaDescription"
+                    class="leading-7 whitespace-pre-wrap muted"
+                >
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- Action Buttons -->
+        <section class="mt-6 portal-card p-5">
+
+            <div class="flex flex-col sm:flex-row gap-3">
+
+                <button
+                    id="editBtn"
+                    type="button"
+                    class="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#082d56] text-white font-bold hover:opacity-90"
+                >
+                    <span class="material-symbols-outlined">
+                        edit
+                    </span>
+
+                    Edit Idea
+                </button>
+
+                <button
+                    id="deleteBtn"
+                    type="button"
+                    class="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-red-600 text-white font-bold hover:bg-red-700"
+                >
+                    <span class="material-symbols-outlined">
+                        delete
+                    </span>
+
+                    Delete Idea
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Review / Comments -->
+        <section class="mt-6 portal-card p-6 md:p-8">
+
+            <div class="flex items-center justify-between gap-4 mb-5">
+
+                <div>
+                    <h3 class="text-xl font-bold">
+                        Admin Feedback
+                    </h3>
+
+                    <p class="muted text-sm mt-1">
+                        Feedback and status updates from the portal administrator.
+                    </p>
+                </div>
+
+                <span
+                    id="commentCount"
+                    class="text-sm font-semibold muted"
+                >
+                    0 reviews
+                </span>
+
+            </div>
+
+
+            <div
+                id="commentsLoading"
+                class="hidden text-sm muted"
+            >
+                Loading reviews...
+            </div>
+
+
+            <div
+                id="commentsEmpty"
+                class="hidden text-center py-8 muted"
+            >
+                <span class="material-symbols-outlined text-4xl">
+                    forum
+                </span>
+
+                <p class="mt-2">
+                    No administrator feedback yet.
+                </p>
+            </div>
+
+
+            <div
+                id="commentsList"
+                class="space-y-4"
+            >
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<!-- Delete Modal -->
+<div
+    id="deleteModal"
+    class="hidden fixed inset-0 z-[300] bg-black/50 items-center justify-center p-4"
+>
+
+    <div
+        class="portal-card max-w-md w-full p-6"
+    >
+
+        <div class="flex items-start gap-3">
+
+            <div class="w-11 h-11 rounded-full bg-red-100 flex items-center justify-center">
+                <span class="material-symbols-outlined text-red-600">
+                    delete
+                </span>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-bold">
+                    Delete this idea?
+                </h3>
+
+                <p class="muted text-sm mt-1">
+                    This action cannot be undone.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="flex gap-3 mt-7">
+
+            <button
+                id="cancelDeleteBtn"
+                type="button"
+                class="flex-1 px-4 py-2.5 rounded-lg border font-semibold"
+                style="border-color:var(--border)"
+            >
+                Cancel
+            </button>
+
+            <button
+                id="confirmDeleteBtn"
+                type="button"
+                class="flex-1 px-4 py-2.5 rounded-lg bg-red-600 text-white font-bold"
+            >
+                Delete
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="app.js"></script>
+
+<script>
+
+"use strict";
+
+
+/* ============================================================
+   PAGE STATE
+   ============================================================ */
+
+let currentIdea = null;
+
+
+/* ============================================================
+   GET IDEA ID
+   ============================================================ */
+
+function getIdeaIdFromURL() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    return params.get("id");
+}
+
+
+/* ============================================================
+   PAGE INITIALIZATION
+   ============================================================ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function () {
+
+        if (
+            typeof window.requireStudent === "function"
+        ) {
+
+            if (!window.requireStudent()) {
+                return;
+            }
+
+        } else if (
+            typeof window.requireLogin === "function"
+        ) {
+
+            if (!window.requireLogin()) {
+                return;
+            }
+        }
+
+
+        setupButtons();
+
+
+        const ideaId =
+            getIdeaIdFromURL();
+
+
+        if (!ideaId) {
+
+            showPageError(
+                "No idea ID was provided."
+            );
+
+            return;
+        }
+
+
+        await loadIdea(
+            ideaId
+        );
+
+    }
+);
+
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+function setupButtons() {
+
+    document
+        .getElementById("backDashboardBtn")
+        .addEventListener(
+            "click",
+            goDashboard
+        );
+
+
+    document
+        .getElementById("mobileBackBtn")
+        .addEventListener(
+            "click",
+            goDashboard
+        );
+
+
+    document
+        .getElementById("errorBackBtn")
+        .addEventListener(
+            "click",
+            goDashboard
+        );
+
+
+    document
+        .getElementById("logoutBtn")
+        .addEventListener(
+            "click",
+            function () {
+
+                if (
+                    typeof window.logoutUser === "function"
+                ) {
+
+                    window.logoutUser();
+
+                } else {
+
+                    window.location.href =
+                        "login.html";
+                }
+
+            }
+        );
+
+
+    document
+        .getElementById("editBtn")
+        .addEventListener(
+            "click",
+            editIdea
+        );
+
+
+    document
+        .getElementById("deleteBtn")
+        .addEventListener(
+            "click",
+            openDeleteModal
+        );
+
+
+    document
+        .getElementById("cancelDeleteBtn")
+        .addEventListener(
+            "click",
+            closeDeleteModal
+        );
+
+
+    document
+        .getElementById("confirmDeleteBtn")
+        .addEventListener(
+            "click",
+            confirmDelete
+        );
+
+}
+
+
+/* ============================================================
+   LOAD IDEA
+   ============================================================ */
+
+async function loadIdea(
+    ideaId
+) {
+
+    showLoading();
+
+
+    try {
+
+        if (
+            typeof window.getIdeaById !== "function"
+        ) {
+
+            throw new Error(
+                "getIdeaById() is not available in app.js"
+            );
+        }
+
+
+        currentIdea =
+            await window.getIdeaById(
+                ideaId
+            );
+
+
+        if (!currentIdea) {
+
+            throw new Error(
+                "Idea was not found."
+            );
+        }
+
+
+        renderIdea(
+            currentIdea
+        );
+
+
+        await loadComments(
+            ideaId
+        );
+
+
+        showContent();
+
+    } catch (error) {
+
+        console.error(
+            "Failed to load idea:",
+            error
+        );
+
+
+        showPageError(
+            error.message ||
+            "Could not load idea."
+        );
+    }
+}
+
+
+/* ============================================================
+   RENDER IDEA
+   ============================================================ */
+
+function renderIdea(
+    idea
+) {
+
+    const title =
+        typeof window.getIdeaTitle === "function"
+            ? window.getIdeaTitle(idea)
+            : (
+                idea.title ||
+                "Untitled Idea"
+            );
+
+
+    const description =
+        typeof window.getIdeaDescription === "function"
+            ? window.getIdeaDescription(idea)
+            : (
+                idea.description ||
+                "No description available."
+            );
+
+
+    const category =
+        typeof window.getIdeaCategory === "function"
+            ? window.getIdeaCategory(idea)
+            : (
+                idea.category ||
+                "General"
+            );
+
+
+    const date =
+        typeof window.getIdeaDate === "function"
+            ? window.getIdeaDate(idea)
+            : (
+                idea.submittedDate ||
+                "Unknown date"
+            );
+
+
+    const status =
+        typeof window.normalizeIdeaStatus === "function"
+            ? window.normalizeIdeaStatus(
+                idea.status
+            )
+            : String(
+                idea.status ||
+                "SUBMITTED"
+            ).toUpperCase();
+
+
+    document
+        .getElementById("ideaTitle")
+        .textContent =
+        title;
+
+
+    document
+        .getElementById("ideaId")
+        .textContent =
+        "Idea ID: " +
+        (idea.id || "—");
+
+
+    document
+        .getElementById("ideaCategory")
+        .textContent =
+        category;
+
+
+    document
+        .getElementById("ideaDate")
+        .textContent =
+        date;
+
+
+    document
+        .getElementById("studentName")
+        .textContent =
+        idea.studentName ||
+        idea.name ||
+        idea.studentEmail ||
+        "Student";
+
+
+    document
+        .getElementById("ideaDescription")
+        .textContent =
+        description;
+
+
+    renderStatus(
+        status
+    );
+}
+
+
+/* ============================================================
+   STATUS
+   ============================================================ */
+
+function renderStatus(
+    status
+) {
+
+    const badge =
+        document.getElementById(
+            "statusBadge"
+        );
+
+
+    const statusText =
+        typeof window.getStatusText === "function"
+            ? window.getStatusText(status)
+            : status;
+
+
+    badge.textContent =
+        statusText;
+
+
+    badge.className =
+        "self-start px-4 py-2 rounded-full text-sm font-bold";
+
+
+    switch (
+        String(status).toUpperCase()
+    ) {
+
+        case "ACCEPTED":
+
+            badge.classList.add(
+                "bg-emerald-100",
+                "text-emerald-700"
+            );
+
+            break;
+
+
+        case "REJECTED":
+
+            badge.classList.add(
+                "bg-red-100",
+                "text-red-700"
+            );
+
+            break;
+
+
+        case "SHORTLISTED":
+
+            badge.classList.add(
+                "bg-blue-100",
+                "text-blue-700"
+            );
+
+            break;
+
+
+        case "UNDER_REVIEW":
+
+            badge.classList.add(
+                "bg-amber-100",
+                "text-amber-700"
+            );
+
+            break;
+
+
+        default:
+
+            badge.classList.add(
+                "bg-indigo-100",
+                "text-indigo-700"
+            );
+    }
+}
+
+
+/* ============================================================
+   LOAD COMMENTS
+   ============================================================ */
+
+async function loadComments(
+    ideaId
+) {
+
+    const loading =
+        document.getElementById(
+            "commentsLoading"
+        );
+
+    const empty =
+        document.getElementById(
+            "commentsEmpty"
+        );
+
+    const list =
+        document.getElementById(
+            "commentsList"
+        );
+
+
+    loading.classList.remove(
+        "hidden"
+    );
+
+    empty.classList.add(
+        "hidden"
+    );
+
+    list.innerHTML =
+        "";
+
+
+    try {
+
+        if (
+            typeof window.getComments !== "function"
+        ) {
+
+            throw new Error(
+                "getComments() is not available."
+            );
+        }
+
+
+        const comments =
+            await window.getComments(
+                ideaId
+            );
+
+
+        loading.classList.add(
+            "hidden"
+        );
+
+
+        const safeComments =
+            Array.isArray(comments)
+                ? comments
+                : [];
+
+
+        document
+            .getElementById(
+                "commentCount"
+            )
+            .textContent =
+            `${safeComments.length} ${
+                safeComments.length === 1
+                    ? "review"
+                    : "reviews"
+            }`;
+
+
+        if (
+            safeComments.length === 0
+        ) {
+
+            empty.classList.remove(
+                "hidden"
+            );
+
+            return;
+        }
+
+
+        safeComments.forEach(
+            function (comment) {
+
+                list.appendChild(
+                    createCommentElement(
+                        comment
+                    )
+                );
+
+            }
+        );
+
+    } catch (error) {
+
+        loading.classList.add(
+            "hidden"
+        );
+
+
+        document
+            .getElementById(
+                "commentCount"
+            )
+            .textContent =
+            "Reviews unavailable";
+
+
+        console.warn(
+            "Could not load comments:",
+            error
+        );
+
+
+        empty.classList.remove(
+            "hidden"
+        );
+
+        empty.querySelector(
+            "p"
+        ).textContent =
+            "No administrator feedback available.";
+    }
+}
+
+
+/* ============================================================
+   COMMENT ELEMENT
+   ============================================================ */
+
+function createCommentElement(
+    comment
+) {
+
+    const wrapper =
+        document.createElement(
+            "div"
+        );
+
+
+    wrapper.className =
+        "border rounded-xl p-5";
+
+
+    wrapper.style.borderColor =
+        "var(--border)";
+
+
+    const admin =
+        comment.faculty ||
+        comment.facultyName ||
+        comment.authorName ||
+        comment.name ||
+        "Admin";
+
+
+    const text =
+        comment.commentText ||
+        comment.comment ||
+        comment.text ||
+        comment.message ||
+        "";
+
+
+    const date =
+        comment.date ||
+        comment.createdAt ||
+        comment.createdDate ||
+        "";
+
+
+    const decision =
+        comment.decision ||
+        comment.status ||
+        "";
+
+
+    wrapper.innerHTML = `
+
+        <div class="flex items-start justify-between gap-4">
+
+            <div class="flex items-center gap-3">
+
+                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+
+                    <span class="material-symbols-outlined text-blue-700">
+                        school
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <p class="font-bold">
+                        ${escapeSafe(admin)}
+                    </p>
+
+                    <p class="text-xs muted">
+                        ${escapeSafe(
+                            formatCommentDate(date)
+                        )}
+                    </p>
+
+                </div>
+
+            </div>
+
+            ${
+                decision
+                    ? `
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700">
+                            ${escapeSafe(
+                                formatDecision(decision)
+                            )}
+                        </span>
+                    `
+                    : ""
+            }
+
+        </div>
+
+        <p class="mt-4 leading-7 whitespace-pre-wrap muted">
+            ${escapeSafe(text)}
+        </p>
+    `;
+
+
+    return wrapper;
+}
+
+
+/* ============================================================
+   FORMAT COMMENT DATE
+   ============================================================ */
+
+function formatCommentDate(
+    value
+) {
+
+    if (!value) {
+        return "";
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return String(value);
+    }
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
+}
+
+
+/* ============================================================
+   FORMAT DECISION
+   ============================================================ */
+
+function formatDecision(
+    value
+) {
+
+    if (
+        typeof window.getStatusText === "function"
+    ) {
+
+        return window.getStatusText(
+            value
+        );
+    }
+
+
+    return String(value)
+        .replace(/_/g, " ")
+        .replace(/\b\w/g, function (char) {
+            return char.toUpperCase();
+        });
+}
+
+
+/* ============================================================
+   EDIT
+   ============================================================ */
+
+function editIdea() {
+
+    if (!currentIdea) {
+        return;
+    }
+
+
+    window.location.href =
+        `edit-idea.html?id=${
+            encodeURIComponent(
+                currentIdea.id
+            )
+        }`;
+}
+
+
+/* ============================================================
+   DELETE MODAL
+   ============================================================ */
+
+function openDeleteModal() {
+
+    const modal =
+        document.getElementById(
+            "deleteModal"
+        );
+
+
+    modal.classList.remove(
+        "hidden"
+    );
+
+    modal.classList.add(
+        "flex"
+    );
+}
+
+
+function closeDeleteModal() {
+
+    const modal =
+        document.getElementById(
+            "deleteModal"
+        );
+
+
+    modal.classList.add(
+        "hidden"
+    );
+
+    modal.classList.remove(
+        "flex"
+    );
+}
+
+
+/* ============================================================
+   CONFIRM DELETE
+   ============================================================ */
+
+async function confirmDelete() {
+
+    if (!currentIdea) {
+        return;
+    }
+
+
+    const button =
+        document.getElementById(
+            "confirmDeleteBtn"
+        );
+
+
+    button.disabled =
+        true;
+
+
+    button.textContent =
+        "Deleting...";
+
+
+    try {
+
+        /*
+         * Your current app.js exports deleteIdea().
+         */
+        if (
+            typeof window.deleteIdea !== "function"
+        ) {
+
+            throw new Error(
+                "deleteIdea() is not available in app.js"
+            );
+        }
+
+
+        await window.deleteIdea(
+            currentIdea.id
+        );
+
+
+        if (
+            typeof window.showToast === "function"
+        ) {
+
+            window.showToast(
+                "Idea deleted successfully.",
+                "success"
+            );
+        }
+
+
+        setTimeout(
+            goDashboard,
+            700
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Delete failed:",
+            error
+        );
+
+
+        if (
+            typeof window.showToast === "function"
+        ) {
+
+            window.showToast(
+                error.message ||
+                "Could not delete idea.",
+                "error"
+            );
+        }
+
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Delete";
+    }
+}
+
+
+/* ============================================================
+   PAGE STATES
+   ============================================================ */
+
+function showLoading() {
+
+    document
+        .getElementById(
+            "loadingState"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+    document
+        .getElementById(
+            "errorState"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+    document
+        .getElementById(
+            "ideaContent"
+        )
+        .classList.add(
+            "hidden"
+        );
+}
+
+
+function showContent() {
+
+    document
+        .getElementById(
+            "loadingState"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+    document
+        .getElementById(
+            "errorState"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+    document
+        .getElementById(
+            "ideaContent"
+        )
+        .classList.remove(
+            "hidden"
+        );
+}
+
+
+function showPageError(
+    message
+) {
+
+    document
+        .getElementById(
+            "loadingState"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+    document
+        .getElementById(
+            "ideaContent"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "errorState"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "errorMessage"
+        )
+        .textContent =
+        message;
+}
+
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+
+function goDashboard() {
+
+    window.location.href =
+        "student-dashboard.html";
+}
+
+
+/* ============================================================
+   SAFE HTML
+   ============================================================ */
+
+function escapeSafe(
+    value
+) {
+
+    if (
+        typeof window.escapeHTML === "function"
+    ) {
+
+        return window.escapeHTML(
+            value
+        );
+    }
+
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        value == null
+            ? ""
+            : String(value);
+
+
+    return div.innerHTML;
+}
+
+</script>
+
+</body>
+</html>
