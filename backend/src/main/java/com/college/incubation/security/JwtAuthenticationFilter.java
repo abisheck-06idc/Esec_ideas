@@ -29,6 +29,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
 
         // ==========================================
+        // 0. CORS PREFLIGHT REQUEST
+        // ==========================================
+        // Browser sends OPTIONS request before POST login.
+        // JWT authentication must NOT be applied to OPTIONS.
+
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // ==========================================
         // 1. Get Authorization Header
         // ==========================================
 
@@ -51,7 +62,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authorizationHeader.substring(7).trim();
 
         if (token.isEmpty()) {
-
             filterChain.doFilter(request, response);
             return;
         }
@@ -61,7 +71,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // ==========================================
 
         if (!jwtUtils.isValid(token)) {
-
             filterChain.doFilter(request, response);
             return;
         }
@@ -100,22 +109,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // ==========================================
 
             if (email == null || email.isBlank()) {
-
-                filterChain.doFilter(
-                        request,
-                        response
-                );
-
+                filterChain.doFilter(request, response);
                 return;
             }
 
             if (role == null || role.isBlank()) {
-
-                filterChain.doFilter(
-                        request,
-                        response
-                );
-
+                filterChain.doFilter(request, response);
                 return;
             }
 
@@ -123,18 +122,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // 8. Normalize Role
             // ==========================================
 
-            role = role
-                    .trim()
-                    .toUpperCase();
+            role = role.trim().toUpperCase();
 
             // Remove ROLE_ if JWT already contains it
             if (role.startsWith("ROLE_")) {
-
                 role = role.substring(5);
             }
 
             // ==========================================
-            // 9. Create Spring Security Authority
+            // 9. Create Authority
             // ==========================================
 
             SimpleGrantedAuthority authority =
@@ -143,11 +139,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     );
 
             // ==========================================
-            // 10. Create Authentication Object
+            // 10. Create Authentication
             // ==========================================
 
-            UsernamePasswordAuthenticationToken
-                    authentication =
+            UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(
                             email,
                             null,
@@ -160,13 +155,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             SecurityContextHolder
                     .getContext()
-                    .setAuthentication(
-                            authentication
-                    );
+                    .setAuthentication(authentication);
 
         } catch (Exception e) {
 
-            // Invalid JWT / malformed claims
             SecurityContextHolder
                     .clearContext();
 
