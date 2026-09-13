@@ -35,7 +35,7 @@ Include this file ONLY ONCE in each HTML page.
    API CONFIGURATION
 ============================================================ */
 
-const API_BASE_URL = "http://localhost:8080/api";
+const API_BASE_URL = "https://idea-nd9r.onrender.com/api";
 
 
 /* ============================================================
