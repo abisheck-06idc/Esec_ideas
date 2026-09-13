@@ -28,29 +28,21 @@ public class SecurityConfig {
     ) throws Exception {
 
         http
-
                 // ==========================================
                 // CORS
                 // ==========================================
-
-                .cors(cors ->
-                        cors.configurationSource(
-                                corsConfigurationSource()
-                        )
-                )
+                .cors(cors -> cors.configurationSource(
+                        corsConfigurationSource()
+                ))
 
                 // ==========================================
                 // CSRF
                 // ==========================================
-
-                .csrf(csrf ->
-                        csrf.disable()
-                )
+                .csrf(csrf -> csrf.disable())
 
                 // ==========================================
                 // STATELESS JWT
                 // ==========================================
-
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
                                 SessionCreationPolicy.STATELESS
@@ -60,10 +52,9 @@ public class SecurityConfig {
                 // ==========================================
                 // AUTHORIZATION
                 // ==========================================
-
                 .authorizeHttpRequests(auth -> auth
 
-                        // CORS preflight
+                        // CORS Preflight
                         .requestMatchers(
                                 HttpMethod.OPTIONS,
                                 "/**"
@@ -74,24 +65,23 @@ public class SecurityConfig {
                                 "/api/auth/**"
                         ).permitAll()
 
-                        // Admin
+                        // Admin APIs
                         .requestMatchers(
                                 "/api/admin/**"
                         ).hasRole("ADMIN")
-// Student / authenticated users
+
+                        // Student / Authenticated users
                         .requestMatchers(
                                 "/api/ideas/**"
                         ).authenticated()
 
                         // Everything else
-                        .anyRequest()
-                        .authenticated()
+                        .anyRequest().authenticated()
                 )
 
                 // ==========================================
                 // JWT FILTER
                 // ==========================================
-
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
@@ -110,19 +100,30 @@ public class SecurityConfig {
         CorsConfiguration configuration =
                 new CorsConfiguration();
 
+        // ==========================================
+        // ALLOWED ORIGINS
+        // ==========================================
         configuration.setAllowedOrigins(
                 List.of(
-                        "http://127.0.0.1:5500",
+                        // Local development
                         "http://localhost:5500",
-                        "http://127.0.0.1:5173",
+                        "http://127.0.0.1:5500",
                         "http://localhost:5173",
-                        "http://localhost",       // <--- XAMPP Apache-க்காக இதைச் சேர்க்கவும்
+                        "http://127.0.0.1:5173",
+                        "http://localhost",
                         "http://127.0.0.1",
+
+                        // Vercel Frontend
                         "https://esec-ideas.vercel.app",
+
+                        // Cloudflare Tunnel
                         "https://victor-solve-parker-quad.trycloudflare.com"
                 )
         );
 
+        // ==========================================
+        // ALLOWED HTTP METHODS
+        // ==========================================
         configuration.setAllowedMethods(
                 List.of(
                         "GET",
@@ -134,16 +135,36 @@ public class SecurityConfig {
                 )
         );
 
+        // ==========================================
+        // ALLOWED HEADERS
+        // ==========================================
         configuration.setAllowedHeaders(
                 List.of(
                         "Authorization",
                         "Content-Type",
-                        "Accept"
+                        "Accept",
+                        "Origin",
+                        "X-Requested-With"
                 )
         );
 
+        // ==========================================
+        // EXPOSED HEADERS
+        // ==========================================
+        configuration.setExposedHeaders(
+                List.of(
+                        "Authorization"
+                )
+        );
+
+        // ==========================================
+        // CREDENTIALS
+        // ==========================================
         configuration.setAllowCredentials(true);
 
+        // ==========================================
+        // REGISTER CORS CONFIGURATION
+        // ==========================================
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
 
