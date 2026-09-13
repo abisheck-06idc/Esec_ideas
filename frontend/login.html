@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ESEC Logo -->
     <link rel="icon" type="image/png" href="Assest/logo.png">
+
     <title>Login - ESEC Idea Portal</title>
 
     <style>
@@ -37,6 +40,14 @@
             margin-bottom: 25px;
         }
 
+        .logo img {
+            width: 85px;
+            height: 85px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 15px;
+        }
+
         .logo h1 {
             color: #1e3a8a;
             font-size: 28px;
@@ -66,6 +77,8 @@
             border-radius: 8px;
             font-size: 15px;
             outline: none;
+            background: white;
+            color: #1e293b;
         }
 
         input:focus {
@@ -83,6 +96,7 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            transition: background 0.2s;
         }
 
         .login-btn:hover {
@@ -128,13 +142,29 @@
 
     <div class="login-container">
 
+        <!-- Logo -->
         <div class="logo">
+
+            <img
+                src="Assest/logo.png"
+                alt="ESEC Logo"
+            >
+
             <h1>ESEC Idea Portal</h1>
-            <p>Login using Email & Phone Number</p>
+
+            <p>
+                Login using Email & Phone Number
+            </p>
+
         </div>
 
+
         <!-- Message -->
-        <div id="message" class="message"></div>
+        <div
+            id="message"
+            class="message">
+        </div>
+
 
         <!-- Login Form -->
         <form id="loginForm">
@@ -157,6 +187,7 @@
 
             </div>
 
+
             <!-- Phone -->
             <div class="form-group">
 
@@ -175,6 +206,7 @@
 
             </div>
 
+
             <!-- Login Button -->
             <button
                 type="submit"
@@ -186,6 +218,8 @@
 
         </form>
 
+
+        <!-- Footer -->
         <div class="footer">
             ESEC Incubation & Innovation Portal
         </div>
@@ -243,7 +277,7 @@
             "submit",
             async function (event) {
 
-                // Stop normal form submission
+                // Prevent page reload
                 event.preventDefault();
 
 
@@ -324,10 +358,8 @@
 
                     const response =
                         await fetch(
-                            API_URL +
-                            "/api/auth/login",
+                            API_URL + "/api/auth/login",
                             {
-
                                 method: "POST",
 
                                 headers: {
@@ -336,15 +368,9 @@
                                 },
 
                                 body: JSON.stringify({
-
-                                    email:
-                                        email,
-
-                                    phoneNumber:
-                                        phoneNumber
-
+                                    email: email,
+                                    phoneNumber: phoneNumber
                                 })
-
                             }
                         );
 
@@ -359,7 +385,7 @@
                     // READ RESPONSE
                     // ==================================
 
-                    let data;
+                    let data = {};
 
                     try {
 
@@ -368,7 +394,10 @@
 
                     } catch (error) {
 
-                        data = {};
+                        console.log(
+                            "Response is not JSON"
+                        );
+
                     }
 
 
@@ -391,7 +420,6 @@
 
                             errorMessage =
                                 data.message;
-
                         }
 
                         showMessage(
@@ -424,7 +452,7 @@
 
                     localStorage.setItem(
                         "token",
-                        data.token
+                        data.token || ""
                     );
 
 
@@ -434,7 +462,7 @@
 
                     localStorage.setItem(
                         "userId",
-                        data.id
+                        data.id || ""
                     );
 
 
@@ -444,7 +472,7 @@
 
                     localStorage.setItem(
                         "userEmail",
-                        data.email
+                        data.email || email
                     );
 
 
@@ -454,23 +482,43 @@
 
                     localStorage.setItem(
                         "userRole",
-                        data.role
+                        data.role || ""
                     );
+
+
+                    // ==================================
+                    // SAVE USER NAME
+                    // ==================================
 
                     localStorage.setItem(
                         "userName",
-                        data.name || data.email
+                        data.name || data.email || email
                     );
+
+
+                    // ==================================
+                    // SAVE PHONE
+                    // ==================================
 
                     localStorage.setItem(
                         "userPhone",
-                        data.phoneNumber || ""
+                        data.phoneNumber || phoneNumber
                     );
+
+
+                    // ==================================
+                    // SAVE DEPARTMENT
+                    // ==================================
 
                     localStorage.setItem(
                         "userDepartment",
                         data.department || "General"
                     );
+
+
+                    // ==================================
+                    // SAVE PROFILE PHOTO
+                    // ==================================
 
                     localStorage.setItem(
                         "userProfilePhoto",
@@ -511,10 +559,18 @@
                     setTimeout(
                         function () {
 
-                            if (data.role === "ADMIN") {
-                                window.location.href = "admin-dashboard.html";
+                            if (
+                                data.role &&
+                                data.role.toUpperCase() === "ADMIN"
+                            ) {
+
+                                window.location.href =
+                                    "admin-dashboard.html";
+
                             } else {
-                                window.location.href = "student-dashboard.html";
+
+                                window.location.href =
+                                    "student-dashboard.html";
                             }
 
                         },
@@ -537,7 +593,7 @@
 
 
                     showMessage(
-                        "Backend connect aagala. Spring Boot running-aa check pannunga.",
+                        "Backend connect aagala. Please try again.",
                         "error"
                     );
 
