@@ -54,7 +54,7 @@ public class SecurityConfig {
                 // ==========================================
                 .authorizeHttpRequests(auth -> auth
 
-                        // CORS Preflight
+                        // Allow CORS preflight
                         .requestMatchers(
                                 HttpMethod.OPTIONS,
                                 "/**"
@@ -70,7 +70,7 @@ public class SecurityConfig {
                                 "/api/admin/**"
                         ).hasRole("ADMIN")
 
-                        // Student / Authenticated users
+                        // Authenticated users
                         .requestMatchers(
                                 "/api/ideas/**"
                         ).authenticated()
@@ -103,27 +103,28 @@ public class SecurityConfig {
         // ==========================================
         // ALLOWED ORIGINS
         // ==========================================
+
         configuration.setAllowedOrigins(
                 List.of(
-                        // Local development
+                        "https://esec-ideas.vercel.app",
+
                         "http://localhost:5500",
                         "http://127.0.0.1:5500",
+
                         "http://localhost:5173",
                         "http://127.0.0.1:5173",
+
                         "http://localhost",
                         "http://127.0.0.1",
 
-                        // Vercel Frontend
-                        "https://esec-ideas.vercel.app",
-
-                        // Cloudflare Tunnel
                         "https://victor-solve-parker-quad.trycloudflare.com"
                 )
         );
 
         // ==========================================
-        // ALLOWED HTTP METHODS
+        // ALLOWED METHODS
         // ==========================================
+
         configuration.setAllowedMethods(
                 List.of(
                         "GET",
@@ -138,19 +139,15 @@ public class SecurityConfig {
         // ==========================================
         // ALLOWED HEADERS
         // ==========================================
+
         configuration.setAllowedHeaders(
-                List.of(
-                        "Authorization",
-                        "Content-Type",
-                        "Accept",
-                        "Origin",
-                        "X-Requested-With"
-                )
+                List.of("*")
         );
 
         // ==========================================
         // EXPOSED HEADERS
         // ==========================================
+
         configuration.setExposedHeaders(
                 List.of(
                         "Authorization"
@@ -160,11 +157,13 @@ public class SecurityConfig {
         // ==========================================
         // CREDENTIALS
         // ==========================================
+
         configuration.setAllowCredentials(true);
 
         // ==========================================
-        // REGISTER CORS CONFIGURATION
+        // CORS CONFIGURATION SOURCE
         // ==========================================
+
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
 
