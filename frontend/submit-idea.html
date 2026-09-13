@@ -1,10 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="icon" type="image/png" href="Assest/logo.png">
+
     <title>Submit Idea - Student Innovation Portal</title>
 
     <style>
@@ -97,6 +98,7 @@
             font-size: 15px;
             outline: none;
             transition: border 0.2s;
+            background: white;
         }
 
         input:focus,
@@ -167,6 +169,7 @@
         }
 
         @media (max-width: 600px) {
+
             header {
                 padding: 15px;
             }
@@ -189,6 +192,7 @@
 <body>
 
 <header>
+
     <div class="logo">
         Student Innovation Portal
     </div>
@@ -199,24 +203,42 @@
         id="logoutBtn">
         Logout
     </button>
+
 </header>
+
 
 <main>
 
     <div class="page-title">
-        <h1>Submit Your Idea</h1>
+
+        <h1>
+            Submit Your Idea
+        </h1>
+
         <p>
             Share your innovative idea with the college innovation team.
         </p>
+
     </div>
 
-    <div id="message" class="message"></div>
+
+    <div
+        id="message"
+        class="message">
+    </div>
+
 
     <div class="card">
 
         <form id="ideaForm">
 
+
+            <!-- ============================= -->
+            <!-- IDEA TITLE -->
+            <!-- ============================= -->
+
             <div class="form-group">
+
                 <label for="title">
                     Idea Title
                 </label>
@@ -229,10 +251,16 @@
                     placeholder="Enter your idea title"
                     required
                 >
+
             </div>
 
 
+            <!-- ============================= -->
+            <!-- DESCRIPTION -->
+            <!-- ============================= -->
+
             <div class="form-group">
+
                 <label for="description">
                     Idea Description
                 </label>
@@ -246,12 +274,22 @@
                 ></textarea>
 
                 <div class="counter">
-                    <span id="descriptionCount">0</span>/10000
+
+                    <span id="descriptionCount">
+                        0
+                    </span>/10000
+
                 </div>
+
             </div>
 
 
+            <!-- ============================= -->
+            <!-- CATEGORY -->
+            <!-- ============================= -->
+
             <div class="form-group">
+
                 <label for="category">
                     Category
                 </label>
@@ -261,6 +299,7 @@
                     name="category"
                     required
                 >
+
                     <option value="">
                         Select a category
                     </option>
@@ -296,23 +335,103 @@
                     <option value="Other">
                         Other
                     </option>
+
                 </select>
+
             </div>
 
+
+            <!-- ============================= -->
+            <!-- DEPARTMENT -->
+            <!-- ============================= -->
+
+            <div class="form-group">
+
+                <label for="department">
+                    Department
+                </label>
+
+                <select
+                    id="department"
+                    name="department"
+                    required
+                >
+
+                    <option value="">
+                        Select your department
+                    </option>
+
+                    <option value="CSE">
+                        Computer Science and Engineering
+                    </option>
+
+                    <option value="IT">
+                        Information Technology
+                    </option>
+
+                    <option value="ECE">
+                        Electronics and Communication Engineering
+                    </option>
+
+                    <option value="EEE">
+                        Electrical and Electronics Engineering
+                    </option>
+
+                    <option value="MECH">
+                        Mechanical Engineering
+                    </option>
+
+                    <option value="CIVIL">
+                        Civil Engineering
+                    </option>
+
+                    <option value="AIDS">
+                        Artificial Intelligence and Data Science
+                    </option>
+
+                    <option value="AIML">
+                        Artificial Intelligence and Machine Learning
+                    </option>
+
+                    <option value="MBA">
+                        Master of Business Administration
+                    </option>
+
+                    <option value="MCA">
+                        Master of Computer Applications
+                    </option>
+
+                    <option value="OTHER">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ============================= -->
+            <!-- SUBMIT -->
+            <!-- ============================= -->
 
             <button
                 type="submit"
                 class="submit-btn"
                 id="submitBtn">
+
                 Submit Idea
+
             </button>
 
         </form>
 
+
         <a
             href="student-dashboard.html"
             class="back-btn">
+
             ← Back to Student Dashboard
+
         </a>
 
     </div>
@@ -327,7 +446,7 @@
     // =====================================================
 
     const API_BASE_URL =
-        "http://localhost:8080/api";
+        "https://idea-nd9r.onrender.com/api";
 
 
     // =====================================================
@@ -345,6 +464,9 @@
 
     const categoryInput =
         document.getElementById("category");
+
+    const departmentInput =
+        document.getElementById("department");
 
     const submitBtn =
         document.getElementById("submitBtn");
@@ -383,6 +505,7 @@
 
             descriptionCount.textContent =
                 descriptionInput.value.length;
+
         }
     );
 
@@ -406,7 +529,8 @@
 
     function clearMessage() {
 
-        messageBox.textContent = "";
+        messageBox.textContent =
+            "";
 
         messageBox.className =
             "message";
@@ -446,6 +570,10 @@
             clearMessage();
 
 
+            // =============================================
+            // GET FORM VALUES
+            // =============================================
+
             const title =
                 titleInput.value.trim();
 
@@ -456,12 +584,12 @@
                 categoryInput.value.trim();
 
             const department =
-                document.getElementById("department").value.trim();
+                departmentInput.value.trim();
 
 
-            // ---------------------------------------------
-            // FRONTEND VALIDATION
-            // ---------------------------------------------
+            // =============================================
+            // VALIDATION
+            // =============================================
 
             if (!title) {
 
@@ -523,18 +651,26 @@
                 return;
             }
 
+
             if (!department) {
-                showMessage("Please select your department.", "error");
-                document.getElementById("department").focus();
+
+                showMessage(
+                    "Please select your department.",
+                    "error"
+                );
+
+                departmentInput.focus();
+
                 return;
             }
 
 
-            // ---------------------------------------------
+            // =============================================
             // DISABLE BUTTON
-            // ---------------------------------------------
+            // =============================================
 
-            submitBtn.disabled = true;
+            submitBtn.disabled =
+                true;
 
             submitBtn.textContent =
                 "Submitting...";
@@ -542,9 +678,9 @@
 
             try {
 
-                // -----------------------------------------
-                // JWT TOKEN
-                // -----------------------------------------
+                // =========================================
+                // GET TOKEN
+                // =========================================
 
                 const currentToken =
                     localStorage.getItem("token");
@@ -559,9 +695,9 @@
                 }
 
 
-                // -----------------------------------------
+                // =========================================
                 // API REQUEST
-                // -----------------------------------------
+                // =========================================
 
                 const response =
                     await fetch(
@@ -579,6 +715,7 @@
 
                             body:
                                 JSON.stringify({
+
                                     title:
                                         title,
 
@@ -590,14 +727,15 @@
 
                                     department:
                                         department
+
                                 })
                         }
                     );
 
 
-                // -----------------------------------------
+                // =========================================
                 // RESPONSE
-                // -----------------------------------------
+                // =========================================
 
                 let data = null;
 
@@ -611,12 +749,13 @@
                     console.warn(
                         "Response is not JSON"
                     );
+
                 }
 
 
-                // -----------------------------------------
-                // UNAUTHORIZED
-                // -----------------------------------------
+                // =========================================
+                // 401
+                // =========================================
 
                 if (
                     response.status === 401
@@ -644,9 +783,11 @@
                     );
 
                     setTimeout(
-                        () => {
+                        function () {
+
                             window.location.href =
                                 "login.html";
+
                         },
                         1500
                     );
@@ -655,9 +796,9 @@
                 }
 
 
-                // -----------------------------------------
-                // FORBIDDEN
-                // -----------------------------------------
+                // =========================================
+                // 403
+                // =========================================
 
                 if (
                     response.status === 403
@@ -672,9 +813,9 @@
                 }
 
 
-                // -----------------------------------------
+                // =========================================
                 // OTHER ERROR
-                // -----------------------------------------
+                // =========================================
 
                 if (!response.ok) {
 
@@ -686,9 +827,9 @@
                 }
 
 
-                // -----------------------------------------
+                // =========================================
                 // SUCCESS
-                // -----------------------------------------
+                // =========================================
 
                 showMessage(
                     "Your idea was submitted successfully!",
@@ -704,12 +845,12 @@
                     "0";
 
 
-                // -----------------------------------------
-                // Redirect after successful submission
-                // -----------------------------------------
+                // =========================================
+                // REDIRECT
+                // =========================================
 
                 setTimeout(
-                    () => {
+                    function () {
 
                         window.location.href =
                             "student-dashboard.html";
@@ -727,10 +868,9 @@
                     error
                 );
 
-
                 showMessage(
                     error.message ||
-                    "Unable to submit your idea. Please check whether the backend is running.",
+                    "Unable to submit your idea. Please try again.",
                     "error"
                 );
 
