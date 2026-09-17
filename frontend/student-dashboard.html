@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta
+        content="width=device-width, initial-scale=1.0"
+        name="viewport"
+    >
+
+    <title>Student Innovation Portal - Dashboard</title>
+    <link rel="icon" type="image/png" href="Assest/logo.png">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="styles.css"
+    >
+
+    <script id="tailwind-config">
+
+        tailwind.config = {
+
+            darkMode: "class",
+
+            theme: {
+
+                extend: {
+
+                    colors: {
+
+                        "on-primary-fixed-variant": "#2e476f",
+                        "background": "#f6f9ff",
+                        "tertiary-container": "#003f29",
+                        "on-tertiary-fixed-variant": "#0e5138",
+                        "primary": "#002046",
+                        "surface-bright": "#f6f9ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#4f657b",
+                        "on-tertiary-fixed": "#002114",
+                        "outline": "#74777f",
+                        "secondary-container": "#cbe2fc",
+                        "inverse-primary": "#aec7f7",
+                        "tertiary": "#002718",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#aec7f7",
+                        "surface-tint": "#465f88",
+                        "on-primary-container": "#87a0cd",
+                        "surface-container": "#e8eef6",
+                        "surface-container-high": "#e3e9f1",
+                        "inverse-surface": "#2b3137",
+                        "primary-fixed": "#d6e3ff",
+                        "on-tertiary-container": "#6fac8d",
+                        "surface": "#f6f9ff",
+                        "secondary-fixed-dim": "#b2c9e2",
+                        "error-container": "#ffdad6",
+                        "on-background": "#161c22",
+                        "on-primary-fixed": "#001b3d",
+                        "surface-variant": "#dde3eb",
+                        "error": "#ba1a1a",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#33495e",
+                        "on-secondary-fixed": "#041d30",
+                        "outline-variant": "#c4c6cf",
+                        "secondary": "#4a6077",
+                        "inverse-on-surface": "#ebf1f9",
+                        "secondary-fixed": "#cee5ff",
+                        "surface-dim": "#d4dbe2",
+                        "on-surface": "#161c22",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#44474e",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#b1f0ce",
+                        "primary-container": "#1b365d",
+                        "tertiary-fixed-dim": "#95d4b3"
+                    },
+
+                    borderRadius: {
+
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+
+                    spacing: {
+
+                        "base": "8px",
+                        "container-margin-desktop": "40px",
+                        "lg": "24px",
+                        "xl": "32px",
+                        "xs": "4px",
+                        "gutter": "16px",
+                        "container-margin-mobile": "16px",
+                        "sm": "12px",
+                        "md": "16px"
+                    },
+
+                    fontFamily: {
+
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+
+                    fontSize: {
+
+                        "body-lg": [
+                            "18px",
+                            {
+                                lineHeight: "28px",
+                                fontWeight: "400"
+                            }
+                        ],
+
+                        "body-sm": [
+                            "14px",
+                            {
+                                lineHeight: "20px",
+                                fontWeight: "400"
+                            }
+                        ],
+
+                        "headline-lg": [
+                            "32px",
+                            {
+                                lineHeight: "40px",
+                                letterSpacing: "-0.02em",
+                                fontWeight: "700"
+                            }
+                        ],
+
+                        "headline-lg-mobile": [
+                            "24px",
+                            {
+                                lineHeight: "32px",
+                                letterSpacing: "-0.01em",
+                                fontWeight: "700"
+                            }
+                        ],
+
+                        "body-md": [
+                            "16px",
+                            {
+                                lineHeight: "24px",
+                                fontWeight: "400"
+                            }
+                        ],
+
+                        "headline-md": [
+                            "24px",
+                            {
+                                lineHeight: "32px",
+                                fontWeight: "600"
+                            }
+                        ],
+
+                        "headline-sm": [
+                            "20px",
+                            {
+                                lineHeight: "28px",
+                                fontWeight: "600"
+                            }
+                        ],
+
+                        "label-md": [
+                            "14px",
+                            {
+                                lineHeight: "16px",
+                                letterSpacing: "0.05em",
+                                fontWeight: "600"
+                            }
+                        ],
+
+                        "label-sm": [
+                            "12px",
+                            {
+                                lineHeight: "16px",
+                                fontWeight: "500"
+                            }
+                        ]
+                    }
+                }
+            }
+        };
+
+    </script>
+
+</head>
+
+
+<body
+    class="font-body-md text-on-surface bg-background min-h-screen flex flex-col pb-16 md:pb-0"
+>
+
+
+<!-- ========================================================= -->
+<!-- TOP BAR -->
+<!-- ========================================================= -->
+
+<header
+    class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-margin-mobile md:px-container-margin-desktop h-16 bg-surface border-b border-outline-variant"
+>
+
+    <div class="flex items-center gap-md">
+
+        <button
+            id="mobileMenuBtn"
+            aria-label="Toggle Navigation Menu"
+            class="md:hidden p-2 rounded-full hover:bg-surface-container transition-colors"
+        >
+
+            <span class="material-symbols-outlined">
+                menu
+            </span>
+
+        </button>
+
+
+        <a
+            href="student-dashboard.html"
+            class="text-headline-sm font-bold text-primary flex items-center gap-2"
+        >
+
+            <span class="material-symbols-outlined">
+                school
+            </span>
+
+            Student Innovation Portal
+
+        </a>
+
+    </div>
+
+
+    <div class="flex items-center gap-3">
+
+        <img
+            id="userAvatar" data-profile-photo
+            class="w-8 h-8 rounded-full object-cover border border-outline-variant"
+            alt="User Profile"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ--a9phPxKgBscjRF5qJjyNcTt6wBDe6Jq61fCobBmNeiqE7_Sogp0mNuMUOa1IJnNG7etmsKt5Pr-sVK0rk-WiztkSlbIevnPPzbpiB1f5-i67-D6DjJoDnOl8AbNyLv0BZiZ4CYdNqa8V0PkJwrElwmjM5hizGT0niO97f2nQRmpfNPZpF6Bn-UH77aOCIOAKkLdWxziKCW7EHEsmRmI8rs6WL5r-UINwRaOEEGfWJm-5cFjMYleA"
+        />
+
+    </div>
+
+</header>
+
+
+<!-- ========================================================= -->
+<!-- DESKTOP NAVIGATION -->
+<!-- ========================================================= -->
+
+<nav
+    id="desktopNav"
+    class="hidden md:flex fixed inset-y-0 left-0 z-40 flex-col pt-20 h-full w-72 bg-surface border-r border-outline-variant"
+>
+
+    <div class="px-4 py-3 mb-4">
+
+        <div class="flex items-center gap-3">
+
+            <img
+                id="navAvatar" data-profile-photo
+                class="w-12 h-12 rounded-full object-cover border border-outline-variant"
+                alt="Student Avatar"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ--a9phPxKgBscjRF5qJjyNcTt6wBDe6Jq61fCobBmNeiqE7_Sogp0mNuMUOa1IJnNG7etmsKt5Pr-sVK0rk-WiztkSlbIevnPPzbpiB1f5-i67-D6DjJoDnOl8AbNyLv0BZiZ4CYdNqa8V0PkJwrElwmjM5hizGT0niO97f2nQRmpfNPZpF6Bn-UH77aOCIOAKkLdWxziKCW7EHEsmRmI8rs6WL5r-UINwRaOEEGfWJm-5cFjMYleA"
+            />
+
+
+            <div>
+
+                <div
+                    id="userName" data-profile-name
+                    class="font-headline-sm font-bold text-primary"
+                >
+                    Student
+                </div>
+
+                <div class="font-body-sm text-on-surface-variant">
+                    Student Account
+                </div>
+
+                <div class="font-label-sm text-outline">
+                    University System
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="flex flex-col gap-2">
+
+        <a
+            class="flex items-center gap-md bg-secondary-container text-on-secondary-container rounded-lg px-4 py-3 mx-2 font-semibold"
+            href="student-dashboard.html"
+        >
+
+            <span class="material-symbols-outlined">
+                home
+            </span>
+
+            <span>
+                Home
+            </span>
+
+        </a>
+
+
+        <a
+            class="flex items-center gap-md text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg"
+            href="submit-idea.html"
+        >
+
+            <span class="material-symbols-outlined">
+                add_circle
+            </span>
+
+            <span>
+                Submit Idea
+            </span>
+
+        </a>
+
+
+        <a
+            class="flex items-center gap-md text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg"
+            href="my-submissions.html"
+        >
+
+            <span class="material-symbols-outlined">
+                lightbulb
+            </span>
+
+            <span>
+                My Ideas
+            </span>
+
+        </a>
+
+
+        <a
+            class="flex items-center gap-md text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg"
+            href="profile.html"
+        >
+
+            <span class="material-symbols-outlined">
+                person
+            </span>
+
+            <span>
+                Profile
+            </span>
+
+        </a>
+
+        <div class="mt-auto mb-4">
+
+            <a
+                id="logoutBtn"
+                class="flex items-center gap-md text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg"
+                href="login.html"
+            >
+
+                <span class="material-symbols-outlined">
+                    logout
+                </span>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- ========================================================= -->
+<!-- MAIN -->
+<!-- ========================================================= -->
+
+<main
+    class="flex-grow pt-24 px-container-margin-mobile md:px-container-margin-desktop md:ml-72 flex flex-col gap-xl max-w-[1280px] mx-auto w-full"
+>
+
+
+<!-- ========================================================= -->
+<!-- HERO -->
+<!-- ========================================================= -->
+
+<section
+    class="bg-surface rounded-xl border border-outline-variant p-lg shadow-sm"
+>
+
+    <h1
+        class="font-headline-lg-mobile md:font-headline-lg text-primary mb-md"
+    >
+        Share Your Innovation
+    </h1>
+
+
+    <p
+        class="font-body-md text-on-surface-variant mb-lg max-w-2xl"
+    >
+        Have an idea that can solve a real-world problem?
+        Submit your product idea, problem statement, and proposed
+        solution for faculty review.
+    </p>
+
+
+    <a
+        href="submit-idea.html"
+        class="inline-flex bg-primary-container text-on-primary h-[48px] md:h-[40px] px-lg rounded items-center justify-center font-label-md shadow"
+    >
+
+        <span class="material-symbols-outlined mr-2">
+            add
+        </span>
+
+        Submit New Idea
+
+    </a>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- STATUS OVERVIEW -->
+<!-- ========================================================= -->
+
+<section>
+
+    <h2
+        class="font-headline-sm text-primary mb-md"
+    >
+        Status Overview
+    </h2>
+
+
+    <div
+        class="grid grid-cols-1 md:grid-cols-3 gap-md"
+    >
+
+
+        <!-- TOTAL -->
+
+        <div
+            class="bg-surface rounded-xl border border-outline-variant p-lg shadow-sm"
+        >
+
+            <div class="flex items-center gap-2 mb-sm text-secondary">
+
+                <span class="material-symbols-outlined">
+                    lightbulb
+                </span>
+
+                <span class="font-label-md">
+                    Ideas Submitted
+                </span>
+
+            </div>
+
+
+            <div
+                id="statTotalSubmitted"
+                class="font-headline-lg text-primary"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <!-- UNDER REVIEW -->
+
+        <div
+            class="bg-surface rounded-xl border border-outline-variant p-lg shadow-sm"
+        >
+
+            <div class="flex items-center gap-2 mb-sm text-[#92400E]">
+
+                <span class="material-symbols-outlined">
+                    pending_actions
+                </span>
+
+                <span class="font-label-md">
+                    Under Review
+                </span>
+
+            </div>
+
+
+            <div
+                id="statUnderReview"
+                class="font-headline-lg text-[#92400E]"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <!-- APPROVED -->
+
+        <div
+            class="bg-surface rounded-xl border border-outline-variant p-lg shadow-sm"
+        >
+
+            <div class="flex items-center gap-2 mb-sm text-[#2D6A4F]">
+
+                <span class="material-symbols-outlined">
+                    check_circle
+                </span>
+
+                <span class="font-label-md">
+                    Approved
+                </span>
+
+            </div>
+
+
+            <div
+                id="statApproved"
+                class="font-headline-lg text-[#2D6A4F]"
+            >
+                0
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- ========================================================= -->
+<!-- RECENT SUBMISSIONS -->
+<!-- ========================================================= -->
+
+<section
+    class="bg-surface rounded-xl border border-outline-variant p-lg shadow-sm"
+>
+
+    <div
+        class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-md"
+    >
+
+        <div>
+
+            <h2
+                class="font-headline-sm text-primary"
+            >
+                My Recent Submissions
+            </h2>
+
+            <p
+                class="text-sm text-on-surface-variant mt-1"
+            >
+                Your latest innovation ideas and their current status.
+            </p>
+
+        </div>
+
+
+        <a
+            href="my-submissions.html"
+            class="text-primary font-label-md hover:underline"
+        >
+            View All Submissions →
+        </a>
+
+    </div>
+
+
+    <!-- Dynamic ideas -->
+
+    <div
+        id="recentIdeasContainer"
+        class="flex flex-col gap-md"
+    >
+
+        <div class="text-center py-8">
+
+            <span class="material-symbols-outlined animate-spin text-4xl">
+                progress_activity
+            </span>
+
+            <p class="mt-3 text-on-surface-variant">
+                Loading your submissions...
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- ========================================================= -->
+<!-- MOBILE NAV -->
+<!-- ========================================================= -->
+
+<nav
+    class="fixed bottom-0 w-full z-50 flex md:hidden justify-around items-center h-16 bg-surface border-t border-outline-variant"
+>
+
+    <a
+        class="flex flex-col items-center justify-center text-primary font-bold flex-1 h-full"
+        href="student-dashboard.html"
+    >
+
+        <span class="material-symbols-outlined">
+            home
+        </span>
+
+        <span class="font-label-sm mt-1">
+            Home
+        </span>
+
+    </a>
+
+
+    <a
+        class="flex flex-col items-center justify-center text-on-surface-variant flex-1 h-full"
+        href="submit-idea.html"
+    >
+
+        <span class="material-symbols-outlined">
+            add_box
+        </span>
+
+        <span class="font-label-sm mt-1">
+            Submit
+        </span>
+
+    </a>
+
+
+    <a
+        class="flex flex-col items-center justify-center text-on-surface-variant flex-1 h-full"
+        href="my-submissions.html"
+    >
+
+        <span class="material-symbols-outlined">
+            lightbulb
+        </span>
+
+        <span class="font-label-sm mt-1">
+            Ideas
+        </span>
+
+    </a>
+
+
+    <a
+        class="flex flex-col items-center justify-center text-on-surface-variant flex-1 h-full"
+        href="profile.html"
+    >
+
+        <span class="material-symbols-outlined">
+            account_circle
+        </span>
+
+        <span class="font-label-sm mt-1">
+            Profile
+        </span>
+
+    </a>
+
+</nav>
+
+
+<!-- ========================================================= -->
+<!-- APP JS -->
+<!-- ========================================================= -->
+
+<script src="app.js"></script>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
+
+
+        // =========================================
+        // LOGIN CHECK
+        // =========================================
+
+        if (
+            typeof window.requireLogin === "function"
+        ) {
+
+            if (!window.requireLogin()) {
+                return;
+            }
+
+        }
+
+
+        // =========================================
+        // CURRENT USER
+        // =========================================
+
+        const user =
+            window.portalStore?.getCurrentUser() || {};
+
+
+        const userName =
+            document.getElementById(
+                "userName"
+            );
+
+
+        if (userName) {
+
+            userName.textContent =
+                user.name ||
+                user.email ||
+                "Student";
+
+        }
+
+
+        // =========================================
+        // AVATAR
+        // =========================================
+
+        if (user.avatar) {
+
+            const userAvatar =
+                document.getElementById(
+                    "userAvatar"
+                );
+
+            const navAvatar =
+                document.getElementById(
+                    "navAvatar"
+                );
+
+
+            if (userAvatar) {
+                userAvatar.src =
+                    user.avatar;
+            }
+
+
+            if (navAvatar) {
+                navAvatar.src =
+                    user.avatar;
+            }
+
+        }
+
+
+        // =========================================
+        // LOAD IDEAS
+        // =========================================
+
+        let ideas = [];
+
+
+        try {
+
+            ideas =
+                await window.getMyIdeas();
+
+
+            if (!Array.isArray(ideas)) {
+                ideas = [];
+            }
+
+
+            console.log(
+                "My Ideas:",
+                ideas
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Failed to load ideas:",
+                error
+            );
+
+
+            const container =
+                document.getElementById(
+                    "recentIdeasContainer"
+                );
+
+
+            if (container) {
+
+                container.innerHTML = `
+
+                    <div class="text-center py-8">
+
+                        <span class="material-symbols-outlined text-error text-4xl">
+                            error
+                        </span>
+
+                        <p class="mt-3 text-error font-semibold">
+                            Failed to load submissions
+                        </p>
+
+                        <p class="text-sm text-on-surface-variant mt-2">
+                            ${escapeHTML(error.message)}
+                        </p>
+
+                        <button
+                            onclick="location.reload()"
+                            class="mt-4 bg-primary-container text-on-primary px-4 py-2 rounded"
+                        >
+                            Retry
+                        </button>
+
+                    </div>
+
+                `;
+
+            }
+
+            return;
+        }
+
+
+        // =========================================
+        // TOTAL
+        // =========================================
+
+        const total =
+            document.getElementById(
+                "statTotalSubmitted"
+            );
+
+
+        if (total) {
+
+            total.textContent =
+                ideas.length;
+
+        }
+
+
+        // =========================================
+        // UNDER REVIEW
+        // =========================================
+
+        const underReview =
+            document.getElementById(
+                "statUnderReview"
+            );
+
+
+        if (underReview) {
+
+            underReview.textContent =
+                ideas.filter(
+                    idea =>
+                        idea.status ===
+                        "UNDER_REVIEW"
+                ).length;
+
+        }
+
+
+        // =========================================
+        // APPROVED
+        // =========================================
+
+        const approved =
+            document.getElementById(
+                "statApproved"
+            );
+
+
+        if (approved) {
+
+            approved.textContent =
+                ideas.filter(
+                    idea =>
+                        idea.status ===
+                        "ACCEPTED"
+                ).length;
+
+        }
+
+
+        // =========================================
+        // RECENT CONTAINER
+        // =========================================
+
+        const container =
+            document.getElementById(
+                "recentIdeasContainer"
+            );
+
+
+        if (!container) {
+            return;
+        }
+
+
+        // =========================================
+        // NO IDEAS
+        // =========================================
+
+        if (ideas.length === 0) {
+
+            container.innerHTML = `
+
+                <div
+                    class="text-center py-10"
+                >
+
+                    <span
+                        class="material-symbols-outlined text-5xl text-outline"
+                    >
+                        inbox
+                    </span>
+
+
+                    <h3
+                        class="font-headline-sm text-primary mt-3"
+                    >
+                        No Ideas Submitted
+                    </h3>
+
+
+                    <p
+                        class="text-sm text-on-surface-variant mt-2"
+                    >
+                        You haven't submitted any innovation ideas yet.
+                    </p>
+
+
+                    <a
+                        href="submit-idea.html"
+                        class="inline-flex mt-5 bg-primary-container text-on-primary px-5 py-3 rounded-lg"
+                    >
+
+                        <span class="material-symbols-outlined mr-2">
+                            add
+                        </span>
+
+                        Submit Your First Idea
+
+                    </a>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        // =========================================
+        // SHOW LATEST 3
+        // =========================================
+
+        const latestIdeas =
+            ideas.slice(0, 3);
+
+
+        container.innerHTML =
+            latestIdeas
+                .map(
+                    idea =>
+                        createIdeaCard(idea)
+                )
+                .join("");
+
+
+    }
+);
+
+
+// =====================================================
+// CREATE IDEA CARD
+// =====================================================
+
+function createIdeaCard(idea) {
+
+
+    const status =
+        String(
+            idea.status || "SUBMITTED"
+        ).toUpperCase();
+
+
+    let statusText =
+        "Submitted";
+
+
+    let statusClass =
+        "bg-[#E0E7FF] text-[#3730A3]";
+
+
+    if (
+        status === "UNDER_REVIEW"
+    ) {
+
+        statusText =
+            "Under Review";
+
+        statusClass =
+            "bg-[#FEF3C7] text-[#92400E]";
+
+    }
+
+
+    if (
+        status === "ACCEPTED"
+    ) {
+
+        statusText =
+            "Approved";
+
+        statusClass =
+            "bg-[#D1FAE5] text-[#2D6A4F]";
+
+    }
+
+
+    if (
+        status === "REJECTED"
+    ) {
+
+        statusText =
+            "Rejected";
+
+        statusClass =
+            "bg-[#FEE2E2] text-[#991B1B]";
+
+    }
+
+
+    if (
+        status === "SHORTLISTED"
+    ) {
+
+        statusText =
+            "Shortlisted";
+
+        statusClass =
+            "bg-[#DBEAFE] text-[#1D4ED8]";
+
+    }
+
+
+    // DATE
+
+    let dateText =
+        "Unknown date";
+
+
+    if (idea.createdAt) {
+
+        dateText =
+            new Date(
+                idea.createdAt
+            ).toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+    }
+
+
+    return `
+
+        <article
+            class="border border-outline-variant rounded-xl p-lg bg-surface-container-low hover:border-primary transition-colors"
+        >
+
+            <!-- HEADER -->
+
+            <div
+                class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3"
+            >
+
+                <div class="flex-1">
+
+                    <h3
+                        class="font-headline-sm text-primary"
+                    >
+                        ${escapeHTML(
+                            idea.title ||
+                            "Untitled Idea"
+                        )}
+                    </h3>
+
+
+                    <div
+                        class="flex flex-wrap gap-2 mt-2"
+                    >
+
+                        <span
+                            class="text-xs px-2 py-1 rounded-full bg-secondary-container text-on-secondary-container"
+                        >
+                            ${escapeHTML(
+                                idea.category ||
+                                "General"
+                            )}
+                        </span>
+
+
+                        <span
+                            class="text-xs px-2 py-1 rounded-full ${statusClass} font-semibold"
+                        >
+                            ${statusText}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="text-sm text-on-surface-variant whitespace-nowrap"
+                >
+                    ${dateText}
+                </div>
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="mt-4">
+
+                <p
+                    class="text-sm font-semibold text-primary mb-1"
+                >
+                    Description
+                </p>
+
+
+                <p
+                    class="text-sm text-on-surface-variant line-clamp-3"
+                >
+                    ${escapeHTML(
+                        idea.description ||
+                        idea.problemStatement ||
+                        "No description available."
+                    )}
+                </p>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div
+                class="mt-5 pt-4 border-t border-outline-variant flex flex-wrap gap-2"
+            >
+
+                <!-- VIEW -->
+
+                <a
+                    href="idea-details.html?id=${encodeURIComponent(idea.id)}"
+                    class="inline-flex items-center justify-center gap-1 px-4 py-2 rounded-lg bg-primary-container text-on-primary text-sm font-semibold"
+                >
+
+                    <span class="material-symbols-outlined text-[18px]">
+                        visibility
+                    </span>
+
+                    View Details
+
+                </a>
+
+
+                <!-- EDIT -->
+
+                <a
+                    href="edit-idea.html?id=${encodeURIComponent(idea.id)}"
+                    class="inline-flex items-center justify-center gap-1 px-4 py-2 rounded-lg border border-primary text-primary text-sm font-semibold hover:bg-secondary-container"
+                >
+
+                    <span class="material-symbols-outlined text-[18px]">
+                        edit
+                    </span>
+
+                    Edit
+
+                </a>
+
+
+                <!-- DELETE -->
+
+                <button
+                    type="button"
+                    onclick="deleteStudentIdea('${escapeJS(idea.id)}')"
+                    class="inline-flex items-center justify-center gap-1 px-4 py-2 rounded-lg border border-[#DC2626] text-[#DC2626] text-sm font-semibold hover:bg-[#FEE2E2]"
+                >
+
+                    <span class="material-symbols-outlined text-[18px]">
+                        delete
+                    </span>
+
+                    Delete
+
+                </button>
+
+            </div>
+
+        </article>
+
+    `;
+}
+
+
+// =====================================================
+// DELETE IDEA
+// =====================================================
+
+async function deleteStudentIdea(ideaId) {
+
+
+    if (
+        !ideaId
+    ) {
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this idea?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    try {
+
+
+        // Check function
+
+        if (
+            typeof window.deleteIdea !==
+            "function"
+        ) {
+
+            throw new Error(
+                "deleteIdea() is not available in app.js"
+            );
+
+        }
+
+
+        await window.deleteIdea(
+            ideaId
+        );
+
+
+        if (
+            typeof window.showToast ===
+            "function"
+        ) {
+
+            window.showToast(
+                "Idea deleted successfully",
+                "success"
+            );
+
+        }
+
+
+        setTimeout(
+            () => {
+
+                location.reload();
+
+            },
+            700
+        );
+
+
+    } catch (error) {
+
+
+        console.error(
+            "Delete failed:",
+            error
+        );
+
+
+        if (
+            typeof window.showToast ===
+            "function"
+        ) {
+
+            window.showToast(
+                error.message ||
+                "Failed to delete idea",
+                "error"
+            );
+
+        } else {
+
+            alert(
+                error.message ||
+                "Failed to delete idea"
+            );
+
+        }
+
+    }
+
+}
+
+
+// =====================================================
+// ESCAPE HTML
+// =====================================================
+
+function escapeHTML(value) {
+
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+// =====================================================
+// ESCAPE JAVASCRIPT
+// =====================================================
+
+function escapeJS(value) {
+
+
+    return String(
+        value || ""
+    )
+
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+
+        .replace(
+            /'/g,
+            "\\'"
+        )
+
+        .replace(
+            /"/g,
+            '\\"'
+        )
+
+        .replace(
+            /\n/g,
+            "\\n"
+        )
+
+        .replace(
+            /\r/g,
+            "\\r"
+        );
+
+}
+
+
+// =====================================================
+// MOBILE MENU
+// =====================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+
+        const mobileBtn =
+            document.getElementById(
+                "mobileMenuBtn"
+            );
+
+
+        const desktopNav =
+            document.getElementById(
+                "desktopNav"
+            );
+
+
+        if (
+            mobileBtn &&
+            desktopNav
+        ) {
+
+            mobileBtn.addEventListener(
+                "click",
+                () => {
+
+                    desktopNav.classList.toggle(
+                        "hidden"
+                    );
+
+                    desktopNav.classList.toggle(
+                        "flex"
+                    );
+
+                }
+            );
+
+        }
+
+
+        // =====================================
+        // LOGOUT
+        // =====================================
+
+        const logoutBtn =
+            document.getElementById(
+                "logoutBtn"
+            );
+
+
+        if (logoutBtn) {
+
+            logoutBtn.addEventListener(
+                "click",
+                (event) => {
+
+                    event.preventDefault();
+
+
+                    if (
+                        typeof window.logoutUser ===
+                        "function"
+                    ) {
+
+                        window.logoutUser();
+
+                    } else {
+
+                        window.location.href =
+                            "login.html";
+
+                    }
+
+                }
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

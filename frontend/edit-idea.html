@@ -1,0 +1,1366 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Edit Idea | Student Innovation Portal</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="icon" type="image/png" href="Assest/logo.png">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        :root {
+
+            --bg: #f8faff;
+            --surface: #ffffff;
+            --text: #0b2b50;
+            --muted: #64748b;
+            --border: #cbd5e1;
+            --primary: #082d56;
+        }
+
+
+        html.dark {
+
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --border: #475569;
+            --primary: #93c5fd;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            background:
+                var(--bg);
+
+            color:
+                var(--text);
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+
+        .portal-card {
+
+            background:
+                var(--surface);
+
+            border:
+                1px solid var(--border);
+
+            border-radius:
+                14px;
+        }
+
+
+        .muted {
+
+            color:
+                var(--muted);
+        }
+
+
+        .material-symbols-outlined {
+
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 500,
+                'GRAD' 0,
+                'opsz' 24;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header
+    class="h-[76px] border-b flex items-center justify-between px-6"
+    style="background:var(--surface);border-color:var(--border)"
+>
+
+    <div class="flex items-center gap-3">
+
+        <span
+            class="material-symbols-outlined text-3xl"
+            style="color:var(--primary)"
+        >
+            school
+        </span>
+
+
+        <div>
+
+            <h1
+                class="text-xl md:text-2xl font-bold"
+                style="color:var(--text)"
+            >
+                Student Innovation Portal
+            </h1>
+
+
+            <p class="text-xs muted">
+                Edit Your Idea
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <button
+        id="logoutBtn"
+        type="button"
+        class="flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-700"
+        style="border-color:var(--border)"
+    >
+
+        <span class="material-symbols-outlined text-[19px]">
+            logout
+        </span>
+
+        <span class="hidden sm:inline">
+            Logout
+        </span>
+
+    </button>
+
+</header>
+
+
+
+<main
+    class="max-w-4xl mx-auto px-4 md:px-8 py-8"
+>
+
+
+    <!-- Back -->
+
+    <button
+        id="backBtn"
+        type="button"
+        class="flex items-center gap-1 muted text-sm mb-5 hover:underline"
+    >
+
+        <span class="material-symbols-outlined text-[18px]">
+            arrow_back
+        </span>
+
+        Back to Idea Details
+
+    </button>
+
+
+
+    <!-- Loading -->
+
+    <div
+        id="loadingState"
+        class="portal-card p-10 text-center"
+    >
+
+        <span
+            class="material-symbols-outlined text-4xl animate-spin"
+        >
+            progress_activity
+        </span>
+
+        <p class="mt-3 font-semibold">
+            Loading idea...
+        </p>
+
+    </div>
+
+
+
+    <!-- Error -->
+
+    <div
+        id="errorState"
+        class="hidden portal-card p-8 text-center"
+    >
+
+        <span
+            class="material-symbols-outlined text-5xl text-red-500"
+        >
+            error
+        </span>
+
+
+        <h2 class="text-xl font-bold mt-3">
+            Unable to load idea
+        </h2>
+
+
+        <p
+            id="errorMessage"
+            class="muted mt-2"
+        ></p>
+
+
+        <button
+            id="errorBackBtn"
+            type="button"
+            class="mt-6 px-5 py-2.5 rounded-lg bg-[#082d56] text-white font-semibold"
+        >
+            Back
+        </button>
+
+    </div>
+
+
+
+    <!-- Form -->
+
+    <section
+        id="formSection"
+        class="hidden"
+    >
+
+        <div class="mb-7">
+
+            <h2 class="text-3xl font-bold">
+                Edit Idea
+            </h2>
+
+
+            <p class="muted mt-2">
+                Update your innovation idea and save the changes.
+            </p>
+
+        </div>
+
+
+
+        <form
+            id="editIdeaForm"
+            class="portal-card p-6 md:p-8"
+        >
+
+
+            <!-- Idea ID -->
+
+            <div
+                class="mb-6 rounded-lg border p-4"
+                style="border-color:var(--border)"
+            >
+
+                <p class="text-xs muted">
+                    Idea ID
+                </p>
+
+
+                <p
+                    id="ideaId"
+                    class="font-bold mt-1"
+                >
+                    —
+                </p>
+
+            </div>
+
+
+
+            <!-- Title -->
+
+            <div class="mb-6">
+
+                <label
+                    for="title"
+                    class="block text-sm font-bold mb-2"
+                >
+                    Idea Title
+                    <span class="text-red-500">*</span>
+                </label>
+
+
+                <input
+                    id="title"
+                    name="title"
+                    type="text"
+                    maxlength="200"
+                    required
+                    placeholder="Enter your innovation idea title"
+                    class="w-full rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 bg-transparent"
+                    style="border-color:var(--border);color:var(--text)"
+                >
+
+
+                <div class="flex justify-between mt-1">
+
+                    <p class="text-xs muted">
+                        Give your idea a clear and meaningful title.
+                    </p>
+
+
+                    <span
+                        id="titleCount"
+                        class="text-xs muted"
+                    >
+                        0/200
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+                        <div class="mb-6">
+                <label for="problemStatement" class="block text-sm font-bold mb-2">Problem Statement <span class="text-red-500">*</span></label>
+                <textarea id="problemStatement" name="problemStatement" maxlength="10000" required
+                    class="w-full rounded-lg border px-4 py-3 outline-none"
+                    placeholder="Clearly describe the problem your idea aims to solve..."></textarea>
+            </div>
+
+            <div class="mb-6">
+                <label for="solution" class="block text-sm font-bold mb-2">Proposed Solution <span class="text-red-500">*</span></label>
+                <textarea id="solution" name="solution" maxlength="10000" required
+                    class="w-full rounded-lg border px-4 py-3 outline-none"
+                    placeholder="Explain your proposed solution..."></textarea>
+            </div>
+
+            <div class="mb-6">
+                <label for="attachment" class="block text-sm font-bold mb-2">Supporting File</label>
+                <input id="attachment" type="file" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,.webp"
+                    class="w-full rounded-lg border px-4 py-3">
+                <p id="attachmentInfo" class="text-xs muted mt-2">Optional · maximum 6 MB</p>
+            </div>
+
+<!-- Category -->
+
+            <div class="mb-6">
+
+                <label
+                    for="category"
+                    class="block text-sm font-bold mb-2"
+                >
+                    Category
+                    <span class="text-red-500">*</span>
+                </label>
+
+
+                <select
+                    id="category"
+                    name="category"
+                    required
+                    class="w-full rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 bg-transparent"
+                    style="border-color:var(--border);color:var(--text)"
+                >
+
+                    <option value="">
+                        Select category
+                    </option>
+
+                    <option value="Computer Science & AI">
+                        Computer Science & AI
+                    </option>
+
+                    <option value="Sustainability & Mobility">
+                        Sustainability & Mobility
+                    </option>
+
+                    <option value="Campus & Public Health">
+                        Campus & Public Health
+                    </option>
+
+                    <option value="Agriculture">
+                        Agriculture
+                    </option>
+
+                    <option value="Healthcare">
+                        Healthcare
+                    </option>
+
+                    <option value="Education">
+                        Education
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- Department -->
+            <div class="mb-6">
+                <label for="department" class="block text-sm font-bold mb-2">
+                    Department <span class="text-red-500">*</span>
+                </label>
+                <select id="department" name="department" required
+                    class="w-full rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 bg-transparent"
+                    style="border-color:var(--border);color:var(--text)">
+                    <option value="">Select department</option>
+                    <option value="Computer Science & AI">Computer Science & AI</option>
+                    <option value="Sustainability & Mobility">Sustainability & Mobility</option>
+                    <option value="Campus & Public Health">Campus & Public Health</option>
+                    <option value="Agriculture">Agriculture</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Education">Education</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <!-- Description -->
+
+            <div class="mb-7">
+
+                <label
+                    for="description"
+                    class="block text-sm font-bold mb-2"
+                >
+                    Idea Description
+                    <span class="text-red-500">*</span>
+                </label>
+
+
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="9"
+                    maxlength="5000"
+                    required
+                    placeholder="Describe your idea, the problem it solves, and how it can help..."
+                    class="w-full rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500 bg-transparent resize-y"
+                    style="border-color:var(--border);color:var(--text)"
+                ></textarea>
+
+
+                <div class="flex justify-between mt-1">
+
+                    <p class="text-xs muted">
+                        Explain your innovation clearly.
+                    </p>
+
+
+                    <span
+                        id="descriptionCount"
+                        class="text-xs muted"
+                    >
+                        0/5000
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Current Status -->
+
+            <div
+                class="mb-7 rounded-xl border p-4"
+                style="border-color:var(--border)"
+            >
+
+                <div class="flex items-center gap-3">
+
+                    <span
+                        class="material-symbols-outlined"
+                        style="color:var(--primary)"
+                    >
+                        info
+                    </span>
+
+
+                    <div>
+
+                        <p class="text-sm font-bold">
+                            Current Status
+                        </p>
+
+
+                        <p
+                            id="currentStatus"
+                            class="muted text-sm mt-1"
+                        >
+                            —
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Buttons -->
+
+            <div
+                class="flex flex-col-reverse sm:flex-row gap-3 justify-end"
+            >
+
+                <button
+                    id="cancelBtn"
+                    type="button"
+                    class="px-6 py-3 rounded-lg border font-bold"
+                    style="border-color:var(--border)"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    id="saveBtn"
+                    type="submit"
+                    class="px-7 py-3 rounded-lg bg-[#082d56] text-white font-bold flex items-center justify-center gap-2"
+                >
+
+                    <span class="material-symbols-outlined">
+                        save
+                    </span>
+
+                    Save Changes
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+</main>
+
+
+
+<script src="app.js"></script>
+
+
+<script>
+
+"use strict";
+
+
+/* ============================================================
+   PAGE STATE
+   ============================================================ */
+
+let currentIdea = null;
+
+
+/* ============================================================
+   GET ID
+   ============================================================ */
+
+function getIdeaId() {
+
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+    return params.get("id");
+}
+
+
+/* ============================================================
+   DOM READY
+   ============================================================ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function () {
+
+        if (
+            typeof window.requireStudent === "function"
+        ) {
+
+            if (
+                !window.requireStudent()
+            ) {
+
+                return;
+            }
+
+        } else if (
+            typeof window.requireLogin === "function"
+        ) {
+
+            if (
+                !window.requireLogin()
+            ) {
+
+                return;
+            }
+        }
+
+
+        setupEvents();
+
+
+        const ideaId =
+            getIdeaId();
+
+
+        if (!ideaId) {
+
+            showError(
+                "No idea ID was provided."
+            );
+
+            return;
+        }
+
+
+        await loadIdea(
+            ideaId
+        );
+
+    }
+);
+
+
+/* ============================================================
+   EVENTS
+   ============================================================ */
+
+function setupEvents() {
+
+    document
+        .getElementById(
+            "backBtn"
+        )
+        .addEventListener(
+            "click",
+            goBack
+        );
+
+
+    document
+        .getElementById(
+            "errorBackBtn"
+        )
+        .addEventListener(
+            "click",
+            goBack
+        );
+
+
+    document
+        .getElementById(
+            "cancelBtn"
+        )
+        .addEventListener(
+            "click",
+            goBack
+        );
+
+
+    document
+        .getElementById(
+            "logoutBtn"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                if (
+                    typeof window.logoutUser === "function"
+                ) {
+
+                    window.logoutUser();
+
+                } else {
+
+                    window.location.href =
+                        "login.html";
+                }
+            }
+        );
+
+
+    document
+        .getElementById(
+            "editIdeaForm"
+        )
+        .addEventListener(
+            "submit",
+            saveIdea
+        );
+
+
+    document
+        .getElementById(
+            "title"
+        )
+        .addEventListener(
+            "input",
+            updateTitleCount
+        );
+
+
+    document
+        .getElementById(
+            "description"
+        )
+        .addEventListener(
+            "input",
+            updateDescriptionCount
+        );
+}
+
+
+/* ============================================================
+   LOAD IDEA
+   ============================================================ */
+
+async function loadIdea(
+    ideaId
+) {
+
+    showLoading();
+
+
+    try {
+
+        if (
+            typeof window.getIdeaById !== "function"
+        ) {
+
+            throw new Error(
+                "getIdeaById() is not available in app.js"
+            );
+        }
+
+
+        currentIdea =
+            await window.getIdeaById(
+                ideaId
+            );
+
+
+        if (!currentIdea) {
+
+            throw new Error(
+                "Idea not found."
+            );
+        }
+
+
+        fillForm(
+            currentIdea
+        );
+
+
+        showForm();
+
+    } catch (error) {
+
+        console.error(
+            "Failed to load idea:",
+            error
+        );
+
+
+        showError(
+            error.message ||
+            "Could not load idea."
+        );
+    }
+}
+
+
+/* ============================================================
+   FILL FORM
+   ============================================================ */
+
+function fillForm(
+    idea
+) {
+
+    const title =
+        idea.title ||
+        idea.productIdea ||
+        idea.name ||
+        "";
+
+
+    const description =
+        idea.description ||
+        idea.problemStatement ||
+        idea.solution ||
+        "";
+
+
+    const category =
+        idea.category ||
+        idea.domain ||
+        "";
+
+
+    const status =
+        typeof window.normalizeIdeaStatus === "function"
+            ? window.normalizeIdeaStatus(
+                idea.status
+            )
+            : String(
+                idea.status ||
+                "SUBMITTED"
+            ).toUpperCase();
+
+
+    document
+        .getElementById(
+            "ideaId"
+        )
+        .textContent =
+        idea.id ||
+        "—";
+
+
+    document
+        .getElementById(
+            "title"
+        )
+        .value =
+        title;
+
+
+    document
+        .getElementById(
+            "description"
+        )
+        .value =
+        description;
+
+
+    setCategory(
+        category
+    );
+
+    const departmentSelect = document.getElementById("department");
+    const department = idea.department || "";
+    if (departmentSelect && department) {
+        const existing = Array.from(departmentSelect.options)
+            .find(option => option.value.toLowerCase() === department.toLowerCase());
+        if (existing) {
+            existing.selected = true;
+        }
+    }
+
+
+    const statusText =
+        typeof window.getStatusText === "function"
+            ? window.getStatusText(
+                status
+            )
+            : status;
+
+
+    document
+        .getElementById(
+            "currentStatus"
+        )
+        .textContent =
+        statusText;
+
+
+    updateTitleCount();
+    updateDescriptionCount();
+}
+
+
+/* ============================================================
+   CATEGORY
+   ============================================================ */
+
+function setCategory(
+    category
+) {
+
+    const select =
+        document.getElementById(
+            "category"
+        );
+
+
+    const normalized =
+        String(
+            category ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    let found =
+        false;
+
+
+    Array.from(
+        select.options
+    ).forEach(
+        function (option) {
+
+            if (
+                option.value
+                    .trim()
+                    .toLowerCase() ===
+                normalized
+            ) {
+
+                option.selected =
+                    true;
+
+                found =
+                    true;
+            }
+        }
+    );
+
+
+    /*
+     * If backend contains an unknown
+     * category, create an option for it.
+     */
+    if (
+        category &&
+        !found
+    ) {
+
+        const option =
+            document.createElement(
+                "option"
+            );
+
+        option.value =
+            category;
+
+        option.textContent =
+            category;
+
+        option.selected =
+            true;
+
+        select.appendChild(
+            option
+        );
+    }
+}
+
+
+/* ============================================================
+   SAVE IDEA
+   ============================================================ */
+
+async function saveIdea(
+    event
+) {
+
+    event.preventDefault();
+
+
+    const title =
+        document
+            .getElementById(
+                "title"
+            )
+            .value
+            .trim();
+
+
+    const category =
+        document
+            .getElementById(
+                "category"
+            )
+            .value
+            .trim();
+
+
+    const description =
+        document
+            .getElementById(
+                "description"
+            )
+            .value
+            .trim();
+
+    const department =
+        document
+            .getElementById("department")
+            .value
+            .trim();
+
+
+    if (!title) {
+
+        showMessage(
+            "Please enter an idea title.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!category) {
+
+        showMessage(
+            "Please select a category.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!description) {
+
+        showMessage(
+            "Please enter an idea description.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (!department) {
+        showMessage("Please select a department.", "error");
+        return;
+    }
+
+
+    if (!currentIdea?.id) {
+
+        showMessage(
+            "Idea ID is missing.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const saveButton =
+        document.getElementById(
+            "saveBtn"
+        );
+
+
+    saveButton.disabled =
+        true;
+
+
+    saveButton.innerHTML =
+        `
+        <span class="material-symbols-outlined animate-spin">
+            progress_activity
+        </span>
+
+        Saving...
+        `;
+
+
+    try {
+
+        if (
+            typeof window.updateMyIdea !== "function"
+        ) {
+
+            throw new Error(
+                "updateMyIdea() is not available in app.js"
+            );
+        }
+
+
+        await window.updateMyIdea(
+            currentIdea.id,
+            title,
+            description,
+            category,
+            department
+        );
+
+
+        showMessage(
+            "Idea updated successfully.",
+            "success"
+        );
+
+
+        setTimeout(
+            function () {
+
+                window.location.href =
+                    `idea-details.html?id=${
+                        encodeURIComponent(
+                            currentIdea.id
+                        )
+                    }`;
+
+            },
+            800
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Update failed:",
+            error
+        );
+
+
+        showMessage(
+            error.message ||
+            "Could not update idea.",
+            "error"
+        );
+
+
+        saveButton.disabled =
+            false;
+
+
+        saveButton.innerHTML =
+            `
+            <span class="material-symbols-outlined">
+                save
+            </span>
+
+            Save Changes
+            `;
+    }
+}
+
+
+/* ============================================================
+   COUNTERS
+   ============================================================ */
+
+function updateTitleCount() {
+
+    const input =
+        document.getElementById(
+            "title"
+        );
+
+
+    const counter =
+        document.getElementById(
+            "titleCount"
+        );
+
+
+    counter.textContent =
+        `${input.value.length}/200`;
+}
+
+
+function updateDescriptionCount() {
+
+    const input =
+        document.getElementById(
+            "description"
+        );
+
+
+    const counter =
+        document.getElementById(
+            "descriptionCount"
+        );
+
+
+    counter.textContent =
+        `${input.value.length}/5000`;
+}
+
+
+/* ============================================================
+   PAGE STATES
+   ============================================================ */
+
+function showLoading() {
+
+    document
+        .getElementById(
+            "loadingState"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "errorState"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "formSection"
+        )
+        .classList.add(
+            "hidden"
+        );
+}
+
+
+function showForm() {
+
+    document
+        .getElementById(
+            "loadingState"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "errorState"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "formSection"
+        )
+        .classList.remove(
+            "hidden"
+        );
+}
+
+
+function showError(
+    message
+) {
+
+    document
+        .getElementById(
+            "loadingState"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "formSection"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "errorState"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "errorMessage"
+        )
+        .textContent =
+        message;
+}
+
+
+/* ============================================================
+   TOAST / MESSAGE
+   ============================================================ */
+
+function showMessage(
+    message,
+    type
+) {
+
+    if (
+        typeof window.showToast === "function"
+    ) {
+
+        window.showToast(
+            message,
+            type
+        );
+
+        return;
+    }
+
+
+    alert(
+        message
+    );
+}
+
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+
+function goBack() {
+
+    const ideaId =
+        getIdeaId();
+
+
+    if (ideaId) {
+
+        window.location.href =
+            `idea-details.html?id=${
+                encodeURIComponent(
+                    ideaId
+                )
+            }`;
+
+    } else {
+
+        window.location.href =
+            "student-dashboard.html";
+    }
+}
+
+</script>
+
+
+</body>
+</html>

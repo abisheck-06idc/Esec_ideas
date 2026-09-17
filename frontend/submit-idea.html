@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="Assest/logo.png">
+
+    <title>Submit Idea - Student Innovation Portal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 18px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .logout-btn {
+            border: none;
+            background: #ef4444;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        main {
+            width: 100%;
+            max-width: 850px;
+            margin: 45px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #6b7280;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+            padding: 13px 14px;
+            font-size: 15px;
+            outline: none;
+            transition: border 0.2s;
+            background: white;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #2563eb;
+        }
+
+        textarea {
+            min-height: 180px;
+            resize: vertical;
+        }
+
+        .counter {
+            text-align: right;
+            margin-top: 5px;
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            border: none;
+            background: #2563eb;
+            color: white;
+            padding: 14px;
+            border-radius: 9px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            padding: 13px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .message.error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 18px;
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 15px;
+            }
+
+            main {
+                margin: 25px auto;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .page-title h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Student Innovation Portal
+    </div>
+
+    <button
+        type="button"
+        class="logout-btn"
+        id="logoutBtn">
+        Logout
+    </button>
+
+</header>
+
+
+<main>
+
+    <div class="page-title">
+
+        <h1>
+            Submit Your Idea
+        </h1>
+
+        <p>
+            Share your innovative idea with the college innovation team.
+        </p>
+
+    </div>
+
+
+    <div
+        id="message"
+        class="message">
+    </div>
+
+
+    <div class="card">
+
+        <form id="ideaForm">
+
+
+            <!-- ============================= -->
+            <!-- IDEA TITLE -->
+            <!-- ============================= -->
+
+            <div class="form-group">
+
+                <label for="title">
+                    Idea Title
+                </label>
+
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    maxlength="200"
+                    placeholder="Enter your idea title"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ============================= -->
+            <!-- DESCRIPTION -->
+            <!-- ============================= -->
+
+            <div class="form-group">
+
+                <label for="description">
+                    Idea Description
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    maxlength="10000"
+                    placeholder="Explain your idea clearly..."
+                    required
+                ></textarea>
+
+                <div class="counter">
+
+                    <span id="descriptionCount">
+                        0
+                    </span>/10000
+
+                </div>
+
+            </div>
+
+
+            <!-- ============================= -->
+            <!-- PROBLEM STATEMENT -->
+            <!-- ============================= -->
+            <div class="form-group">
+                <label for="problemStatement">Problem Statement</label>
+                <textarea id="problemStatement" name="problemStatement" maxlength="10000"
+                    placeholder="Clearly describe the problem your idea aims to solve..." required></textarea>
+                <div class="counter"><span id="problemCount">0</span>/10000</div>
+            </div>
+
+            <!-- ============================= -->
+            <!-- PROPOSED SOLUTION -->
+            <!-- ============================= -->
+            <div class="form-group">
+                <label for="solution">Proposed Solution</label>
+                <textarea id="solution" name="solution" maxlength="10000"
+                    placeholder="Explain your proposed solution..." required></textarea>
+                <div class="counter"><span id="solutionCount">0</span>/10000</div>
+            </div>
+
+            <!-- ============================= -->
+            <!-- ATTACHMENT -->
+            <!-- ============================= -->
+            <div class="form-group">
+                <label for="attachment">Supporting File</label>
+                <input type="file" id="attachment" name="attachment"
+                    accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,.webp">
+                <small>Optional · PDF, DOC, DOCX, TXT, PNG, JPG or WebP · maximum 6 MB</small>
+                <div id="attachmentName" style="margin-top:6px;"></div>
+            </div>
+
+            <!-- ============================= -->
+            <!-- CATEGORY -->
+            <!-- ============================= -->
+
+            <div class="form-group">
+
+                <label for="category">
+                    Category
+                </label>
+
+                <select
+                    id="category"
+                    name="category"
+                    required
+                >
+
+                    <option value="">
+                        Select a category
+                    </option>
+
+                    <option value="Technology">
+                        Technology
+                    </option>
+
+                    <option value="AI & Machine Learning">
+                        AI & Machine Learning
+                    </option>
+
+                    <option value="Healthcare">
+                        Healthcare
+                    </option>
+
+                    <option value="Education">
+                        Education
+                    </option>
+
+                    <option value="Agriculture">
+                        Agriculture
+                    </option>
+
+                    <option value="Environment">
+                        Environment
+                    </option>
+
+                    <option value="Social Innovation">
+                        Social Innovation
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ============================= -->
+            <!-- DEPARTMENT -->
+            <!-- ============================= -->
+
+            <div class="form-group">
+
+                <label for="department">
+                    Department
+                </label>
+
+                <select
+                    id="department"
+                    name="department"
+                    required
+                >
+
+                    <option value="">
+                        Select your department
+                    </option>
+
+                    <option value="CSE">
+                        Computer Science and Engineering
+                    </option>
+
+                    <option value="IT">
+                        Information Technology
+                    </option>
+
+                    <option value="ECE">
+                        Electronics and Communication Engineering
+                    </option>
+
+                    <option value="EEE">
+                        Electrical and Electronics Engineering
+                    </option>
+
+                    <option value="MECH">
+                        Mechanical Engineering
+                    </option>
+
+                    <option value="CIVIL">
+                        Civil Engineering
+                    </option>
+
+                    <option value="AIDS">
+                        Artificial Intelligence and Data Science
+                    </option>
+
+                    <option value="AIML">
+                        Artificial Intelligence and Machine Learning
+                    </option>
+
+                    <option value="MBA">
+                        Master of Business Administration
+                    </option>
+
+                    <option value="MCA">
+                        Master of Computer Applications
+                    </option>
+
+                    <option value="OTHER">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ============================= -->
+            <!-- SUBMIT -->
+            <!-- ============================= -->
+
+            <button
+                type="submit"
+                class="submit-btn"
+                id="submitBtn">
+
+                Submit Idea
+
+            </button>
+
+        </form>
+
+
+        <a
+            href="student-dashboard.html"
+            class="back-btn">
+
+            ← Back to Student Dashboard
+
+        </a>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    // =====================================================
+    // BACKEND API
+    // =====================================================
+
+    const API_BASE_URL =
+        "https://idea-nd9r.onrender.com/api";
+
+
+    // =====================================================
+    // ELEMENTS
+    // =====================================================
+
+    const ideaForm =
+        document.getElementById("ideaForm");
+
+    const titleInput =
+        document.getElementById("title");
+
+    const descriptionInput =
+        document.getElementById("description");
+
+    const problemInput = document.getElementById("problemStatement");
+    const solutionInput = document.getElementById("solution");
+    const attachmentInput = document.getElementById("attachment");
+
+    const categoryInput =
+        document.getElementById("category");
+
+    const departmentInput =
+        document.getElementById("department");
+
+    const submitBtn =
+        document.getElementById("submitBtn");
+
+    const messageBox =
+        document.getElementById("message");
+
+    const descriptionCount =
+        document.getElementById("descriptionCount");
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+
+    // =====================================================
+    // LOGIN CHECK
+    // =====================================================
+
+    const token =
+        localStorage.getItem("token");
+
+    if (!token) {
+
+        window.location.href =
+            "login.html";
+    }
+
+
+    // =====================================================
+    // DESCRIPTION COUNTER
+    // =====================================================
+
+    descriptionInput.addEventListener(
+        "input",
+        function () {
+
+            descriptionCount.textContent =
+                descriptionInput.value.length;
+
+        }
+    );
+
+
+    [problemInput, solutionInput].forEach((input) => {
+        input.addEventListener("input", function () {
+            document.getElementById(input === problemInput ? "problemCount" : "solutionCount").textContent = input.value.length;
+        });
+    });
+
+    attachmentInput.addEventListener("change", function () {
+        const file = attachmentInput.files[0];
+        if (!file) return;
+        if (file.size > 6 * 1024 * 1024) {
+            showMessage("Attachment must be smaller than 6 MB.", "error");
+            attachmentInput.value = "";
+            document.getElementById("attachmentName").textContent = "";
+            return;
+        }
+        document.getElementById("attachmentName").textContent = "Selected: " + file.name;
+    });
+
+    // =====================================================
+    // MESSAGE
+    // =====================================================
+
+    function showMessage(
+        message,
+        type
+    ) {
+
+        messageBox.textContent =
+            message;
+
+        messageBox.className =
+            `message ${type}`;
+    }
+
+
+    function clearMessage() {
+
+        messageBox.textContent =
+            "";
+
+        messageBox.className =
+            "message";
+    }
+
+
+    // =====================================================
+    // LOGOUT
+    // =====================================================
+
+    logoutBtn.addEventListener(
+        "click",
+        function () {
+
+            localStorage.removeItem("token");
+            localStorage.removeItem("userId");
+            localStorage.removeItem("userEmail");
+            localStorage.removeItem("userRole");
+            localStorage.removeItem("sip_portal_data");
+
+            window.location.href =
+                "login.html";
+        }
+    );
+
+
+    // =====================================================
+    // SUBMIT IDEA
+    // =====================================================
+
+    ideaForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+            clearMessage();
+
+
+            // =============================================
+            // GET FORM VALUES
+            // =============================================
+
+            const title =
+                titleInput.value.trim();
+
+            const description =
+                descriptionInput.value.trim();
+
+            const category =
+                categoryInput.value.trim();
+
+            const department =
+                departmentInput.value.trim();
+
+
+            // =============================================
+            // VALIDATION
+            // =============================================
+
+            if (!title) {
+
+                showMessage(
+                    "Please enter an idea title.",
+                    "error"
+                );
+
+                titleInput.focus();
+
+                return;
+            }
+
+
+            if (title.length > 200) {
+
+                showMessage(
+                    "Idea title cannot exceed 200 characters.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (!description) {
+
+                showMessage(
+                    "Please enter your idea description.",
+                    "error"
+                );
+
+                descriptionInput.focus();
+
+                return;
+            }
+
+
+            if (description.length > 10000) {
+
+                showMessage(
+                    "Description cannot exceed 10000 characters.",
+                    "error"
+                );
+
+                return;
+            }
+
+            const problemStatement = problemInput.value.trim();
+            const solution = solutionInput.value.trim();
+
+            if (!problemStatement || !solution) {
+                showMessage("Please enter both the problem statement and proposed solution.", "error");
+                return;
+            }
+
+            let attachmentName = null, attachmentType = null, attachmentData = null;
+            const attachment = attachmentInput.files[0];
+
+            if (attachment) {
+                if (attachment.size > 6 * 1024 * 1024) {
+                    showMessage("Attachment must be smaller than 6 MB.", "error");
+                    return;
+                }
+                const allowed = [
+                    "application/pdf",
+                    "application/msword",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "text/plain",
+                    "image/png",
+                    "image/jpeg",
+                    "image/webp"
+                ];
+                if (!allowed.includes(attachment.type)) {
+                    showMessage("Unsupported attachment type.", "error");
+                    return;
+                }
+                attachmentName = attachment.name;
+                attachmentType = attachment.type;
+                attachmentData = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(attachment);
+                });
+            }
+
+
+            if (!category) {
+
+                showMessage(
+                    "Please select a category.",
+                    "error"
+                );
+
+                categoryInput.focus();
+
+                return;
+            }
+
+
+            if (!department) {
+
+                showMessage(
+                    "Please select your department.",
+                    "error"
+                );
+
+                departmentInput.focus();
+
+                return;
+            }
+
+
+            // =============================================
+            // DISABLE BUTTON
+            // =============================================
+
+            submitBtn.disabled =
+                true;
+
+            submitBtn.textContent =
+                "Submitting...";
+
+
+            try {
+
+                // =========================================
+                // GET TOKEN
+                // =========================================
+
+                const currentToken =
+                    localStorage.getItem("token");
+
+
+                if (!currentToken) {
+
+                    window.location.href =
+                        "login.html";
+
+                    return;
+                }
+
+
+                // =========================================
+                // API REQUEST
+                // =========================================
+
+                const response =
+                    await fetch(
+                        `${API_BASE_URL}/ideas`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    `Bearer ${currentToken}`
+                            },
+
+                            body:
+                                JSON.stringify({
+
+                                    title:
+                                        title,
+
+                                    description:
+                                        description,
+
+                                    problemStatement:
+                                        problemStatement,
+
+                                    solution:
+                                        solution,
+
+                                    attachmentName:
+                                        attachmentName,
+
+                                    attachmentType:
+                                        attachmentType,
+
+                                    attachmentData:
+                                        attachmentData,
+
+                                    category:
+                                        category,
+
+                                    department:
+                                        department
+
+                                })
+                        }
+                    );
+
+
+                // =========================================
+                // RESPONSE
+                // =========================================
+
+                let data = null;
+
+                try {
+
+                    data =
+                        await response.json();
+
+                } catch (error) {
+
+                    console.warn(
+                        "Response is not JSON"
+                    );
+
+                }
+
+
+                // =========================================
+                // 401
+                // =========================================
+
+                if (
+                    response.status === 401
+                ) {
+
+                    localStorage.removeItem(
+                        "token"
+                    );
+
+                    localStorage.removeItem(
+                        "userId"
+                    );
+
+                    localStorage.removeItem(
+                        "userEmail"
+                    );
+
+                    localStorage.removeItem(
+                        "userRole"
+                    );
+
+                    showMessage(
+                        "Your session has expired. Please login again.",
+                        "error"
+                    );
+
+                    setTimeout(
+                        function () {
+
+                            window.location.href =
+                                "login.html";
+
+                        },
+                        1500
+                    );
+
+                    return;
+                }
+
+
+                // =========================================
+                // 403
+                // =========================================
+
+                if (
+                    response.status === 403
+                ) {
+
+                    showMessage(
+                        "You do not have permission to submit an idea. Please login as a student.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                // =========================================
+                // OTHER ERROR
+                // =========================================
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data?.message ||
+                        data?.error ||
+                        `Request failed (${response.status})`
+                    );
+                }
+
+
+                // =========================================
+                // SUCCESS
+                // =========================================
+
+                showMessage(
+                    "Your idea was submitted successfully!",
+                    "success"
+                );
+
+
+                // Reset form
+
+                ideaForm.reset();
+
+                descriptionCount.textContent = "0";
+                document.getElementById("problemCount").textContent = "0";
+                document.getElementById("solutionCount").textContent = "0";
+                document.getElementById("attachmentName").textContent = "";
+
+
+                // =========================================
+                // REDIRECT
+                // =========================================
+
+                setTimeout(
+                    function () {
+
+                        window.location.href =
+                            "student-dashboard.html";
+
+                    },
+                    1500
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Submit Idea Error:",
+                    error
+                );
+
+                showMessage(
+                    error.message ||
+                    "Unable to submit your idea. Please try again.",
+                    "error"
+                );
+
+            }
+
+            finally {
+
+                submitBtn.disabled =
+                    false;
+
+                submitBtn.textContent =
+                    "Submit Idea";
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Settings - ESEC Idea Portal</title>
+  <link rel="icon" type="image/png" href="Assest/logo.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: "class" };</script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+  <header class="bg-white dark:bg-slate-900 border-b px-6 py-4 flex items-center justify-between">
+    <a id="backLink" href="student-dashboard.html" class="font-bold text-blue-700">ESEC Idea Portal</a>
+    <div class="flex items-center gap-4">
+      <button id="themeToggle" type="button" class="px-4 py-2 rounded-lg border font-semibold">
+        <span id="themeIcon">🌙</span> <span id="themeText">Dark Mode</span>
+      </button>
+      <button id="logoutBtn" class="text-red-600 font-semibold">Logout</button>
+    </div>
+  </header>
+
+  <main class="max-w-2xl mx-auto p-6">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl border shadow-sm p-6">
+      <h1 class="text-2xl font-bold mb-2">Portal Settings</h1>
+      <p class="text-slate-600 mb-6">Manage your portal appearance and account shortcuts.</p>
+
+      <div class="rounded-xl border p-4 mb-4">
+        <h2 class="font-bold">Appearance</h2>
+        <p id="themeStatus" class="text-sm text-slate-600 mt-1">Loading…</p>
+      </div>
+
+      <div class="rounded-xl border p-4">
+        <h2 class="font-bold">Account</h2>
+        <p id="accountName" class="text-sm mt-2"></p>
+        <a href="profile.html" class="inline-flex mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold">Open Profile</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      if (!window.requireLogin || !window.requireLogin()) return;
+
+      const role = String(localStorage.getItem("userRole") || "STUDENT").toUpperCase();
+      if (role !== "ADMIN") {
+        window.location.replace("student-dashboard.html");
+        return;
+      }
+      document.getElementById("backLink").href = role === "ADMIN" ? "admin-dashboard.html" : "student-dashboard.html";
+      document.getElementById("accountName").textContent =
+        "Signed in as " + (localStorage.getItem("userName") || localStorage.getItem("userEmail") || "User");
+
+      const updateThemeUI = () => {
+        const dark = window.portalStore.getTheme() === "dark";
+        document.getElementById("themeIcon").textContent = dark ? "☀️" : "🌙";
+        document.getElementById("themeText").textContent = dark ? "Light Mode" : "Dark Mode";
+        document.getElementById("themeStatus").textContent =
+          dark ? "Dark mode is enabled across the portal." : "Light mode is enabled across the portal.";
+      };
+
+      updateThemeUI();
+
+      document.getElementById("themeToggle").addEventListener("click", () => {
+        const next = window.portalStore.getTheme() === "dark" ? "light" : "dark";
+        window.portalStore.setTheme(next);
+        updateThemeUI();
+      });
+
+      document.getElementById("logoutBtn").addEventListener("click", () => window.logoutUser());
+    });
+  </script>
+</body>
+</html>
