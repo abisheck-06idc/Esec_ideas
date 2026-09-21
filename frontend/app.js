@@ -35,7 +35,11 @@ Include this file ONLY ONCE in each HTML page.
    API CONFIGURATION
 ============================================================ */
 
-const API_BASE_URL = "http://localhost:8080/api";
+const API_BASE_URL = (
+    window.APP_CONFIG?.API_BASE_URL ||
+    document.querySelector('meta[name="api-base-url"]')?.content ||
+    "http://localhost:8080/api"
+).replace(/\/$/, "");
 
 
 /* ============================================================
@@ -109,7 +113,7 @@ async function signupUser(payload) {
 
 async function getUserProfile() {
     return await apiRequest(
-        API_BASE_URL + "/profile",
+        API_BASE_URL + "/profile/me",
         {
             method: "GET"
         }
@@ -119,7 +123,7 @@ async function getUserProfile() {
 
 async function updateUserProfile(payload) {
     return await apiRequest(
-        API_BASE_URL + "/profile",
+        API_BASE_URL + "/profile/me",
         {
             method: "PUT",
             body: payload
