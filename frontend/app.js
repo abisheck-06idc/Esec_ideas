@@ -38,7 +38,7 @@ Include this file ONLY ONCE in each HTML page.
 const API_BASE_URL = (
     window.APP_CONFIG?.API_BASE_URL ||
     document.querySelector('meta[name="api-base-url"]')?.content ||
-    "http://localhost:8080/api"
+    " https://esec-ideas.onrender.com/api"
 ).replace(/\/$/, "");
 
 
