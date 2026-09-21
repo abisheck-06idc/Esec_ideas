@@ -41,6 +41,9 @@ public class ProfileController {
                 .id(user.getId()).email(user.getEmail()).role(user.getRole().name())
                 .phoneNumber(user.getPhoneNumber())
                 .name(user.getName() == null || user.getName().isBlank() ? user.getEmail() : user.getName())
-                .department(user.getDepartment()).profilePhoto(user.getProfilePhoto()).build();
+                .rollNo(user.getRollNo())
+                .year(user.getYear())
+                .department(user.getDepartment())
+                .profilePhoto(user.getProfilePhoto()).build();
     }
 }

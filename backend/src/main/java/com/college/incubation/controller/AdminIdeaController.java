@@ -4,6 +4,10 @@ import com.college.incubation.dto.CommentResponse;
 import com.college.incubation.dto.CreateCommentRequest;
 import com.college.incubation.dto.IdeaResponse;
 import com.college.incubation.dto.UpdateStatusRequest;
+import com.college.incubation.dto.UserDetailResponse;
+import com.college.incubation.entity.Role;
+import com.college.incubation.entity.User;
+import com.college.incubation.repository.UserRepository;
 import com.college.incubation.service.CommentService;
 import com.college.incubation.service.IdeaService;
 import jakarta.validation.Valid;
@@ -25,10 +29,28 @@ public class AdminIdeaController {
 
     private final CommentService commentService;
 
+    private final UserRepository userRepository;
+
     @GetMapping
     public List<IdeaResponse> getAllIdeas() {
 
         return ideaService.getAllIdeas();
+    }
+
+    @GetMapping("/users")
+    public List<UserDetailResponse> getAllUsers() {
+        return userRepository.findAllByOrderByCreatedAtDesc().stream()
+                .map(user -> UserDetailResponse.builder()
+                        .id(String.valueOf(user.getId()))
+                        .name(user.getName() == null || user.getName().isBlank() ? user.getEmail() : user.getName())
+                        .rollNo(user.getRollNo())
+                        .year(user.getYear())
+                        .department(user.getDepartment())
+                        .email(user.getEmail())
+                        .phoneNumber(user.getPhoneNumber())
+                        .role(user.getRole() == null ? Role.STUDENT.name() : user.getRole().name())
+                        .build())
+                .toList();
     }
 
     @GetMapping("/{id}")

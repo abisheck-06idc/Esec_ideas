@@ -15,6 +15,8 @@ public class LoginResponse {
     private String role;
     private String phoneNumber;
     private String name;
+    private String rollNo;
+    private String year;
     private String department;
     private String profilePhoto;
 }

@@ -46,6 +46,8 @@ public class AuthService {
                 .role(user.getRole().name())
                 .phoneNumber(user.getPhoneNumber())
                 .name(user.getName() == null || user.getName().isBlank() ? user.getEmail() : user.getName())
+                .rollNo(user.getRollNo())
+                .year(user.getYear())
                 .department(user.getDepartment())
                 .build();
     }
@@ -61,6 +63,8 @@ public class AuthService {
         User user = User.builder()
                 .email(email)
                 .name(request.getName().trim())
+                .rollNo(request.getRollNo() == null || request.getRollNo().isBlank() ? null : request.getRollNo().trim())
+                .year(request.getYear() == null || request.getYear().isBlank() ? null : request.getYear().trim())
                 .phoneNumber(request.getPhoneNumber().trim())
                 .department(request.getDepartment() == null || request.getDepartment().isBlank()
                         ? "General" : request.getDepartment().trim())
@@ -77,6 +81,8 @@ public class AuthService {
                 .role(user.getRole().name())
                 .phoneNumber(user.getPhoneNumber())
                 .name(user.getName())
+                .rollNo(user.getRollNo())
+                .year(user.getYear())
                 .department(user.getDepartment())
                 .profilePhoto(user.getProfilePhoto())
                 .build();

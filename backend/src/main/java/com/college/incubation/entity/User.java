@@ -30,15 +30,21 @@ public class User {
     @Column(nullable = true)
     private String name;
 
+    @Column(name = "roll_no", nullable = true)
+    private String rollNo;
+
+    @Column(name = "student_year", nullable = true)
+    private String year;
+
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @Column(name = "profile_photo", columnDefinition = "TEXT", nullable = true)
     private String profilePhoto;
 
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
 
     @Column(nullable = true)
     @Builder.Default

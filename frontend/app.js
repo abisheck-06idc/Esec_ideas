@@ -5,6 +5,7 @@
 STUDENT INNOVATION PORTAL
 SHARED APPLICATION ENGINE
 ============================================================
+
 Features:
 - JWT Authentication
 - Email + Phone Login
@@ -13,13 +14,19 @@ Features:
 - Student Idea Details
 - Student Edit Idea
 - Student Delete Idea
-- Admin All Ideas
-- Admin Status Update
+- Faculty/Admin All Ideas
+- Faculty/Admin Status Update
 - Comments
 - PortalStore
 - Dark / Light Mode
-- Student / Admin View
+- Student / Faculty View
 - Toast Notifications
+
+Backend:
+http://localhost:8080/api
+
+IMPORTANT:
+Include this file ONLY ONCE in each HTML page.
 ============================================================
 */
 
@@ -28,8 +35,7 @@ Features:
    API CONFIGURATION
 ============================================================ */
 
-const API_BASE_URL =
-    "https://idea-nd9r.onrender.com/api";
+const API_BASE_URL = "http://localhost:8080/api";
 
 
 /* ============================================================
@@ -47,28 +53,13 @@ function isLoggedIn() {
 
 
 function getLoggedInUser() {
+
     return {
         id: localStorage.getItem("userId"),
-
-        email:
-            localStorage.getItem("userEmail") ||
-            localStorage.getItem("email"),
-
-        role:
-            localStorage.getItem("userRole") ||
-            localStorage.getItem("role"),
-
-        name:
-            localStorage.getItem("userName") ||
-            localStorage.getItem("name"),
-
-        phoneNumber:
-            localStorage.getItem("userPhone") ||
-            localStorage.getItem("phoneNumber"),
-
-        department:
-            localStorage.getItem("userDepartment") ||
-            localStorage.getItem("department")
+        email: localStorage.getItem("userEmail"),
+        role: localStorage.getItem("userRole"),
+        name: localStorage.getItem("userName"),
+        phoneNumber: localStorage.getItem("userPhone")
     };
 }
 
@@ -81,7 +72,6 @@ function logoutUser() {
     localStorage.removeItem("userRole");
     localStorage.removeItem("userName");
     localStorage.removeItem("userPhone");
-    localStorage.removeItem("userDepartment");
 
     if (window.portalStore) {
         window.portalStore.setCurrentUser(null);
@@ -94,6 +84,49 @@ function logoutUser() {
 /* ============================================================
    LOGIN
 ============================================================ */
+
+async function signupUser(payload) {
+    const response = await fetch(
+        API_BASE_URL + "/auth/signup",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        }
+    );
+
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        throw new Error(data.message || data.error || "Signup failed.");
+    }
+
+    return data;
+}
+
+
+async function getUserProfile() {
+    return await apiRequest(
+        API_BASE_URL + "/profile",
+        {
+            method: "GET"
+        }
+    );
+}
+
+
+async function updateUserProfile(payload) {
+    return await apiRequest(
+        API_BASE_URL + "/profile",
+        {
+            method: "PUT",
+            body: payload
+        }
+    );
+}
+
 
 async function loginUser(email, phoneNumber) {
 
@@ -115,17 +148,13 @@ async function loginUser(email, phoneNumber) {
             }
         );
 
-
         let data = {};
 
         try {
             data = await response.json();
         } catch (error) {
-            console.warn(
-                "Server response is not JSON."
-            );
+            console.warn("Server response is not JSON.");
         }
-
 
         if (!response.ok) {
 
@@ -136,14 +165,12 @@ async function loginUser(email, phoneNumber) {
             );
         }
 
-
         if (!data.token) {
 
             throw new Error(
                 "Login successful, but JWT token was not received."
             );
         }
-
 
         /* Save JWT */
 
@@ -221,25 +248,6 @@ async function loginUser(email, phoneNumber) {
         }
 
 
-        /* Save department */
-
-        localStorage.setItem(
-            "userDepartment",
-            data.department || "General"
-        );
-
-
-        /* Save profile photo */
-
-        if (data.profilePhoto) {
-
-            localStorage.setItem(
-                "userProfilePhoto",
-                data.profilePhoto
-            );
-        }
-
-
         /* Update PortalStore */
 
         if (window.portalStore) {
@@ -248,13 +256,11 @@ async function loginUser(email, phoneNumber) {
 
                 id: data.id || null,
 
-                email:
-                    data.email || "",
+                email: data.email || "",
 
-                role:
-                    String(
-                        data.role || "STUDENT"
-                    ).toLowerCase(),
+                role: String(
+                    data.role || "STUDENT"
+                ).toLowerCase(),
 
                 name:
                     data.name ||
@@ -266,14 +272,6 @@ async function loginUser(email, phoneNumber) {
                 phoneNumber:
                     data.phoneNumber ||
                     data.phone ||
-                    "",
-
-                department:
-                    data.department ||
-                    "General",
-
-                profilePhoto:
-                    data.profilePhoto ||
                     ""
             });
         }
@@ -308,8 +306,9 @@ async function apiRequest(
 
     const headers = {};
 
-
-    /* Copy existing headers */
+    /*
+    Copy existing headers
+    */
 
     if (options.headers) {
 
@@ -324,7 +323,9 @@ async function apiRequest(
     }
 
 
-    /* JWT */
+    /*
+    JWT
+    */
 
     if (token) {
 
@@ -333,7 +334,9 @@ async function apiRequest(
     }
 
 
-    /* Automatically convert object body to JSON */
+    /*
+    Automatically convert object body to JSON
+    */
 
     let requestBody =
         options.body;
@@ -380,12 +383,14 @@ async function apiRequest(
         );
 
         throw new Error(
-            "Cannot connect to backend server."
+            "Cannot connect to backend server. Make sure Spring Boot is running on port 8080."
         );
     }
 
 
-    /* Unauthorized */
+    /*
+    Unauthorized
+    */
 
     if (response.status === 401) {
 
@@ -397,7 +402,9 @@ async function apiRequest(
     }
 
 
-    /* Forbidden */
+    /*
+    Forbidden
+    */
 
     if (response.status === 403) {
 
@@ -407,7 +414,9 @@ async function apiRequest(
     }
 
 
-    /* Read response */
+    /*
+    Read response
+    */
 
     let data = null;
 
@@ -446,7 +455,9 @@ async function apiRequest(
     }
 
 
-    /* API error */
+    /*
+    API error
+    */
 
     if (!response.ok) {
 
@@ -494,12 +505,9 @@ async function submitIdea(
     title,
     description,
     category,
-    department,
     problemStatement = "",
     solution = "",
-    attachmentName = null,
-    attachmentType = null,
-    attachmentData = null
+    attachments = []
 ) {
 
     return await apiRequest(
@@ -510,13 +518,10 @@ async function submitIdea(
             body: {
                 title: title,
                 description: description,
+                category: category,
                 problemStatement: problemStatement,
                 solution: solution,
-                attachmentName: attachmentName,
-                attachmentType: attachmentType,
-                attachmentData: attachmentData,
-                category: category,
-                department: department
+                attachments: attachments
             }
         }
     );
@@ -539,7 +544,17 @@ async function getMyIdeas() {
         );
 
 
+    /*
+    Backend may return:
+    []
+    OR
+    { content: [] }
+    OR
+    { ideas: [] }
+    */
+
     if (Array.isArray(data)) {
+
         return data;
     }
 
@@ -589,7 +604,9 @@ async function getIdeaById(
     return await apiRequest(
         API_BASE_URL +
         "/ideas/" +
-        encodeURIComponent(ideaId),
+        encodeURIComponent(
+            ideaId
+        ),
         {
             method: "GET"
         }
@@ -605,13 +622,7 @@ async function updateMyIdea(
     ideaId,
     title,
     description,
-    category,
-    department,
-    problemStatement = "",
-    solution = "",
-    attachmentName = null,
-    attachmentType = null,
-    attachmentData = null
+    category
 ) {
 
     if (
@@ -629,20 +640,16 @@ async function updateMyIdea(
     return await apiRequest(
         API_BASE_URL +
         "/ideas/" +
-        encodeURIComponent(ideaId),
+        encodeURIComponent(
+            ideaId
+        ),
         {
             method: "PUT",
 
             body: {
                 title: title,
                 description: description,
-                problemStatement: problemStatement,
-                solution: solution,
-                attachmentName: attachmentName,
-                attachmentType: attachmentType,
-                attachmentData: attachmentData,
-                category: category,
-                department: department
+                category: category
             }
         }
     );
@@ -672,7 +679,9 @@ async function deleteMyIdea(
     return await apiRequest(
         API_BASE_URL +
         "/ideas/" +
-        encodeURIComponent(ideaId),
+        encodeURIComponent(
+            ideaId
+        ),
         {
             method: "DELETE"
         }
@@ -680,7 +689,14 @@ async function deleteMyIdea(
 }
 
 
-/* Compatibility */
+/*
+Compatibility function.
+
+Your student-dashboard may call:
+deleteIdea()
+
+So we provide it too.
+*/
 
 async function deleteIdea(
     ideaId
@@ -688,50 +704,6 @@ async function deleteIdea(
 
     return await deleteMyIdea(
         ideaId
-    );
-}
-
-
-/* ============================================================
-   ADMIN - DASHBOARD COMPATIBILITY
-============================================================ */
-
-async function getAdminIdeasFromDashboard() {
-
-    return await getAdminIdeas();
-}
-
-
-async function getAdminIdeaByIdFromDashboard(
-    ideaId
-) {
-
-    return await getAdminIdeaById(
-        ideaId
-    );
-}
-
-
-async function adminUpdateIdeaStatus(
-    ideaId,
-    status
-) {
-
-    return await updateIdeaStatus(
-        ideaId,
-        status
-    );
-}
-
-
-async function addAdminCommentForDashboard(
-    ideaId,
-    commentText
-) {
-
-    return await addAdminComment(
-        ideaId,
-        commentText
     );
 }
 
@@ -753,6 +725,7 @@ async function getAdminIdeas() {
 
 
     if (Array.isArray(data)) {
+
         return data;
     }
 
@@ -787,13 +760,8 @@ async function getAdminIdeaById(
     ideaId
 ) {
 
-    return await apiRequest(
-        API_BASE_URL +
-        "/admin/ideas/" +
-        encodeURIComponent(ideaId),
-        {
-            method: "GET"
-        }
+    return await getIdeaById(
+        ideaId
     );
 }
 
@@ -830,7 +798,9 @@ async function updateIdeaStatus(
     return await apiRequest(
         API_BASE_URL +
         "/admin/ideas/" +
-        encodeURIComponent(ideaId) +
+        encodeURIComponent(
+            ideaId
+        ) +
         "/status",
         {
             method: "PATCH",
@@ -855,7 +825,9 @@ async function getComments(
         await apiRequest(
             API_BASE_URL +
             "/ideas/" +
-            encodeURIComponent(ideaId) +
+            encodeURIComponent(
+                ideaId
+            ) +
             "/comments",
             {
                 method: "GET"
@@ -864,6 +836,7 @@ async function getComments(
 
 
     if (Array.isArray(data)) {
+
         return data;
     }
 
@@ -904,7 +877,9 @@ async function addAdminComment(
     return await apiRequest(
         API_BASE_URL +
         "/admin/ideas/" +
-        encodeURIComponent(ideaId) +
+        encodeURIComponent(
+            ideaId
+        ) +
         "/comments",
         {
             method: "POST",
@@ -927,6 +902,7 @@ function normalizeIdeaStatus(
 ) {
 
     if (!status) {
+
         return "SUBMITTED";
     }
 
@@ -939,6 +915,7 @@ function normalizeIdeaStatus(
 
 
     if (value === "APPROVED") {
+
         return "ACCEPTED";
     }
 
@@ -954,6 +931,7 @@ function normalizeIdeaStatus(
 
 
     if (value === "PENDING") {
+
         return "UNDER_REVIEW";
     }
 
@@ -967,7 +945,9 @@ function getStatusText(
 ) {
 
     const value =
-        normalizeIdeaStatus(status);
+        normalizeIdeaStatus(
+            status
+        );
 
 
     switch (value) {
@@ -988,7 +968,8 @@ function getStatusText(
             return "Needs Work";
 
         default:
-            return status || "Unknown";
+            return status ||
+                "Unknown";
     }
 }
 
@@ -998,27 +979,35 @@ function getStatusBadgeClass(
 ) {
 
     const value =
-        normalizeIdeaStatus(status);
+        normalizeIdeaStatus(
+            status
+        );
 
 
     switch (value) {
 
         case "ACCEPTED":
+
             return "bg-[#D1FAE5] text-[#2D6A4F]";
 
         case "REJECTED":
+
             return "bg-[#FEE2E2] text-[#991B1B]";
 
         case "SHORTLISTED":
+
             return "bg-[#DBEAFE] text-[#1D4ED8]";
 
         case "UNDER_REVIEW":
+
             return "bg-[#FEF3C7] text-[#92400E]";
 
         case "SUBMITTED":
+
             return "bg-[#E0E7FF] text-[#3730A3]";
 
         default:
+
             return "bg-[#F1F5F9] text-[#475569]";
     }
 }
@@ -1098,6 +1087,7 @@ function getIdeaDate(
 
 
     if (!value) {
+
         return "Unknown date";
     }
 
@@ -1148,6 +1138,7 @@ const SEED_DATA = {
 class PortalStore {
 
     constructor() {
+
         this.init();
     }
 
@@ -1181,7 +1172,9 @@ class PortalStore {
             try {
 
                 this.data =
-                    JSON.parse(saved);
+                    JSON.parse(
+                        saved
+                    );
 
             } catch (error) {
 
@@ -1233,7 +1226,9 @@ class PortalStore {
         }
 
 
-        /* Sync backend user */
+        /*
+        Sync backend user
+        */
 
         const backendUser =
             getLoggedInUser();
@@ -1265,11 +1260,7 @@ class PortalStore {
 
                 phoneNumber:
                     backendUser.phoneNumber ||
-                    "",
-
-                department:
-                    backendUser.department ||
-                    "General"
+                    ""
             };
 
 
@@ -1295,7 +1286,9 @@ class PortalStore {
     }
 
 
-    getIdeaById(id) {
+    getIdeaById(
+        id
+    ) {
 
         return this.getIdeas()
             .find(
@@ -1311,10 +1304,13 @@ class PortalStore {
     }
 
 
-    addIdea(idea) {
+    addIdea(
+        idea
+    ) {
 
         const currentUser =
-            this.getCurrentUser() || {};
+            this.getCurrentUser() ||
+            {};
 
 
         const newIdea = {
@@ -1325,7 +1321,8 @@ class PortalStore {
                 "-" +
                 Math.floor(
                     100 +
-                    Math.random() * 900
+                    Math.random() *
+                    900
                 ),
 
             submittedDate:
@@ -1379,10 +1376,13 @@ class PortalStore {
     ) {
 
         const idea =
-            this.getIdeaById(id);
+            this.getIdeaById(
+                id
+            );
 
 
         if (!idea) {
+
             return null;
         }
 
@@ -1400,7 +1400,9 @@ class PortalStore {
     }
 
 
-    deleteIdea(id) {
+    deleteIdea(
+        id
+    ) {
 
         const index =
             this.data.ideas.findIndex(
@@ -1416,6 +1418,7 @@ class PortalStore {
 
 
         if (index === -1) {
+
             return false;
         }
 
@@ -1442,14 +1445,17 @@ class PortalStore {
 
         facultyName =
             facultyName ||
-            "Admin";
+            "Faculty";
 
 
         const idea =
-            this.getIdeaById(id);
+            this.getIdeaById(
+                id
+            );
 
 
         if (!idea) {
+
             return null;
         }
 
@@ -1461,6 +1467,7 @@ class PortalStore {
         if (comment) {
 
             if (!idea.reviews) {
+
                 idea.reviews = [];
             }
 
@@ -1502,7 +1509,9 @@ class PortalStore {
     }
 
 
-    setCurrentUser(user) {
+    setCurrentUser(
+        user
+    ) {
 
         this.data.currentUser =
             user;
@@ -1520,15 +1529,12 @@ class PortalStore {
     }
 
 
-    setTheme(theme) {
+    setTheme(
+        theme
+    ) {
 
         this.data.theme =
             theme;
-
-        localStorage.setItem(
-            "sip_theme",
-            theme
-        );
 
         this.save();
 
@@ -1616,7 +1622,9 @@ function initToastContainer() {
    HTML ESCAPE
 ============================================================ */
 
-function escapeHTML(value) {
+function escapeHTML(
+    value
+) {
 
     const div =
         document.createElement(
@@ -1659,6 +1667,7 @@ function showToast(
 
 
     if (!container) {
+
         return;
     }
 
@@ -1677,7 +1686,9 @@ function showToast(
         "info";
 
 
-    if (type === "success") {
+    if (
+        type === "success"
+    ) {
 
         colorClass =
             "bg-[#2D6A4F] text-white";
@@ -1685,7 +1696,9 @@ function showToast(
         icon =
             "check_circle";
 
-    } else if (type === "error") {
+    } else if (
+        type === "error"
+    ) {
 
         colorClass =
             "bg-error text-on-error";
@@ -1693,7 +1706,9 @@ function showToast(
         icon =
             "error";
 
-    } else if (type === "warning") {
+    } else if (
+        type === "warning"
+    ) {
 
         colorClass =
             "bg-[#92400E] text-white";
@@ -1778,6 +1793,7 @@ function initThemeToggle() {
 
 
     if (!header) {
+
         return;
     }
 
@@ -1911,8 +1927,13 @@ function initPersonaSwitcher() {
         );
 
 
+    if (!actionGroup) {
+
+        return;
+    }
+
+
     if (
-        !actionGroup ||
         actionGroup.querySelector(
             ".persona-switcher"
         )
@@ -1922,16 +1943,24 @@ function initPersonaSwitcher() {
     }
 
 
+    const currentUser =
+        window.portalStore.getCurrentUser() ||
+        {};
+
+
     const role =
         String(
+            currentUser.role ||
             localStorage.getItem(
                 "userRole"
-            ) || "STUDENT"
-        ).toUpperCase();
+            ) ||
+            "STUDENT"
+        ).toLowerCase();
 
 
-    const isAdminUser =
-        role === "ADMIN";
+    const faculty =
+        role === "faculty" ||
+        role === "admin";
 
 
     const button =
@@ -1945,37 +1974,44 @@ function initPersonaSwitcher() {
 
 
     button.className =
-        "persona-switcher px-3 py-1 text-xs font-semibold rounded-full border " +
-        "transition-all flex items-center gap-1";
+        "persona-switcher px-3 py-1 " +
+        "text-xs font-semibold rounded-full " +
+        "border transition-all flex items-center gap-1";
+
+
+    button.innerHTML =
+        '<span class="material-symbols-outlined text-[16px]">' +
+        (
+            faculty
+                ? "school"
+                : "person"
+        ) +
+        "</span>" +
+        (
+            faculty
+                ? "Faculty View"
+                : "Student View"
+        );
 
 
     button.title =
         "Open dashboard";
 
 
-    button.innerHTML =
-        '<span class="material-symbols-outlined text-[16px]">' +
-        (
-            isAdminUser
-                ? "admin_panel_settings"
-                : "person"
-        ) +
-        "</span>" +
-        (
-            isAdminUser
-                ? "Admin View"
-                : "Student View"
-        );
-
-
     button.addEventListener(
         "click",
         function () {
 
-            window.location.href =
-                isAdminUser
-                    ? "admin-dashboard.html"
-                    : "student-dashboard.html";
+            if (faculty) {
+
+                window.location.href =
+                    "faculty-dashboard.html";
+
+            } else {
+
+                window.location.href =
+                    "student-dashboard.html";
+            }
         }
     );
 
@@ -1994,26 +2030,9 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-        refreshProfileWidgets();
-
-
-        if (window.portalStore) {
-
-            const savedTheme =
-                localStorage.getItem(
-                    "sip_theme"
-                );
-
-
-            if (
-                savedTheme === "dark" ||
-                savedTheme === "light"
-            ) {
-
-                window.portalStore.data.theme =
-                    savedTheme;
-            }
-
+        if (
+            window.portalStore
+        ) {
 
             window.portalStore.applyTheme();
         }
@@ -2066,12 +2085,34 @@ function isStudent() {
 
 
 /* ============================================================
-   STUDENT ACCESS PROTECTION
+   FACULTY ROLE
+============================================================ */
+
+function isFaculty() {
+
+    const role =
+        String(
+            localStorage.getItem(
+                "userRole"
+            ) || ""
+        ).toUpperCase();
+
+
+    return (
+        role === "FACULTY" ||
+        role === "ADMIN"
+    );
+}
+
+
+/* ============================================================
+   REQUIRE STUDENT
 ============================================================ */
 
 function requireStudent() {
 
     if (!requireLogin()) {
+
         return false;
     }
 
@@ -2092,36 +2133,21 @@ function requireStudent() {
 
 
 /* ============================================================
-   ADMIN ROLE
+   REQUIRE FACULTY
 ============================================================ */
 
-function isAdmin() {
-
-    return (
-        String(
-            localStorage.getItem(
-                "userRole"
-            ) || ""
-        ).toUpperCase() === "ADMIN"
-    );
-}
-
-
-/* ============================================================
-   ADMIN ACCESS PROTECTION
-============================================================ */
-
-function requireAdmin() {
+function requireFaculty() {
 
     if (!requireLogin()) {
+
         return false;
     }
 
 
-    if (!isAdmin()) {
+    if (!isFaculty()) {
 
         showToast(
-            "Admin access required.",
+            "Faculty/Admin access required.",
             "error"
         );
 
@@ -2134,133 +2160,13 @@ function requireAdmin() {
 
 
 /* ============================================================
-   MY PROFILE
-============================================================ */
-
-async function getMyProfile() {
-
-    return await apiRequest(
-        API_BASE_URL +
-        "/profile/me",
-        {
-            method: "GET"
-        }
-    );
-}
-
-
-/* ============================================================
-   PROFILE WIDGETS
-============================================================ */
-
-async function refreshProfileWidgets() {
-
-    if (!isLoggedIn()) {
-        return;
-    }
-
-
-    try {
-
-        const profile =
-            await getMyProfile();
-
-
-        localStorage.setItem(
-            "userName",
-            profile.name ||
-            profile.email ||
-            "User"
-        );
-
-
-        localStorage.setItem(
-            "userProfilePhoto",
-            profile.profilePhoto || ""
-        );
-
-
-        localStorage.setItem(
-            "userPhone",
-            profile.phoneNumber || ""
-        );
-
-
-        localStorage.setItem(
-            "userDepartment",
-            profile.department || "General"
-        );
-
-
-        if (profile.role) {
-
-            localStorage.setItem(
-                "userRole",
-                String(
-                    profile.role
-                ).toUpperCase()
-            );
-        }
-
-
-        document
-            .querySelectorAll(
-                "[data-profile-name]"
-            )
-            .forEach(
-                function (el) {
-
-                    el.textContent =
-                        profile.name ||
-                        profile.email ||
-                        "User";
-                }
-            );
-
-
-        document
-            .querySelectorAll(
-                "[data-profile-email]"
-            )
-            .forEach(
-                function (el) {
-
-                    el.textContent =
-                        profile.email || "";
-                }
-            );
-
-
-        document
-            .querySelectorAll(
-                "[data-profile-photo]"
-            )
-            .forEach(
-                function (el) {
-
-                    if (profile.profilePhoto) {
-
-                        el.src =
-                            profile.profilePhoto;
-                    }
-                }
-            );
-
-    } catch (e) {
-
-        console.debug(
-            "Profile widget refresh skipped:",
-            e.message
-        );
-    }
-}
-
-
-/* ============================================================
    GLOBAL EXPORTS
 ============================================================ */
 
-window.API_BASE_URL = API_BASE_URL;
+/*
+IMPORTANT:
+These exports are what student-dashboard.html uses.
+*/
 
 window.getToken =
     getToken;
@@ -2274,6 +2180,15 @@ window.getLoggedInUser =
 window.loginUser =
     loginUser;
 
+window.signupUser =
+    signupUser;
+
+window.getUserProfile =
+    getUserProfile;
+
+window.updateUserProfile =
+    updateUserProfile;
+
 window.logoutUser =
     logoutUser;
 
@@ -2281,9 +2196,7 @@ window.apiRequest =
     apiRequest;
 
 
-/* ============================================================
-   STUDENT EXPORTS
-============================================================ */
+/* Student */
 
 window.submitIdea =
     submitIdea;
@@ -2294,37 +2207,26 @@ window.getMyIdeas =
 window.getIdeaById =
     getIdeaById;
 
-window.getMyProfile =
-    getMyProfile;
-
 window.updateMyIdea =
     updateMyIdea;
 
 window.deleteMyIdea =
     deleteMyIdea;
 
+
+/*
+Compatibility:
+student-dashboard.html may call deleteIdea()
+*/
+
 window.deleteIdea =
     deleteIdea;
 
 
-/* ============================================================
-   ADMIN EXPORTS
-============================================================ */
+/* Admin */
 
 window.getAdminIdeas =
     getAdminIdeas;
-
-window.getAdminIdeasFromDashboard =
-    getAdminIdeasFromDashboard;
-
-window.getAdminIdeaByIdFromDashboard =
-    getAdminIdeaByIdFromDashboard;
-
-window.adminUpdateIdeaStatus =
-    adminUpdateIdeaStatus;
-
-window.addAdminCommentForDashboard =
-    addAdminCommentForDashboard;
 
 window.getAdminIdeaById =
     getAdminIdeaById;
@@ -2333,9 +2235,7 @@ window.updateIdeaStatus =
     updateIdeaStatus;
 
 
-/* ============================================================
-   COMMENT EXPORTS
-============================================================ */
+/* Comments */
 
 window.getComments =
     getComments;
@@ -2344,9 +2244,7 @@ window.addAdminComment =
     addAdminComment;
 
 
-/* ============================================================
-   HELPER EXPORTS
-============================================================ */
+/* Helpers */
 
 window.normalizeIdeaStatus =
     normalizeIdeaStatus;
@@ -2370,9 +2268,7 @@ window.getIdeaDate =
     getIdeaDate;
 
 
-/* ============================================================
-   UI EXPORTS
-============================================================ */
+/* UI */
 
 window.showToast =
     showToast;
@@ -2381,9 +2277,7 @@ window.escapeHTML =
     escapeHTML;
 
 
-/* ============================================================
-   ACCESS EXPORTS
-============================================================ */
+/* Access */
 
 window.requireLogin =
     requireLogin;
@@ -2391,14 +2285,14 @@ window.requireLogin =
 window.requireStudent =
     requireStudent;
 
-window.requireAdmin =
-    requireAdmin;
+window.requireFaculty =
+    requireFaculty;
 
 window.isStudent =
     isStudent;
 
-window.isAdmin =
-    isAdmin;
+window.isFaculty =
+    isFaculty;
 
 
 /* ============================================================
@@ -2422,14 +2316,4 @@ console.log(
 console.log(
     "updateMyIdea available:",
     typeof window.updateMyIdea
-);
-
-console.log(
-    "requireStudent available:",
-    typeof window.requireStudent
-);
-
-console.log(
-    "requireAdmin available:",
-    typeof window.requireAdmin
 );

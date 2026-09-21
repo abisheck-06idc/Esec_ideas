@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html class="light h-full" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Faculty Dashboard - Student Innovation Portal</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-fixed-variant": "#2e476f",
+            "background": "#f6f9ff",
+            "tertiary-container": "#003f29",
+            "on-tertiary-fixed-variant": "#0e5138",
+            "primary": "#002046",
+            "surface-bright": "#f6f9ff",
+            "on-tertiary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-container": "#4f657b",
+            "on-tertiary-fixed": "#002114",
+            "outline": "#74777f",
+            "secondary-container": "#cbe2fc",
+            "inverse-primary": "#aec7f7",
+            "tertiary": "#002718",
+            "on-secondary": "#ffffff",
+            "primary-fixed-dim": "#aec7f7",
+            "surface-tint": "#465f88",
+            "on-primary-container": "#87a0cd",
+            "surface-container": "#e8eef6",
+            "surface-container-high": "#e3e9f1",
+            "inverse-surface": "#2b3137",
+            "primary-fixed": "#d6e3ff",
+            "on-tertiary-container": "#6fac8d",
+            "surface": "#f6f9ff",
+            "secondary-fixed-dim": "#b2c9e2",
+            "error-container": "#ffdad6",
+            "on-background": "#161c22",
+            "on-primary-fixed": "#001b3d",
+            "surface-variant": "#dde3eb",
+            "error": "#ba1a1a",
+            "on-primary": "#ffffff",
+            "on-secondary-fixed-variant": "#33495e",
+            "on-secondary-fixed": "#041d30",
+            "outline-variant": "#c4c6cf",
+            "secondary": "#4a6077",
+            "inverse-on-surface": "#ebf1f9",
+            "secondary-fixed": "#cee5ff",
+            "surface-dim": "#d4dbe2",
+            "on-surface": "#161c22",
+            "on-error": "#ffffff",
+            "surface-container-low": "#eef4fc",
+            "surface-container-highest": "#dde3eb",
+            "on-surface-variant": "#44474e",
+            "on-error-container": "#93000a",
+            "tertiary-fixed": "#b1f0ce",
+            "primary-container": "#1b365d",
+            "tertiary-fixed-dim": "#95d4b3"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "base": "8px",
+            "container-margin-desktop": "40px",
+            "lg": "24px",
+            "xl": "32px",
+            "xs": "4px",
+            "gutter": "16px",
+            "container-margin-mobile": "16px",
+            "sm": "12px",
+            "md": "16px"
+          },
+          "fontFamily": {
+            "body-lg": ["Inter"],
+            "body-sm": ["Inter"],
+            "headline-lg": ["Inter"],
+            "headline-lg-mobile": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-sm": ["Inter"],
+            "label-md": ["Inter"],
+            "label-sm": ["Inter"]
+          },
+          "fontSize": {
+            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+            "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-on-background h-full flex flex-col font-body-md antialiased pt-16 pb-16 md:pb-0">
+  <!-- TopAppBar -->
+  <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-margin-mobile md:px-container-margin-desktop h-16 bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline">
+    <div class="flex items-center gap-md">
+      <button id="facultyMobileMenuBtn" aria-label="Toggle Menu" class="md:hidden text-primary dark:text-primary-fixed hover:bg-surface-container transition-colors p-2 rounded-full">
+        <span class="material-symbols-outlined" data-icon="menu">menu</span>
+      </button>
+      <a href="faculty-dashboard.html" class="text-headline-sm font-headline-sm font-bold text-primary dark:text-primary-fixed-dim flex items-center gap-2">
+        <span class="material-symbols-outlined">school</span>
+        Student Innovation Portal
+      </a>
+    </div>
+    <div class="flex items-center">
+      <div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+        <img id="facultyHeaderAvatar" alt="Faculty profile avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFSdTwNwjRK45F78ZigcqyDrzcV5yLaGZNWg0mOH1BGqjz_ZZ9SHwIisbNCg06Y0D5O_l9XmHk-wFwcuydPnRjcNtRJKF4Viat3RcgOpoIJLcM7K-fLV8dTsI_LQ1Ym8NixWRzQEHJQPu8wKNWBefDano3BttJz0VJWD3eToMYb9fViAXQpTpqOy2tZ8onnFw0ogUp_7HT2JH-mtEcIlaXEwyYEcZpB1dB1-96MJInYExeVdxeUK4F7Q">
+      </div>
+    </div>
+  </header>
+
+  <!-- Side Navigation (Desktop Only) -->
+  <aside id="facultyAside" class="hidden md:flex fixed inset-y-0 left-0 z-40 flex-col pt-20 h-full w-72 bg-surface dark:bg-surface-dim border-r border-outline-variant dark:border-outline shadow-sm">
+    <div class="px-lg pb-md mb-md border-b border-outline-variant">
+      <h2 class="font-headline-sm text-headline-sm font-bold text-primary dark:text-primary-fixed">Innovation Portal</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant dark:text-surface-variant">Faculty Dashboard</p>
+      <p class="font-label-sm text-label-sm text-primary font-bold mt-1 uppercase tracking-wider">Administrative Access</p>
+    </div>
+    <nav class="flex-1 overflow-y-auto px-xs">
+      <a class="flex items-center gap-md bg-secondary-container dark:bg-primary-container text-on-secondary-container dark:text-on-primary-container rounded-lg px-4 py-3 mx-2 transition-all font-semibold" href="faculty-dashboard.html">
+        <span class="material-symbols-outlined fill" data-icon="dashboard">dashboard</span>
+        <span class="font-label-md text-label-md">Dashboard</span>
+      </a>
+      <a class="flex items-center gap-md text-on-surface-variant dark:text-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg transition-all mt-xs" href="student-ideas.html">
+        <span class="material-symbols-outlined" data-icon="emoji_objects">emoji_objects</span>
+        <span class="font-label-md text-label-md">Student Ideas</span>
+      </a>
+      <a class="flex items-center gap-md text-on-surface-variant dark:text-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg transition-all mt-xs" href="pending-reviews.html">
+        <span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+        <span class="font-label-md text-label-md flex-1">Pending Reviews</span>
+        <span id="pendingBadge" class="bg-error-container text-on-error-container rounded-full px-2 py-0.5 text-xs font-bold">0</span>
+      </a>
+      <a class="flex items-center gap-md text-on-surface-variant dark:text-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg transition-all mt-xs" href="approved-ideas.html">
+        <span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+        <span class="font-label-md text-label-md">Approved Ideas</span>
+      </a>
+      <a class="flex items-center gap-md text-on-surface-variant dark:text-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg transition-all mt-xs" href="portal-user-roster.html">
+        <span class="material-symbols-outlined" data-icon="group">group</span>
+        <span class="font-label-md text-label-md">Portal User Roster</span>
+      </a>
+    </nav>
+    <div class="p-md border-t border-outline-variant mt-auto">
+      <a class="flex items-center gap-md text-on-surface-variant dark:text-surface-variant px-4 py-3 hover:bg-surface-container-high rounded-lg transition-all" href="login.html">
+        <span class="material-symbols-outlined" data-icon="logout">logout</span>
+        <span class="font-label-md text-label-md">Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 md:ml-72 overflow-y-auto w-full max-w-[1280px] mx-auto p-container-margin-mobile md:p-container-margin-desktop">
+    <!-- Dashboard Header -->
+    <div class="mb-xl">
+      <h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background dark:text-on-surface mb-2">Faculty Overview</h2>
+      <p class="font-body-md text-body-md text-on-surface-variant dark:text-surface-variant">Welcome back, Dr. Smith. Here is the current status of student submissions across all departments.</p>
+    </div>
+
+    <!-- Summary Cards Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-md mb-xl">
+      <!-- Total Ideas -->
+      <div class="bg-surface dark:bg-surface-dim border border-outline-variant dark:border-outline rounded-lg p-lg shadow-sm hover:border-[#CBD5E1] transition-colors">
+        <div class="flex items-center justify-between mb-sm">
+          <h3 class="font-label-md text-label-md text-on-surface-variant dark:text-surface-variant">Total Ideas</h3>
+          <span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="lightbulb">lightbulb</span>
+        </div>
+        <p id="totalIdeasCount" class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary dark:text-primary-fixed">0</p>
+        <p class="font-body-sm text-body-sm text-outline mt-1">+12% this month</p>
+      </div>
+
+      <!-- Pending Review -->
+      <div class="bg-surface dark:bg-surface-dim border border-outline-variant dark:border-outline rounded-lg p-lg shadow-sm hover:border-[#CBD5E1] transition-colors">
+        <div class="flex items-center justify-between mb-sm">
+          <h3 class="font-label-md text-label-md text-on-surface-variant dark:text-surface-variant">Pending Review</h3>
+          <span class="material-symbols-outlined text-[#92400E]" data-icon="pending_actions">pending_actions</span>
+        </div>
+        <p id="pendingReviewCount" class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-[#92400E]">0</p>
+        <p class="font-body-sm text-body-sm text-outline mt-1">Requires evaluation</p>
+      </div>
+
+      <!-- Approved -->
+      <div class="bg-surface dark:bg-surface-dim border border-outline-variant dark:border-outline rounded-lg p-lg shadow-sm hover:border-[#CBD5E1] transition-colors">
+        <div class="flex items-center justify-between mb-sm">
+          <h3 class="font-label-md text-label-md text-on-surface-variant dark:text-surface-variant">Approved</h3>
+          <span class="material-symbols-outlined text-[#2D6A4F]" data-icon="task_alt">task_alt</span>
+        </div>
+        <p id="approvedCount" class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-[#2D6A4F]">0</p>
+        <p class="font-body-sm text-body-sm text-outline mt-1">Ready for prototyping</p>
+      </div>
+
+      <!-- Needs Work -->
+      <div class="bg-surface dark:bg-surface-dim border border-outline-variant dark:border-outline rounded-lg p-lg shadow-sm hover:border-[#CBD5E1] transition-colors">
+        <div class="flex items-center justify-between mb-sm">
+          <h3 class="font-label-md text-label-md text-on-surface-variant dark:text-surface-variant">Needs Work</h3>
+          <span class="material-symbols-outlined text-secondary dark:text-secondary-fixed-dim" data-icon="build">build</span>
+        </div>
+        <p id="needsWorkCount" class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-secondary dark:text-secondary-fixed-dim">0</p>
+        <p class="font-body-sm text-body-sm text-outline mt-1">Revisions requested</p>
+      </div>
+    </div>
+
+    <!-- Recent Submissions Table (Desktop) / Cards (Mobile) -->
+    <section class="mb-xl">
+      <div class="flex justify-between items-center mb-md">
+        <h2 class="font-headline-md text-headline-md text-on-background dark:text-on-surface">Recent Submissions</h2>
+        <span class="font-label-md text-label-md text-secondary">Updated Live</span>
+      </div>
+
+      <!-- Desktop Table View -->
+      <div class="hidden md:block bg-surface dark:bg-surface-dim border border-outline-variant dark:border-outline rounded-lg shadow-sm overflow-hidden">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-surface-container-high dark:bg-surface-container border-b border-outline-variant">
+              <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold">Student Name</th>
+              <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold">Product Idea</th>
+              <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold">Date Submitted</th>
+              <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold">Status</th>
+              <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody id="facultySubmissionsTbody" class="font-body-sm text-body-sm text-on-background dark:text-on-surface">
+            <!-- Dynamically Rendered -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mobile Card View -->
+      <div id="facultySubmissionsMobileCards" class="md:hidden space-y-md">
+        <!-- Dynamically Rendered -->
+      </div>
+    </section>
+  </main>
+
+  <!-- BottomNavBar (Mobile Only) -->
+  <nav class="fixed bottom-0 w-full z-50 flex md:hidden justify-around items-center h-16 bg-surface dark:bg-surface-dim border-t border-outline-variant dark:border-outline">
+    <a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-bold active:bg-surface-container-low flex-1 h-full" href="faculty-dashboard.html">
+      <span class="material-symbols-outlined fill" data-icon="dashboard">dashboard</span>
+      <span class="font-label-sm text-label-sm mt-1">Dashboard</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant active:bg-surface-container-low flex-1 h-full" href="faculty-dashboard.html">
+      <span class="material-symbols-outlined" data-icon="emoji_objects">emoji_objects</span>
+      <span class="font-label-sm text-label-sm mt-1">Ideas</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant active:bg-surface-container-low flex-1 h-full relative" href="faculty-dashboard.html">
+      <span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+      <span class="font-label-sm text-label-sm mt-1">Reviews</span>
+      <span id="mobilePendingBadge" class="absolute top-2 right-4 bg-error-container text-on-error-container rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-bold">0</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant active:bg-surface-container-low flex-1 h-full" href="login.html">
+      <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+      <span class="font-label-sm text-label-sm mt-1">Profile</span>
+    </a>
+  </nav>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const ideas = (window.portalStore && window.portalStore.getIdeas && window.portalStore.getIdeas()) || [];
+
+      // Counts
+      const total = ideas.length;
+      const pending = ideas.filter(i => i.status === "Under Review" || i.status === "Pending Review").length;
+      const approved = ideas.filter(i => i.status === "Approved").length;
+      const needsWork = ideas.filter(i => i.status === "Needs Revision" || i.status === "Needs Improvement").length;
+
+      document.getElementById("totalIdeasCount").textContent = total;
+      document.getElementById("pendingReviewCount").textContent = pending;
+      document.getElementById("approvedCount").textContent = approved;
+      document.getElementById("needsWorkCount").textContent = needsWork;
+
+      document.getElementById("pendingBadge").textContent = pending;
+      document.getElementById("mobilePendingBadge").textContent = pending;
+
+      // Render Desktop Table
+      const tbody = document.getElementById("facultySubmissionsTbody");
+      tbody.innerHTML = ideas.map(idea => `
+        <tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+          <td class="py-sm px-md">${idea.studentName}</td>
+          <td class="py-sm px-md font-medium text-primary dark:text-primary-fixed">${idea.title}</td>
+          <td class="py-sm px-md text-on-surface-variant dark:text-surface-variant">${idea.submittedDate}</td>
+          <td class="py-sm px-md">
+            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+              idea.status === 'Approved' ? 'bg-[#D1FAE5] text-[#2D6A4F]' :
+              idea.status === 'Needs Revision' || idea.status === 'Needs Improvement' ? 'bg-[#FEE2E2] text-[#991B1B]' :
+              idea.status === 'Draft' ? 'bg-[#F1F5F9] text-[#475569]' :
+              'bg-[#FEF3C7] text-[#92400E]'
+            }">${idea.status}</span>
+          </td>
+          <td class="py-sm px-md text-right">
+            <a href="faculty-review.html?id=${idea.id}" class="text-primary dark:text-primary-fixed font-label-md hover:underline">
+              ${idea.status.includes('Review') ? 'Review' : 'Details'}
+            </a>
+          </td>
+        </tr>
+      `).join('');
+
+      // Render Mobile Cards
+      const mobileCards = document.getElementById("facultySubmissionsMobileCards");
+      mobileCards.innerHTML = ideas.map(idea => `
+        <div class="bg-surface dark:bg-surface-dim border border-outline-variant rounded-lg p-md shadow-sm">
+          <div class="flex justify-between items-start mb-xs">
+            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+              idea.status === 'Approved' ? 'bg-[#D1FAE5] text-[#2D6A4F]' :
+              idea.status === 'Needs Revision' || idea.status === 'Needs Improvement' ? 'bg-[#FEE2E2] text-[#991B1B]' :
+              'bg-[#FEF3C7] text-[#92400E]'
+            }">${idea.status}</span>
+            <span class="font-body-sm text-body-sm text-on-surface-variant">${idea.submittedDate}</span>
+          </div>
+          <h3 class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed mb-1">${idea.title}</h3>
+          <p class="font-body-sm text-body-sm text-secondary mb-md">${idea.studentName}</p>
+          <a href="faculty-review.html?id=${idea.id}" class="w-full h-10 bg-primary text-on-primary font-label-md rounded flex items-center justify-center transition-colors hover:bg-primary-container">
+            ${idea.status.includes('Review') ? 'Review Submission' : 'View Details'}
+          </a>
+        </div>
+      `).join('');
+
+      // Mobile Menu Toggle
+      const mobileBtn = document.getElementById("facultyMobileMenuBtn");
+      const aside = document.getElementById("facultyAside");
+      mobileBtn.addEventListener("click", () => {
+        aside.classList.toggle("hidden");
+        aside.classList.toggle("flex");
+      });
+    });
+  </script>
+</body>
+</html>

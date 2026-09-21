@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pending Reviews - Faculty Dashboard</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="font-body-md text-on-surface bg-background min-h-screen flex flex-col pb-16 md:pb-0">
+  <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-margin-mobile md:px-container-margin-desktop h-16 bg-surface border-b border-outline-variant">
+    <div class="flex items-center gap-md">
+      <a href="faculty-dashboard.html" class="text-headline-sm font-bold text-primary flex items-center gap-2">
+        <span class="material-symbols-outlined">school</span>
+        Student Innovation Portal
+      </a>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="font-label-md text-label-md text-on-surface-variant">Student View</span>
+      <button class="material-symbols-outlined text-lg text-on-surface-variant">dark_mode</button>
+      <img class="w-8 h-8 rounded-full object-cover border border-outline-variant" alt="User Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ--a9phPxKgBscjRF5qJjyNcTt6wBDe6Jq61fCobBmNeiqE7_Sogp0mNuMUOa1IJnNG7etmsKt5Pr-sVK0rk-WiztkSlbIevnPPzbpiB1f5-i67-D6DjJoDnOl8AbNyLv0BZiZ4CYdNqa8V0PkJwrElwmjM5hizGT0niO97f2nQRmpfNPZpF6Bn-UH77aOCIOAKkLdWxziKCW7EHEsmRmI8rs6WL5r-UINwRaOEEGfWJm-5cFjMYleA" />
+    </div>
+  </header>
+
+  <aside class="hidden md:flex fixed inset-y-0 left-0 z-40 flex-col pt-20 h-full w-72 bg-surface border-r border-outline-variant shadow-sm">
+    <div class="px-4 py-3 mb-4 border-b border-outline-variant">
+      <h2 class="font-headline-sm text-headline-sm font-bold text-primary">Innovation Portal</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant">Faculty Dashboard</p>
+      <p class="font-label-sm text-label-sm text-primary font-bold mt-1 uppercase tracking-wider">Administrative Access</p>
+    </div>
+    <nav class="flex-1 overflow-y-auto px-xs">
+      <a class="flex items-center gap-md text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg transition-all mt-xs" href="faculty-dashboard.html">
+        <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+        <span class="font-label-md text-label-md">Dashboard</span>
+      </a>
+      <a class="flex items-center gap-md text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg transition-all mt-xs" href="student-ideas.html">
+        <span class="material-symbols-outlined" data-icon="emoji_objects">emoji_objects</span>
+        <span class="font-label-md text-label-md">Student Ideas</span>
+      </a>
+      <a class="flex items-center gap-md bg-secondary-container text-on-secondary-container rounded-lg px-4 py-3 mx-2 transition-all font-semibold" href="pending-reviews.html">
+        <span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+        <span class="font-label-md text-label-md flex-1">Pending Reviews</span>
+        <span class="bg-error-container text-on-error-container rounded-full px-2 py-0.5 text-xs font-bold">0</span>
+      </a>
+      <a class="flex items-center gap-md text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg transition-all mt-xs" href="approved-ideas.html">
+        <span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+        <span class="font-label-md text-label-md">Approved Ideas</span>
+      </a>
+      <a class="flex items-center gap-md text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg transition-all mt-xs" href="portal-user-roster.html">
+        <span class="material-symbols-outlined" data-icon="group">group</span>
+        <span class="font-label-md text-label-md">Portal User Roster</span>
+      </a>
+    </nav>
+    <div class="p-md border-t border-outline-variant mt-auto">
+      <a class="flex items-center gap-md text-on-surface-variant px-4 py-3 hover:bg-surface-container-high rounded-lg transition-all" href="login.html">
+        <span class="material-symbols-outlined" data-icon="logout">logout</span>
+        <span class="font-label-md text-label-md">Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="flex-grow pt-24 px-container-margin-mobile md:px-container-margin-desktop md:ml-72 max-w-[1280px] mx-auto w-full">
+    <div class="mb-xl">
+      <h1 class="font-headline-lg-mobile md:font-headline-lg text-primary mb-2">Pending Reviews</h1>
+      <p class="font-body-md text-on-surface-variant">Ideas waiting for faculty review.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-md mb-xl">
+      <div class="summary-card rounded-xl p-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-xs uppercase tracking-wide text-slate-500">Queue</p>
+            <h3 class="mt-1 text-xl font-semibold text-slate-800">3 ideas</h3>
+          </div>
+          <div class="icon-wrap rounded-lg p-2 text-blue-700">
+            <span class="material-symbols-outlined">schedule</span>
+          </div>
+        </div>
+      </div>
+      <div class="summary-card rounded-xl p-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-xs uppercase tracking-wide text-slate-500">Urgency</p>
+            <h3 class="mt-1 text-xl font-semibold text-amber-700">High</h3>
+          </div>
+          <div class="icon-wrap rounded-lg p-2 text-amber-700">
+            <span class="material-symbols-outlined">warning</span>
+          </div>
+        </div>
+      </div>
+      <div class="summary-card rounded-xl p-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-xs uppercase tracking-wide text-slate-500">Average Turnaround</p>
+            <h3 class="mt-1 text-xl font-semibold text-emerald-700">2 days</h3>
+          </div>
+          <div class="icon-wrap rounded-lg p-2 text-emerald-700">
+            <span class="material-symbols-outlined">trending_up</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="bg-surface border border-outline-variant rounded-lg shadow-sm overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-surface-container-high border-b border-outline-variant">
+              <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold">Student Name</th>
+              <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold">Product Idea</th>
+              <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold">Date Submitted</th>
+              <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold">Status</th>
+              <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody class="font-body-sm text-body-sm text-on-background">
+            <tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+              <td class="py-sm px-md">Marcus Johnson</td>
+              <td class="py-sm px-md font-medium text-primary">Sustainable Campus Mobility App</td>
+              <td class="py-sm px-md text-on-surface-variant">Oct 15, 2023</td>
+              <td class="py-sm px-md"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[#FEF3C7] text-[#92400E]">Under Review</span></td>
+              <td class="py-sm px-md text-right"><a href="faculty-review.html?id=1" class="text-primary font-label-md hover:underline">Review</a></td>
+            </tr>
+            <tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+              <td class="py-sm px-md">Priya Nair</td>
+              <td class="py-sm px-md font-medium text-primary">AI Tutor Integration Plugin</td>
+              <td class="py-sm px-md text-on-surface-variant">Oct 21, 2023</td>
+              <td class="py-sm px-md"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[#FEF3C7] text-[#92400E]">Under Review</span></td>
+              <td class="py-sm px-md text-right"><a href="faculty-review.html?id=2" class="text-primary font-label-md hover:underline">Review</a></td>
+            </tr>
+            <tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+              <td class="py-sm px-md">Elena Rodriguez</td>
+              <td class="py-sm px-md font-medium text-primary">Smart Library Desk Tracker</td>
+              <td class="py-sm px-md text-on-surface-variant">Oct 23, 2023</td>
+              <td class="py-sm px-md"><span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-[#FEF3C7] text-[#92400E]">Under Review</span></td>
+              <td class="py-sm px-md text-right"><a href="faculty-review.html?id=3" class="text-primary font-label-md hover:underline">Review</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

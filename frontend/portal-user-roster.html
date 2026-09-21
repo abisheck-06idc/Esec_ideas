@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal User Roster - Faculty Dashboard</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="font-body-md text-on-surface bg-background min-h-screen flex flex-col pb-16 md:pb-0">
+  <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-margin-mobile md:px-container-margin-desktop h-16 bg-surface border-b border-outline-variant">
+    <div class="flex items-center gap-md">
+      <a href="faculty-dashboard.html" class="text-headline-sm font-bold text-primary flex items-center gap-2">
+        <span class="material-symbols-outlined">school</span>
+        Student Innovation Portal
+      </a>
+    </div>
+    <div class="flex items-center gap-3">
+      <img id="userAvatar" class="w-8 h-8 rounded-full object-cover border border-outline-variant" alt="User Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ--a9phPxKgBscjRF5qJjyNcTt6wBDe6Jq61fCobBmNeiqE7_Sogp0mNuMUOa1IJnNG7etmsKt5Pr-sVK0rk-WiztkSlbIevnPPzbpiB1f5-i67-D6DjJoDnOl8AbNyLv0BZiZ4CYdNqa8V0PkJwrElwmjM5hizGT0niO97f2nQRmpfNPZpF6Bn-UH77aOCIOAKkLdWxziKCW7EHEsmRmI8rs6WL5r-UINwRaOEEGfWJm-5cFjMYleA" />
+    </div>
+  </header>
+
+  <aside class="hidden md:flex fixed inset-y-0 left-0 z-40 flex-col pt-20 h-full w-72 bg-surface border-r border-outline-variant shadow-sm">
+    <div class="px-4 py-3 mb-4 border-b border-outline-variant">
+      <h2 class="font-headline-sm text-headline-sm font-bold text-primary">Innovation Portal</h2>
+      <p class="font-body-sm text-body-sm text-on-surface-variant">Faculty Dashboard</p>
+      <p class="font-label-sm text-label-sm text-primary font-bold mt-1 uppercase tracking-wider">Administrative Access</p>
+    </div>
+    <nav class="flex-1 overflow-y-auto px-xs">
+      <a class="flex items-center gap-md text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg transition-all mt-xs" href="faculty-dashboard.html">
+        <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+        <span class="font-label-md text-label-md">Dashboard</span>
+      </a>
+      <a class="flex items-center gap-md text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg transition-all mt-xs" href="student-ideas.html">
+        <span class="material-symbols-outlined" data-icon="emoji_objects">emoji_objects</span>
+        <span class="font-label-md text-label-md">Student Ideas</span>
+      </a>
+      <a class="flex items-center gap-md text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg transition-all mt-xs" href="pending-reviews.html">
+        <span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+        <span class="font-label-md text-label-md flex-1">Pending Reviews</span>
+        <span id="pendingBadge" class="bg-error-container text-on-error-container rounded-full px-2 py-0.5 text-xs font-bold">0</span>
+      </a>
+      <a class="flex items-center gap-md text-on-surface-variant px-4 py-3 mx-2 hover:bg-surface-container-high rounded-lg transition-all mt-xs" href="approved-ideas.html">
+        <span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+        <span class="font-label-md text-label-md">Approved Ideas</span>
+      </a>
+      <a class="flex items-center gap-md bg-secondary-container text-on-secondary-container rounded-lg px-4 py-3 mx-2 transition-all font-semibold" href="portal-user-roster.html">
+        <span class="material-symbols-outlined" data-icon="group">group</span>
+        <span class="font-label-md text-label-md">Portal User Roster</span>
+      </a>
+    </nav>
+    <div class="p-md border-t border-outline-variant mt-auto">
+      <a class="flex items-center gap-md text-on-surface-variant px-4 py-3 hover:bg-surface-container-high rounded-lg transition-all" href="login.html">
+        <span class="material-symbols-outlined" data-icon="logout">logout</span>
+        <span class="font-label-md text-label-md">Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="flex-grow pt-24 px-container-margin-mobile md:px-container-margin-desktop md:ml-72 max-w-[1280px] mx-auto w-full">
+    <section class="mb-xl">
+      <div class="flex justify-between items-center mb-md">
+        <h1 class="font-headline-lg-mobile md:font-headline-lg text-primary">Portal User Roster</h1>
+        <span id="userCountBadge" class="font-label-md text-label-md text-secondary">0 users</span>
+      </div>
+
+      <div class="bg-surface border border-outline-variant rounded-lg shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-surface-container-high border-b border-outline-variant">
+                <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold">Name</th>
+                <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold">Roll No</th>
+                <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold">Dept</th>
+                <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold">Year</th>
+                <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold">Phone</th>
+                <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold">Email</th>
+                <th class="py-sm px-md font-label-md text-label-md text-secondary font-semibold">Role</th>
+              </tr>
+            </thead>
+            <tbody id="rosterBody" class="font-body-sm text-body-sm text-on-background">
+              <tr>
+                <td colspan="7" class="py-md px-md text-on-surface-variant">Loading users...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    async function loadRoster() {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:8080/api/admin/users', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Unable to load roster');
+        }
+
+        const users = await response.json();
+        const rosterBody = document.getElementById('rosterBody');
+        const userCountBadge = document.getElementById('userCountBadge');
+
+        if (userCountBadge) {
+          userCountBadge.textContent = `${users.length} users`;
+        }
+
+        if (!users.length) {
+          rosterBody.innerHTML = '<tr><td colspan="7" class="py-md px-md text-on-surface-variant">No users found.</td></tr>';
+          return;
+        }
+
+        rosterBody.innerHTML = users.map(user => `
+          <tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+            <td class="py-sm px-md">${user.fullName || '—'}</td>
+            <td class="py-sm px-md">${user.rollNumber || '—'}</td>
+            <td class="py-sm px-md">${user.department || '—'}</td>
+            <td class="py-sm px-md">${user.year || '—'}</td>
+            <td class="py-sm px-md">${user.phoneNumber || '—'}</td>
+            <td class="py-sm px-md">${user.email || '—'}</td>
+            <td class="py-sm px-md">
+              <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${user.role === 'ADMIN' ? 'bg-primary-container text-on-primary' : 'bg-secondary-container text-on-secondary-container'}">${user.role || 'STUDENT'}</span>
+            </td>
+          </tr>
+        `).join('');
+      } catch (error) {
+        const rosterBody = document.getElementById('rosterBody');
+        rosterBody.innerHTML = '<tr><td colspan="7" class="py-md px-md text-on-surface-variant">User roster unavailable.</td></tr>';
+      }
+    }
+
+    loadRoster();
+  </script>
+</body>
+</html>

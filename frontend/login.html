@@ -37,14 +37,6 @@
             margin-bottom: 25px;
         }
 
-        .logo img {
-            width: 85px;
-            height: 85px;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto 15px;
-        }
-
         .logo h1 {
             color: #1e3a8a;
             font-size: 28px;
@@ -74,8 +66,6 @@
             border-radius: 8px;
             font-size: 15px;
             outline: none;
-            background: white;
-            color: #1e293b;
         }
 
         input:focus {
@@ -93,7 +83,6 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.2s;
         }
 
         .login-btn:hover {
@@ -139,29 +128,13 @@
 
     <div class="login-container">
 
-        <!-- Logo -->
         <div class="logo">
-
-            <img
-                src="Assest/logo.png"
-                alt="ESEC Logo"
-            >
-
             <h1>ESEC Idea Portal</h1>
-
-            <p>
-                Login using Email & Phone Number
-            </p>
-
+            <p>Login using Email & Phone Number</p>
         </div>
-
 
         <!-- Message -->
-        <div
-            id="message"
-            class="message">
-        </div>
-
+        <div id="message" class="message"></div>
 
         <!-- Login Form -->
         <form id="loginForm">
@@ -184,7 +157,6 @@
 
             </div>
 
-
             <!-- Phone -->
             <div class="form-group">
 
@@ -203,7 +175,6 @@
 
             </div>
 
-
             <!-- Login Button -->
             <button
                 type="submit"
@@ -215,10 +186,13 @@
 
         </form>
 
-
-        <!-- Footer -->
         <div class="footer">
             ESEC Incubation & Innovation Portal
+        </div>
+
+        <div style="margin-top: 18px; display: flex; flex-direction: column; gap: 12px;">
+            <button type="button" id="signupBtn" class="login-btn" style="background:#0f766e;">Sign Up</button>
+            <a href="mailto:admin@college.edu?subject=Need%20help%20with%20ESEC%20Idea%20Portal" style="text-align:center; color:#2563eb; text-decoration:none; font-weight:600;">Contact Admin</a>
         </div>
 
     </div>
@@ -230,7 +204,7 @@
         // BACKEND URL
         // ==========================================
 
-        const API_URL = "https://idea-nd9r.onrender.com";
+        const API_URL = "http://localhost:8080";
 
 
         // ==========================================
@@ -248,6 +222,9 @@
 
         const loginButton =
             document.getElementById("loginButton");
+
+        const signupBtn =
+            document.getElementById("signupBtn");
 
         const message =
             document.getElementById("message");
@@ -270,11 +247,18 @@
         // LOGIN
         // ==========================================
 
+        signupBtn.addEventListener(
+            "click",
+            function () {
+                window.location.href = "signup.html";
+            }
+        );
+
         loginForm.addEventListener(
             "submit",
             async function (event) {
 
-                // Prevent page reload
+                // Stop normal form submission
                 event.preventDefault();
 
 
@@ -355,8 +339,10 @@
 
                     const response =
                         await fetch(
-                            API_URL + "/api/auth/login",
+                            API_URL +
+                            "/api/auth/login",
                             {
+
                                 method: "POST",
 
                                 headers: {
@@ -365,9 +351,15 @@
                                 },
 
                                 body: JSON.stringify({
-                                    email: email,
-                                    phoneNumber: phoneNumber
+
+                                    email:
+                                        email,
+
+                                    phoneNumber:
+                                        phoneNumber
+
                                 })
+
                             }
                         );
 
@@ -382,7 +374,7 @@
                     // READ RESPONSE
                     // ==================================
 
-                    let data = {};
+                    let data;
 
                     try {
 
@@ -391,10 +383,7 @@
 
                     } catch (error) {
 
-                        console.log(
-                            "Response is not JSON"
-                        );
-
+                        data = {};
                     }
 
 
@@ -417,6 +406,7 @@
 
                             errorMessage =
                                 data.message;
+
                         }
 
                         showMessage(
@@ -449,7 +439,7 @@
 
                     localStorage.setItem(
                         "token",
-                        data.token || ""
+                        data.token
                     );
 
 
@@ -459,7 +449,7 @@
 
                     localStorage.setItem(
                         "userId",
-                        data.id || ""
+                        data.id
                     );
 
 
@@ -469,7 +459,7 @@
 
                     localStorage.setItem(
                         "userEmail",
-                        data.email || email
+                        data.email
                     );
 
 
@@ -479,47 +469,17 @@
 
                     localStorage.setItem(
                         "userRole",
-                        data.role || ""
+                        data.role
                     );
-
-
-                    // ==================================
-                    // SAVE USER NAME
-                    // ==================================
 
                     localStorage.setItem(
                         "userName",
-                        data.name || data.email || email
+                        data.fullName || data.name || data.email
                     );
-
-
-                    // ==================================
-                    // SAVE PHONE
-                    // ==================================
 
                     localStorage.setItem(
                         "userPhone",
-                        data.phoneNumber || phoneNumber
-                    );
-
-
-                    // ==================================
-                    // SAVE DEPARTMENT
-                    // ==================================
-
-                    localStorage.setItem(
-                        "userDepartment",
-                        data.department || "General"
-                    );
-
-
-                    // ==================================
-                    // SAVE PROFILE PHOTO
-                    // ==================================
-
-                    localStorage.setItem(
-                        "userProfilePhoto",
-                        data.profilePhoto || ""
+                        data.phoneNumber || data.phone || ""
                     );
 
 
@@ -557,17 +517,18 @@
                         function () {
 
                             if (
-                                data.role &&
-                                data.role.toUpperCase() === "ADMIN"
+                                data.role ===
+                                "ADMIN"
                             ) {
 
                                 window.location.href =
-                                    "admin-dashboard.html";
+                                    "faculty-dashboard.html";
 
                             } else {
 
                                 window.location.href =
                                     "student-dashboard.html";
+
                             }
 
                         },
@@ -590,7 +551,7 @@
 
 
                     showMessage(
-                        "Backend connect aagala. Please try again.",
+                        "Backend connect aagala. Spring Boot running-aa check pannunga.",
                         "error"
                     );
 

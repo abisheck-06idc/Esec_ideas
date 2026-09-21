@@ -11,7 +11,7 @@
     >
 
     <title>Student Innovation Portal - Dashboard</title>
-    <link rel="icon" type="image/png" href="Assest/logo.png">
+
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
     <link
@@ -255,7 +255,7 @@
     <div class="flex items-center gap-3">
 
         <img
-            id="userAvatar" data-profile-photo
+            id="userAvatar"
             class="w-8 h-8 rounded-full object-cover border border-outline-variant"
             alt="User Profile"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ--a9phPxKgBscjRF5qJjyNcTt6wBDe6Jq61fCobBmNeiqE7_Sogp0mNuMUOa1IJnNG7etmsKt5Pr-sVK0rk-WiztkSlbIevnPPzbpiB1f5-i67-D6DjJoDnOl8AbNyLv0BZiZ4CYdNqa8V0PkJwrElwmjM5hizGT0niO97f2nQRmpfNPZpF6Bn-UH77aOCIOAKkLdWxziKCW7EHEsmRmI8rs6WL5r-UINwRaOEEGfWJm-5cFjMYleA"
@@ -280,7 +280,7 @@
         <div class="flex items-center gap-3">
 
             <img
-                id="navAvatar" data-profile-photo
+                id="navAvatar"
                 class="w-12 h-12 rounded-full object-cover border border-outline-variant"
                 alt="Student Avatar"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ--a9phPxKgBscjRF5qJjyNcTt6wBDe6Jq61fCobBmNeiqE7_Sogp0mNuMUOa1IJnNG7etmsKt5Pr-sVK0rk-WiztkSlbIevnPPzbpiB1f5-i67-D6DjJoDnOl8AbNyLv0BZiZ4CYdNqa8V0PkJwrElwmjM5hizGT0niO97f2nQRmpfNPZpF6Bn-UH77aOCIOAKkLdWxziKCW7EHEsmRmI8rs6WL5r-UINwRaOEEGfWJm-5cFjMYleA"
@@ -290,7 +290,7 @@
             <div>
 
                 <div
-                    id="userName" data-profile-name
+                    id="userName"
                     class="font-headline-sm font-bold text-primary"
                 >
                     Student
@@ -376,6 +376,7 @@
 
         </a>
 
+
         <div class="mt-auto mb-4">
 
             <a
@@ -433,19 +434,23 @@
         solution for faculty review.
     </p>
 
+    <div class="flex flex-col sm:flex-row gap-3 mb-4">
+        <a
+            href="submit-idea.html"
+            class="inline-flex bg-primary-container text-on-primary h-[48px] md:h-[40px] px-lg rounded items-center justify-center font-label-md shadow"
+        >
+            <span class="material-symbols-outlined mr-2">add</span>
+            Submit New Idea
+        </a>
 
-    <a
-        href="submit-idea.html"
-        class="inline-flex bg-primary-container text-on-primary h-[48px] md:h-[40px] px-lg rounded items-center justify-center font-label-md shadow"
-    >
-
-        <span class="material-symbols-outlined mr-2">
-            add
-        </span>
-
-        Submit New Idea
-
-    </a>
+        <a
+            href="mailto:admin@college.edu?subject=Need%20help%20with%20ESEC%20Idea%20Portal"
+            class="inline-flex border border-primary text-primary h-[48px] md:h-[40px] px-lg rounded items-center justify-center font-label-md shadow"
+        >
+            <span class="material-symbols-outlined mr-2">mail</span>
+            Contact Admin
+        </a>
+    </div>
 
 </section>
 
