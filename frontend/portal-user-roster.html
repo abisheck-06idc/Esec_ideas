@@ -91,6 +91,7 @@
     </section>
   </main>
 
+  <script src="config.js"></script>
   <script>
     async function loadRoster() {
       const token = localStorage.getItem('token');
@@ -100,7 +101,7 @@
       }
 
       try {
-        const response = await fetch('http://localhost:8080/api/admin/users', {
+        const response = await fetch((window.APP_CONFIG?.API_BASE_URL || 'http://localhost:8080/api') + '/admin/users', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

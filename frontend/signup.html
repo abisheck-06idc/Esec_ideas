@@ -80,8 +80,9 @@
     <div class="footer">ESEC Incubation & Innovation Portal</div>
   </div>
 
+  <script src="config.js"></script>
   <script>
-    const API_URL = 'http://localhost:8080';
+    const API_URL = (window.APP_CONFIG?.API_BASE_URL || 'http://localhost:8080/api').replace(/\/$/, '');
     const form = document.getElementById('signupForm');
     const message = document.getElementById('message');
 
@@ -108,7 +109,7 @@
       }
 
       try {
-        const response = await fetch(API_URL + '/api/auth/signup', {
+        const response = await fetch(API_URL + '/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)

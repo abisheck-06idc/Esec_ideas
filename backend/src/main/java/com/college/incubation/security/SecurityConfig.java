@@ -13,6 +13,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -60,10 +61,9 @@ public class SecurityConfig {
                                 "/**"
                         ).permitAll()
 
-                        // Login / Register
-                        .requestMatchers(
-                                "/api/auth/**"
-                        ).permitAll()
+                        // Health + Login / Register
+                        .requestMatchers("/api/health").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
 
                         // Admin APIs
                         .requestMatchers(
@@ -104,22 +104,23 @@ public class SecurityConfig {
         // ALLOWED ORIGINS
         // ==========================================
 
-        configuration.setAllowedOrigins(
-                List.of(
-                        "https://esec-ideas.vercel.app",
+        List<String> allowedOrigins = new ArrayList<>(List.of(
+                "https://esec-ideas.vercel.app",
+                "http://localhost:5500",
+                "http://127.0.0.1:5500",
+                "http://localhost:5173",
+                "http://127.0.0.1:5173",
+                "http://localhost",
+                "http://127.0.0.1",
+                "https://victor-solve-parker-quad.trycloudflare.com"
+        ));
 
-                        "http://localhost:5500",
-                        "http://127.0.0.1:5500",
+        String frontendUrl = System.getenv("FRONTEND_URL");
+        if (frontendUrl != null && !frontendUrl.isBlank()) {
+            allowedOrigins.add(frontendUrl.trim().replaceAll("/$", ""));
+        }
 
-                        "http://localhost:5173",
-                        "http://127.0.0.1:5173",
-
-                        "http://localhost",
-                        "http://127.0.0.1",
-
-                        "https://victor-solve-parker-quad.trycloudflare.com"
-                )
-        );
+        configuration.setAllowedOrigins(allowedOrigins);
 
         // ==========================================
         // ALLOWED METHODS
